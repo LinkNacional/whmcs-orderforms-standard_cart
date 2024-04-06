@@ -6,14 +6,22 @@ var _localLang = {
     'addedToCartRemove': '{$LANG.orderForm.addedToCartRemove|escape}'
 }
 </script>
+<style> .sidebar-collapsed{ display:none; } 
+.domains-lista{
+    width: 45%;display: inline-block;border: 1px solid #e7e7e7;background-color: #f8f8f8;margin: 10px;padding: 7px 35px 13px 35px;
+}
+@media only screen and (max-width: 961px) {
+    .domains-lista{ width: 98%; }
+    }
+</style>
 
 <div id="order-standard_cart">
 
     <div class="row">
-        <div class="cart-sidebar">
+        <!-- div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
-        </div>
-        <div class="cart-body">
+        </div -->
+        <div class="cart-body" style="width:100%;">
             <div class="header-lined">
                 <h1 class="font-size-36">{$LANG.cartdomainsconfig}</h1>
             </div>
@@ -34,28 +42,21 @@ var _localLang = {
                 {/if}
 
                 {foreach $domains as $num => $domain}
-
-                    <div class="sub-heading">
-                        <span class="primary-bg-color">{$domain.domain}</span>
+                <div class="domains-lista">
+                    <div style="border-bottom: 1px solid #e7e7e7;margin: 10px 0 20px 0;font-size: 1.4em;">
+                        <span>{$domain.domain}</span>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>{$LANG.orderregperiod}</label>
-                                <br />
-                                {$domain.regperiod} {$LANG.orderyears}
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>{$LANG.hosting}</label>
-                                <br />
-                                {if $domain.hosting}<span style="color:#009900;">[{$LANG.cartdomainshashosting}]</span>{else}<a href="{$WEB_ROOT}/cart.php" style="color:#cc0000;">[{$LANG.cartdomainsnohosting}]</a>{/if}
-                            </div>
-                        </div>
+                    <div>
+                        
+                                {$LANG.orderregperiod} {$domain.regperiod} {$LANG.orderyears} <br />
+
+
+                                <!-- {$LANG.hosting}
+                                {if $domain.hosting}<span style="color:#009900;">{$LANG.cartdomainshashosting}</span>{else}<br /><a href="{$WEB_ROOT}/cart.php" style="color: #0C71C3;">{$LANG.cartdomainsnohosting}</a>{/if} -->
+
                         {if $domain.eppenabled}
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" style="margin-top:10px;">
                                 <div class="form-group prepend-icon">
                                     <input type="text" name="epp[{$num}]" id="inputEppcode{$num}" value="{$domain.eppvalue}" class="field" placeholder="{$LANG.domaineppcode}" />
                                     <label for="inputEppcode{$num}" class="field-icon">
@@ -138,59 +139,60 @@ var _localLang = {
                         </div>
                     {/if}
                     {foreach from=$domain.fields key=domainfieldname item=domainfield}
-                        <div class="form-group row">
-                            <div class="col-sm-4 text-sm-right"">{$domainfieldname}:</div>
-                            <div class="col-sm-8">{$domainfield}</div>
+                        <div class="" style="margin-top:15px;">
+                            <div>{$domainfieldname}:
+                            <span class="field-help-text">{$domainfield}</span></div>
                         </div>
                     {/foreach}
+                </div>
 
                 {/foreach}
 
                 {if $atleastonenohosting}
+                    <!-- div class="domains-nameserver">
+                        <div class="sub-heading">
+                            <span class="primary-bg-color">{$LANG.domainnameservers}</span>
+                        </div>
 
-                    <div class="sub-heading">
-                        <span class="primary-bg-color">{$LANG.domainnameservers}</span>
-                    </div>
+                        <p>{$LANG.cartnameserversdesc}</p>
 
-                    <p>{$LANG.cartnameserversdesc}</p>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="inputNs1">{$LANG.domainnameserver1}</label>
-                                <input type="text" class="form-control" id="inputNs1" name="domainns1" value="{$domainns1}" />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputNs1">{$LANG.domainnameserver1}</label>
+                                    <input type="text" class="form-control" id="inputNs1" name="domainns1" value="{$domainns1}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputNs2">{$LANG.domainnameserver2}</label>
+                                    <input type="text" class="form-control" id="inputNs2" name="domainns2" value="{$domainns2}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputNs3">{$LANG.domainnameserver3}</label>
+                                    <input type="text" class="form-control" id="inputNs3" name="domainns3" value="{$domainns3}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputNs1">{$LANG.domainnameserver4}</label>
+                                    <input type="text" class="form-control" id="inputNs4" name="domainns4" value="{$domainns4}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="inputNs5">{$LANG.domainnameserver5}</label>
+                                    <input type="text" class="form-control" id="inputNs5" name="domainns5" value="{$domainns5}" />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="inputNs2">{$LANG.domainnameserver2}</label>
-                                <input type="text" class="form-control" id="inputNs2" name="domainns2" value="{$domainns2}" />
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="inputNs3">{$LANG.domainnameserver3}</label>
-                                <input type="text" class="form-control" id="inputNs3" name="domainns3" value="{$domainns3}" />
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="inputNs1">{$LANG.domainnameserver4}</label>
-                                <input type="text" class="form-control" id="inputNs4" name="domainns4" value="{$domainns4}" />
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label for="inputNs5">{$LANG.domainnameserver5}</label>
-                                <input type="text" class="form-control" id="inputNs5" name="domainns5" value="{$domainns5}" />
-                            </div>
-                        </div>
-                    </div>
-
+                    </div -->
                 {/if}
 
                 <div class="text-center pt-4">
-                    <button type="submit" class="btn btn-primary btn-lg">
+                    <button type="submit" class="btn btn-primary btn-lg" style="background-color:#DAE300;border:none;color:#343B45;">
                         {$LANG.continue}
                         &nbsp;<i class="fas fa-arrow-circle-right"></i>
                     </button>

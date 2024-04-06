@@ -6,13 +6,20 @@ var _localLang = {
     'addedToCartRemove': '{$LANG.orderForm.addedToCartRemove|escape}'
 }
 </script>
-
+<style>
+.cart-body{ width:100% !important; }
+.sidebar-collapsed{ display:none; } 
+.order-summary { background-color: #fff;border-bottom: 0; }
+#order-standard_cart .order-summary{ background-color: #fff; border-bottom: 0; border-radius: 0; }
+#order-standard_cart .order-summary h2{ color: #000 !important; }
+.summary-container { background-color: #ffffff !important;boder-radius:0 !important;border:solid 1px #f8f8f8 !important;}
+</style>
 <div id="order-standard_cart">
 
     <div class="row">
-        <div class="cart-sidebar">
+        <!--div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
-        </div>
+        </div-->
         <div class="cart-body">
 
             <div class="header-lined">
@@ -320,10 +327,10 @@ var _localLang = {
                             </div>
                         {/if}
 
-                        <div class="alert alert-warning info-text-sm">
+                        <!-- div class="alert alert-warning info-text-sm">
                             <i class="fas fa-question-circle"></i>
                             {$LANG.orderForm.haveQuestionsContact} <a href="{$WEB_ROOT}/contact.php" target="_blank" class="alert-link">{$LANG.orderForm.haveQuestionsClickHere}</a>
-                        </div>
+                        </div -->
 
                     </div>
                     <div class="secondary-cart-sidebar" id="scrollingPanelContainer">
@@ -337,7 +344,7 @@ var _localLang = {
                                 <div class="summary-container" id="producttotal"></div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" id="btnCompleteProductConfig" class="btn btn-primary btn-lg">
+                                <button type="submit" id="btnCompleteProductConfig" class="btn btn-primary btn-lg" style="background-color: #DAE300;border: 0;color: #343B45;">
                                     {$LANG.continue}
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </button>

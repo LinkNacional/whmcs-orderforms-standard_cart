@@ -1,12 +1,15 @@
 {include file="orderforms/standard_cart/common.tpl"}
+<style>
+.sidebar-collapsed{ display:none; } 
+</style>
 
 <div id="order-standard_cart">
 
     <div class="row">
-        <div class="cart-sidebar">
+        <!-- div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
-        </div>
-        <div class="cart-body">
+        </div -->
+        <div class="cart-body" style="width:100%">
             <div class="header-lined">
                 <h1 class="font-size-36">
                     {$LANG.registerdomain}
@@ -16,8 +19,8 @@
 
             <p>{$LANG.orderForm.findNewDomain}</p>
 
-            <div class="domain-checker-container">
-                <div class="domain-checker-bg clearfix">
+            <div class="domain-checker-container" style="margin-bottom: 0px;">
+                <div class="domain-checker-bg clearfix" style="background-color: #121519;">
                     <form method="post" action="{$WEB_ROOT}/cart.php" id="frmDomainChecker">
                         <input type="hidden" name="a" value="checkDomain">
                         <div class="row">
@@ -25,7 +28,7 @@
                                 <div class="input-group input-group-lg input-group-box">
                                     <input type="text" name="domain" class="form-control" placeholder="{$LANG.findyourdomain}" value="{$lookupTerm}" id="inputDomain" data-toggle="tooltip" data-placement="left" data-trigger="manual" title="{lang key='orderForm.domainOrKeyword'}" />
                                     <span class="input-group-btn input-group-append">
-                                        <button type="submit" id="btnCheckAvailability" class="btn btn-primary domain-check-availability{$captcha->getButtonClass($captchaForm)}">{$LANG.search}</button>
+                                        <button type="submit" id="btnCheckAvailability" class="btn btn-primary domain-check-availability{$captcha->getButtonClass($captchaForm)}" style="width:120px;background-color:#dae300;border:0;color:black;">{$LANG.search}</button>
                                     </span>
                                 </div>
                             </div>
@@ -56,7 +59,7 @@
             </div>
 
             <div id="DomainSearchResults" class="w-hidden">
-                <div id="searchDomainInfo" class="domain-checker-result-headline">
+                <div id="searchDomainInfo" class="domain-checker-result-headline" style="padding: 30px 0 50px 0;background-color: #f8f8f8;margin: 0;">
                     <p id="primaryLookupSearching" class="domain-lookup-loader domain-lookup-primary-loader domain-searching"><i class="fas fa-spinner fa-spin"></i> {lang key='orderForm.searching'}...</p>
                     <div id="primaryLookupResult" class="domain-lookup-result w-hidden">
                         <p class="domain-invalid domain-checker-invalid">{lang key='orderForm.domainLetterOrNumber'}<span class="domain-length-restrictions">{lang key='orderForm.domainLengthRequirements'}</span></p>
@@ -88,7 +91,7 @@
                         </div>
                         <p class="domain-price">
                             <span class="price"></span>
-                            <button class="btn btn-primary btn-add-to-cart" data-whois="0" data-domain="">
+                            <button class="btn btn-primary btn-add-to-cart" data-whois="0" data-domain="" style="background-color:#dae300;border:0;color:black;">
                                 <span class="to-add">{$LANG.addtocart}</span>
                                 <span class="loading">
                                     <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
@@ -143,7 +146,7 @@
 
                 <div class="suggested-domains{if !$showSuggestionsContainer} w-hidden{/if}">
                     <div class="panel-heading card-header">
-                        {lang key='orderForm.suggestedDomains'}
+                        <b>{lang key='orderForm.suggestedDomains'}</b>
                     </div>
                     <div id="suggestionsLoader" class="panel-body card-body domain-lookup-loader domain-lookup-suggestions-loader">
                         <i class="fas fa-spinner fa-spin"></i> {lang key='orderForm.generatingSuggestions'}
@@ -172,18 +175,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer card-footer more-suggestions text-center w-hidden">
-                        <a id="moreSuggestions" href="#" onclick="loadMoreSuggestions();return false;">{lang key='domainsmoresuggestions'}</a>
+                    <div class="panel-footer card-footer more-suggestions w-hidden" style="padding: 0;margin-top: 24px;border: 0;">
+                        <a style="background-color:#f8f8f8;padding:15px;border: 1px solid #dae300;" id="moreSuggestions" href="#" onclick="loadMoreSuggestions();return false;">{lang key='domainsmoresuggestions'}</a>
                         <span id="noMoreSuggestions" class="no-more small w-hidden">{lang key='domaincheckernomoresuggestions'}</span>
                     </div>
-                    <div class="text-center text-muted domain-suggestions-warning">
+                    <!--div class="text-center text-muted domain-suggestions-warning">
                         <p>{lang key='domainssuggestionswarnings'}</p>
-                    </div>
+                    </div -->
                 </div>
 
             </div>
 
-            <div class="domain-pricing">
+            <div class="domain-pricing" style="display:none;">
 
                 {if $featuredTlds}
                     <div class="featured-tlds-container">
@@ -291,7 +294,7 @@
 
             </div>
 
-            <div class="row">
+            <!-- div class="row">
                 <div class="{if $domainTransferEnabled}col-md-6{else}col-md-8 col-md-offset-2 offset-md-2{/if}">
                     <div class="domain-promo-box">
 
@@ -326,7 +329,7 @@
                         </div>
                     </div>
                 {/if}
-            </div>
+            </div -->
         </div>
     </div>
 </div>

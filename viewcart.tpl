@@ -4,6 +4,17 @@
 
 {else}
 
+<style> .item{ padding: 10px 15px 15px 15px !important; } .sidebar-collapsed{ display:none; } 
+.empty-cart{ text-align: left !important; margin: 0px; }
+#orderSummary { background-color: #fff !important;border-bottom: 0 !important; }
+.summary-container { background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;}
+#btnEmptyCart{ background-color: #f8f8f8 !important; border: 0 !important;color: #343b45 !important; border-radius: 0 !important; }
+@media only screen and (max-width: 961px) {
+   .empty-cart { display: none !important; }
+}
+
+</style>
+
     <script>
         // Define state tab index value
         var statesTab = 10;
@@ -15,12 +26,12 @@
     <div id="order-standard_cart">
 
         <div class="row">
-            <div class="cart-sidebar">
+            <!--div class="cart-sidebar">
 
                 {include file="orderforms/standard_cart/sidebar-categories.tpl"}
 
-            </div>
-            <div class="cart-body">
+            </div -->
+            <div class="cart-body" style="width:100%">
                 <div class="header-lined">
                     <h1 class="font-size-36">{$LANG.cartreviewcheckout}</h1>
                 </div>
@@ -64,7 +75,7 @@
 
                         <form method="post" action="{$smarty.server.PHP_SELF}?a=view">
 
-                            <div class="view-cart-items-header">
+                            <div class="view-cart-items-header" style="margin: 25px 0 20px 0;border-bottom: 1px solid #efefef;background-color: #fff;color: #181818;">
                                 <div class="row">
                                     <div class="{if $showqtyoptions}col-sm-5{else}col-sm-7{/if} col-xs-7 col-7">
                                         {$LANG.orderForm.productOptions}
@@ -79,7 +90,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="view-cart-items">
+                            <div class="view-cart-items" style="border-bottom: 1px solid #efefef;">
 
                                 {foreach $products as $num => $product}
                                     <div class="item">
@@ -456,7 +467,7 @@
                             </div>
                         {/foreach}
 
-                        <div class="view-cart-tabs">
+                        <!--div class="view-cart-tabs">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="nav-item active">
                                     <a href="#applyPromo" class="nav-link active" aria-controls="applyPromo" role="tab" data-toggle="tab"{if $template == 'twenty-one'} aria-selected="true"{else} aria-expanded="true"{/if}>
@@ -526,7 +537,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div -->
 
                     </div>
                     <div class="secondary-cart-sidebar" id="scrollingPanelContainer">
@@ -535,10 +546,10 @@
                             <div class="loader w-hidden" id="orderSummaryLoader">
                                 <i class="fas fa-fw fa-sync fa-spin"></i>
                             </div>
-                            <h2 class="font-size-30">{$LANG.ordersummary}</h2>
-                            <div class="summary-container">
+                            <h2 class="font-size-30" style="color: #121519;">{$LANG.ordersummary}</h2>
+                            <div class="summary-container" style="background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;">
 
-                                <div class="subtotal clearfix">
+                                <div class="subtotal clearfix" style="border-bottom:solid 1px #f8f8f8;">
                                     <span class="pull-left float-left">{$LANG.ordersubtotal}</span>
                                     <span id="subtotal" class="pull-right float-right">{$subtotal}</span>
                                 </div>
@@ -590,7 +601,7 @@
 
                                 <div class="total-due-today total-due-today-padded">
                                     <span id="totalDueToday" class="amt">{$total}</span>
-                                    <span>{$LANG.ordertotalduetoday}</span>
+                                    <!--span>{$LANG.ordertotalduetoday}</span-->
                                 </div>
 
                                 <div class="express-checkout-buttons">
@@ -603,12 +614,12 @@
                                 </div>
 
                                 <div class="text-right">
-                                    <a href="{$WEB_ROOT}/cart.php?a=checkout&e=false" class="btn btn-success btn-lg btn-checkout{if $cartitems == 0} disabled{/if}" id="checkout">
+                                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping" id="continueShopping" style="width: 50%;">
+                                        {$LANG.orderForm.continueShopping}
+                                    </a>
+                                    <a href="{$WEB_ROOT}/cart.php?a=checkout&e=false" class="btn btn-success btn-lg btn-checkout{if $cartitems == 0} disabled{/if}" id="checkout" style="background-color: #DAE300;border: 0;color: #343B45;">
                                         {$LANG.orderForm.checkout}
                                         <i class="fas fa-arrow-right"></i>
-                                    </a><br />
-                                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping" id="continueShopping">
-                                        {$LANG.orderForm.continueShopping}
                                     </a>
                                 </div>
 
