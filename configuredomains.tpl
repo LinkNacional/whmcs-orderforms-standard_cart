@@ -10,6 +10,23 @@ var _localLang = {
 .domains-lista{
     width: 45%;display: inline-block;border: 1px solid #e7e7e7;background-color: #f8f8f8;margin: 10px;padding: 7px 35px 13px 35px;
 }
+.row.addon-products {
+    margin-top: 20px;
+}
+#order-standard_cart .panel-addon .panel-body label {
+    font-size: 1.4em !important;
+}
+#order-standard_cart .panel-addon{
+    text-align:left !important;
+}
+#order-standard_cart .panel-addon .panel-price {
+    background-color: unset !important;
+}
+.panel-price {
+    font-weight: bolder !important;
+}
+.addonlista{ padding:15px; border:1px solid #f8f8f8; }
+.addonlista:hover{ background-color:#fff !important; border:1px solid #efefef; }
 @media only screen and (max-width: 961px) {
     .domains-lista{ width: 98%; }
     }
@@ -74,7 +91,8 @@ var _localLang = {
                         <div class="row addon-products">
 
                             {if $domain.dnsmanagement}
-                                <div class="col-sm-{math equation="12 / numAddons" numAddons=$domain.addonsCount} mb-3">
+                                <!-- div class="col-sm-{math equation="12 / numAddons" numAddons=$domain.addonsCount} mb-3" -->
+                                <div class="addonlista">
                                     <div class="panel panel-default panel-addon{if $domain.dnsmanagementselected} panel-addon-selected{/if}">
                                         <div class="panel-body">
                                             <label>
@@ -86,16 +104,17 @@ var _localLang = {
                                         <div class="panel-price">
                                             {$domain.dnsmanagementprice} / {$domain.regperiod} {$LANG.orderyears}
                                         </div>
-                                        <div class="panel-add">
+                                        <!-- div class="panel-add">
                                             <i class="fas fa-plus"></i>
                                             {$LANG.orderForm.addToCart}
-                                        </div>
+                                        </div -->
                                     </div>
                                 </div>
                             {/if}
 
                             {if $domain.idprotection}
-                                <div class="col-sm-{math equation="12 / numAddons" numAddons=$domain.addonsCount} mb-3">
+                                <!-- div class="col-sm-{math equation="12 / numAddons" numAddons=$domain.addonsCount} mb-3" -->
+                                <div class="addonlista">
                                     <div class="panel panel-default panel-addon{if $domain.idprotectionselected} panel-addon-selected{/if}">
                                         <div class="panel-body">
                                             <label>
@@ -107,16 +126,17 @@ var _localLang = {
                                         <div class="panel-price">
                                             {$domain.idprotectionprice} / {$domain.regperiod} {$LANG.orderyears}
                                         </div>
-                                        <div class="panel-add">
+                                        <!-- div class="panel-add">
                                             <i class="fas fa-plus"></i>
                                             {$LANG.orderForm.addToCart}
-                                        </div>
+                                        </div -->
                                     </div>
                                 </div>
                             {/if}
 
                             {if $domain.emailforwarding}
-                                <div class="col-sm-{math equation="12 / numAddons" numAddons=$domain.addonsCount} mb-3">
+                                <!-- div class="col-sm-{math equation="12 / numAddons" numAddons=$domain.addonsCount} mb-3" -->
+                                <div class="addonlista">
                                     <div class="panel panel-default panel-addon{if $domain.emailforwardingselected} panel-addon-selected{/if}">
                                         <div class="panel-body">
                                             <label>
@@ -128,10 +148,10 @@ var _localLang = {
                                         <div class="panel-price">
                                             {$domain.emailforwardingprice} / {$domain.regperiod} {$LANG.orderyears}
                                         </div>
-                                        <div class="panel-add">
+                                        <!-- div class="panel-add">
                                             <i class="fas fa-plus"></i>
                                             {$LANG.orderForm.addToCart}
-                                        </div>
+                                        </div -->
                                     </div>
                                 </div>
                             {/if}
