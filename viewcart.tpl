@@ -4,7 +4,9 @@
 
 {else}
 
-<style> .item{ padding: 10px 15px 15px 15px !important; } .sidebar-collapsed{ display:none; } 
+<style> 
+.sidebar-collapsed, .form-inline.ml-auto, .navbar.navbar-expand-xl.main-navbar-wrapper{ display:none; }
+.item{ padding: 10px 15px 15px 15px !important; } .sidebar-collapsed{ display:none; } 
 .empty-cart{ text-align: left !important; margin: 0px; }
 #orderSummary { background-color: #fff !important;border-bottom: 0 !important; }
 .summary-container { background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;}
