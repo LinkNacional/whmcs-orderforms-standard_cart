@@ -11,7 +11,7 @@
     border: 1px solid rgba(0, 0, 0, .125) !important;
     border-radius: .25rem !important;
 }
-.w-hidden { display: none !important; }/* FIX USER LOGADO */
+/* .w-hidden { display: none !important; } FIX USER LOGADO */
 .btn-checkout{ display: inline-block; border: none; padding: 10px; } 
 .primary-content .card-title{ margin: 0 0 10px 0 !important; }
 label { margin-top: 25px; }
