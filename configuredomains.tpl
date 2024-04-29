@@ -9,7 +9,7 @@ var _localLang = {
 <style> 
 .sidebar-collapsed, .form-inline.ml-auto, .navbar.navbar-expand-xl.main-navbar-wrapper{ display:none; } 
 .domains-lista{
-    width: 45%;display: inline-block;border: 1px solid #e7e7e7;background-color: #f8f8f8;margin: 10px;padding: 7px 35px 13px 35px;
+    width: 45%;display: inline-grid;border: 1px solid #e7e7e7;background-color: #f8f8f8;margin: 10px;padding: 7px 35px 13px 35px;
 }
 .row.addon-products {
     margin-top: 20px;

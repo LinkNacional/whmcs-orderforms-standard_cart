@@ -20,15 +20,15 @@
             <p>{$LANG.orderForm.findNewDomain}</p>
 
             <div class="domain-checker-container" style="margin-bottom: 0px;">
-                <div class="domain-checker-bg clearfix" style="background-color: #121519;">
+                <div class="domain-checker-bg clearfix">
                     <form method="post" action="{$WEB_ROOT}/cart.php" id="frmDomainChecker">
                         <input type="hidden" name="a" value="checkDomain">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2 offset-md-2 col-xs-10 col-xs-offset-1 col-10 offset-1">
+                        <div class="">
+                            <div class="">
                                 <div class="input-group input-group-lg input-group-box">
                                     <input type="text" name="domain" class="form-control" placeholder="{$LANG.findyourdomain}" value="{$lookupTerm}" id="inputDomain" data-toggle="tooltip" data-placement="left" data-trigger="manual" title="{lang key='orderForm.domainOrKeyword'}" />
                                     <span class="input-group-btn input-group-append">
-                                        <button type="submit" id="btnCheckAvailability" class="btn btn-primary domain-check-availability{$captcha->getButtonClass($captchaForm)}" style="width:120px;background-color:#dae300;border:0;color:black;">{$LANG.search}</button>
+                                        <button type="submit" id="btnCheckAvailability" class="btn btn-primary domain-check-availability{$captcha->getButtonClass($captchaForm)}" style="background-color:#dae300;border:0;color:black;">{$LANG.search}</button>
                                     </span>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <p class="domain-price">
-                            <span class="price"></span>
+                            <span class="price"></span><br />
                             <button class="btn btn-primary btn-add-to-cart" data-whois="0" data-domain="" style="background-color:#dae300;border:0;color:black;">
                                 <span class="to-add">{$LANG.addtocart}</span>
                                 <span class="loading">

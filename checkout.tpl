@@ -11,10 +11,11 @@
     border: 1px solid rgba(0, 0, 0, .125) !important;
     border-radius: .25rem !important;
 }
+.w-hidden { display: none !important; }/* FIX USER LOGADO */
 .btn-checkout{ display: inline-block; border: none; padding: 10px; } 
 .primary-content .card-title{ margin: 0 0 10px 0 !important; }
 label { margin-top: 25px; }
-#btnNewUserSignup, #btnAlreadyRegistered { margin: 0 0 35px 0px !important; border: 1px solid #d8d8d8; }
+#btnNewUserSignup, #btnAlreadyRegistered { margin: 0 10px 35px 0px !important; border: 1px solid #d8d8d8; }
 #btnNewUserSignup:hover, #btnAlreadyRegistered:hover { background-color:#f8f8f8; border: 1px solid #DAE300; }
 #order-standard_cart .field, #order-standard_cart .form-control{ font-size:13px; }
 </style>
@@ -44,7 +45,7 @@ label { margin-top: 25px; }
                 <div>
                     <button type="button" class="btn-checkout" id="btnNewUserSignup">
                         {$LANG.orderForm.createAccount}
-                    </button> ou
+                    </button>
                     <button type="button" class="btn-checkout" id="btnAlreadyRegistered">
                         {$LANG.orderForm.alreadyRegistered}
                     </button> 
@@ -461,11 +462,11 @@ label { margin-top: 25px; }
                                         <input type="password" name="password2" id="inputNewPassword2" class="field form-control" placeholder="{$LANG.clientareaconfirmpassword}"{if $remote_auth_prelinked} value="{$password}"{/if}>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <!-- div class="col-sm-6">
                                     <button type="button" class="btn btn-default btn-sm generate-password" data-targetfields="inputNewPassword1,inputNewPassword2">
                                         {$LANG.generatePassword.btnLabel}
                                     </button>
-                                </div>
+                                </div -->
                                 <div class="col-sm-6">
                                     <div class="password-strength-meter">
                                         <div class="progress">

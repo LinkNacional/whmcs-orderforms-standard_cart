@@ -547,6 +547,10 @@
 ));
 
 jQuery(document).ready(function() {
+
+    $('.logo-img').parent('a').removeAttr('href');
+    $('[data-target="#mainNavbar"]').remove();
+
     jQuery(document).on('click', '.disable-on-click', function () {
         jQuery(this).addClass('disabled');
 

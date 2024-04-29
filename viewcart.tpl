@@ -616,7 +616,7 @@
                                 </div>
 
                                 <div class="text-right">
-                                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping" id="continueShopping" style="width: 50%;">
+                                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping" id="continueShopping">
                                         {$LANG.orderForm.continueShopping}
                                     </a>
                                     <a href="{$WEB_ROOT}/cart.php?a=checkout&e=false" class="btn btn-success btn-lg btn-checkout{if $cartitems == 0} disabled{/if}" id="checkout" style="background-color: #DAE300;border: 0;color: #343B45;">
