@@ -1,5 +1,4 @@
 {include file="orderforms/standard_cart/common.tpl"}
-
 <script>
 var _localLang = {
     'addToCart': '{$LANG.orderForm.addToCart|escape}',
@@ -40,6 +39,10 @@ var _localLang = {
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
         </div -->
         <div class="cart-body" style="width:100%;">
+            <div class="header-lined">
+                <!--h1 class="font-size-36">{$LANG.orderconfigure}</h1-->
+                <div class="breadcrumb-lkn"> <ul><li class="done">{$LANG.domaincheckerchoosedomain} <hr /></li/><li class="ativa">{$LANG.orderconfigure} <hr /></li><li>{$LANG.cartreviewcheckout} <hr /></li><li>{$LANG.orderForm.checkout}</li></ul></div>
+            </div>
             <div class="header-lined">
                 <h1 class="font-size-36">{$LANG.cartdomainsconfig}</h1>
             </div>
@@ -213,7 +216,7 @@ var _localLang = {
                 {/if}
 
                 <div class="text-center pt-4">
-                    <button type="submit" class="btn btn-primary btn-lg" style="background-color:#DAE300;border:none;color:#343B45;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="background-color:#DAE300;border:none;color:#343B45;width:100%;">
                         {$LANG.continue}
                         &nbsp;<i class="fas fa-arrow-circle-right"></i>
                     </button>

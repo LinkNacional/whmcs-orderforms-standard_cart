@@ -4,19 +4,6 @@
 
 {else}
 
-<style> 
-.sidebar-collapsed, .form-inline.ml-auto, .navbar.navbar-expand-xl.main-navbar-wrapper{ display:none; }
-.item{ padding: 10px 15px 15px 15px !important; } .sidebar-collapsed{ display:none; } 
-.empty-cart{ text-align: left !important; margin: 0px; }
-#orderSummary { background-color: #fff !important;border-bottom: 0 !important; }
-.summary-container { background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;}
-#btnEmptyCart{ background-color: #f8f8f8 !important; border: 0 !important;color: #343b45 !important; border-radius: 0 !important; }
-@media only screen and (max-width: 961px) {
-   .empty-cart { display: none !important; }
-}
-
-</style>
-
     <script>
         // Define state tab index value
         var statesTab = 10;
@@ -34,6 +21,10 @@
 
             </div -->
             <div class="cart-body" style="width:100%">
+                <div class="header-lined">
+                    <div class="breadcrumb-lkn"> <ul><li class="done">{$LANG.domaincheckerchoosedomain} <hr /></li/><li class="done"><a href="cart.php?a=confproduct&i=0">{$LANG.orderconfigure}</a> <hr /></li><li class="ativa">{$LANG.cartreviewcheckout} <hr /></li><li>{$LANG.orderForm.checkout}</li></ul></div>
+                </div>
+
                 <div class="header-lined">
                     <h1 class="font-size-36">{$LANG.cartreviewcheckout}</h1>
                 </div>

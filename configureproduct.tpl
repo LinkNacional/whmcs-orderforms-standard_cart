@@ -14,126 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 </script>
-<style>
-.cart-body{ width:100% !important; }
-.sidebar-collapsed{ display:none; }
-.navbar.navbar-expand-xl.main-navbar-wrapper,form.form-inline.ml-auto{ display:none; }
+<style> .cart-body{ width:100% !important; } </style>
 
-.order-summary { background-color: #fff;border-bottom: 0; }
-#order-standard_cart .order-summary{ font-size: 1.2em; background-color: #fff; border-bottom: 0; border-radius: 0; }
-#order-standard_cart .order-summary h2 {
-    color:#121519;
-    border-left: 2px solid #dae300;
-    padding-left: 15px;
-    margin: 20px 15px 15px 0px;
-    font-weight: 100; 
-    font-size: 17px;
-    text-align: left;
-    }
-.summary-container { background-color: #ffffff !important;boder-radius:0 !important;border:solid 1px #f8f8f8 !important;}
-
-#order-standard_cart .field-container { margin: auto 0; }
-#order-standard_cart .secondary-cart-body-child {
-    width: 100%;
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-#order-standard_cart .panel-addon .panel-body label {
-    font-size: 1.5em;
-}
-#order-standard_cart .product-description{
-    font-size: 12px;
-}
-#order-standard_cart label { font-weight: bold; font-size: 15px; }
-.icheckbox_square-blue{ display:none;}
-
-#order-standard_cart .panel-addon .panel-price {
-width:60%;
-}
-#order-standard_cart .panel-addon .panel-add {
-width:40%;
-margin-top: -25px;
-margin-left: auto;
-border-radius:0;
-background-color:#f7f7f7;
-color:#121519;
-}
-#order-standard_cart .panel-addon-selected .panel-add{
-    background-color:#538b8c !important;
-    color:#fff;
-}
-#order-standard_cart .panel-addon:hover { background-color:#f4f4f4;}
-#order-standard_cart .panel-addon-selected { border: 1px solid #538b8c !important; }
-#order-standard_cart .panel-addon{ background-color:#f7f7f7; border: 1px solid rgba(0, 0, 0, .03);}
-.image-product{
-    width:380px;
-    margin-right:50px;
-}
-#productAddonsContainer h5{ border-left: 2px solid #dae300;
-    padding-left: 15px;
-    margin: 20px 15px 15px 0px;
-    font-weight: 100;}
-
-#order-standard_cart .secondary-cart-sidebar { padding-top:17px;}
-#btnCompleteProductConfig { width:100%; background-color: #DAE300;border: 0;color: #343B45;}
-.breadcrumb-lkn { width:100%; background-color:#f7f7f7; padding: 20px 0 15px 0px; border: 1px solid #f6f6f6; margin-bottom: 20px; }
-
-
-.breadcrumb-lkn ul { width:90%; /*list-style-type: none;*/ margin: auto; }
-.breadcrumb-lkn ul li { color: #dfdfdf; display: flex; /* margin-right: 10px; list-style-image: url('icone.png'); */ font-size: 15px; font-weight: 400; }
-
-.breadcrumb-lkn ul li.ativa::before {
-    content: '';
-    display: block;
-    width: 25px; /* Diâmetro do círculo */
-    height: 25px; /* Diâmetro do círculo */
-    border-radius: 50%; /* Faz com que o elemento seja um círculo */
-    background-color:#f4f4f4;
-    border: 5px solid #DAE300; /* Cor da borda */
-    margin-right: 20px; /* Espaçamento entre o círculo e o texto */
-}
-.ativa, .done { color: #121519 !important; }
-
-.breadcrumb-lkn ul li.done::before {
-    content: '';
-    display: block;
-    width: 25px; /* Diâmetro do círculo */
-    height: 25px; /* Diâmetro do círculo */
-    border-radius: 50%; /* Faz com que o elemento seja um círculo */
-    border: 5px solid #DAE300; /* Cor da borda */
-    background-color: #DAE300;
-    margin-right: 20px; /* Espaçamento entre o círculo e o texto */
-}
-.breadcrumb-lkn ul li::before {
-    content: '';
-    display: block;
-    width: 25px; /* Diâmetro do círculo */
-    height: 25px; /* Diâmetro do círculo */
-    border-radius: 50%; /* Faz com que o elemento seja um círculo */
-    border: 5px solid #dfdfdf; /* Cor da borda */
-    background-color: #dfdfdf;
-    margin-right: 20px; /* Espaçamento entre o círculo e o texto */
-}
-
-
-/* Estilos adicionais para a borda circular 
-.breadcrumb-lkn ul li:last-child::before {
-    border-color: #DAE300; /* Cor da borda do último círculo */
-}*/
-@media (max-width: 1023px) {
-.breadcrumb-lkn ul { display: none;}
-}
-@media (min-width: 1024px) {
-#order-standard_cart .product-info { display:flex !important;}
-.breadcrumb-lkn ul { display: flex !important;}
-.breadcrumb-lkn hr{ width: 90px;margin: 13px 0 0 15px;}
-.breadcrumb-lkn hr{ width: 90px; margin: 13px 0 0 15px; }
-}
-
-
-</style>
 <div id="order-standard_cart">
     <div class="row">
         <!--div class="cart-sidebar">
@@ -143,7 +25,7 @@ color:#121519;
 
             <div class="header-lined">
                 <!--h1 class="font-size-36">{$LANG.orderconfigure}</h1-->
-                <div class="breadcrumb-lkn"> <ul><li class="done">Escolher o domínio <hr /></li/><li class="ativa">Adicionais <hr /></li><li>Revisar pedido <hr /></li><li>Pagamento</li></ul></div>
+                <div class="breadcrumb-lkn"> <ul><li class="done">{$LANG.domaincheckerchoosedomain} <hr /></li/><li class="ativa">{$LANG.orderconfigure} <hr /></li><li>{$LANG.cartreviewcheckout} <hr /></li><li>{$LANG.orderForm.checkout}</li></ul></div>
             </div>
 
             {include file="orderforms/standard_cart/sidebar-categories-collapsed.tpl"}

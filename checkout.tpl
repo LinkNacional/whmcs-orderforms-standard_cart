@@ -4,21 +4,6 @@
     // Do not enforce state input client side
     var stateNotRequired = true;
 </script>
-<style> 
-.sidebar-collapsed, .form-inline.ml-auto, .navbar.navbar-expand-xl.main-navbar-wrapper{ display:none; }
-.card {
-    padding: 20px;
-    border: 1px solid rgba(0, 0, 0, .125) !important;
-    border-radius: .25rem !important;
-}
-/* .w-hidden { display: none !important; } FIX USER LOGADO */
-.btn-checkout{ display: inline-block; border: none; padding: 10px; } 
-.primary-content .card-title{ margin: 0 0 10px 0 !important; }
-label { margin-top: 25px; }
-#btnNewUserSignup, #btnAlreadyRegistered { margin: 0 10px 35px 0px !important; border: 1px solid #d8d8d8; }
-#btnNewUserSignup:hover, #btnAlreadyRegistered:hover { background-color:#f8f8f8; border: 1px solid #DAE300; }
-#order-standard_cart .field, #order-standard_cart .form-control{ font-size:13px; }
-</style>
 {include file="orderforms/standard_cart/common.tpl"}
 <script type="text/javascript" src="{$BASE_PATH_JS}/StatesDropdown.js"></script>
 <script type="text/javascript" src="{$BASE_PATH_JS}/PasswordStrength.js"></script>
@@ -28,6 +13,7 @@ label { margin-top: 25px; }
     window.langPasswordModerate = "{$LANG.pwstrengthmoderate}";
     window.langPasswordStrong = "{$LANG.pwstrengthstrong}";
 </script>
+<style> .card { padding: 20px; border: 1px solid rgba(0, 0, 0, .125) !important; border-radius: .25rem !important;} #order-standard_cart .field, #order-standard_cart .form-control{ font-size:13px; } .cart-body{ width:100% !important; } </style>
 <div id="order-standard_cart">
 
     <div class="row">
@@ -35,6 +21,9 @@ label { margin-top: 25px; }
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
         </div-->
         <div class="cart-body">
+            <div class="header-lined">
+                <div class="breadcrumb-lkn"> <ul><li class="done">{$LANG.domaincheckerchoosedomain} <hr /></li/><li class="done"><a href="cart.php?a=confproduct&i=0">{$LANG.orderconfigure}</a> <hr /></li><li class="done"><a href="cart.php?a=view">{$LANG.cartreviewcheckout}</a> <hr /></li><li class="ativa">{$LANG.orderForm.checkout}</li></ul></div>
+            </div>
             <div class="header-lined">
                 <h1 class="font-size-36">{$LANG.orderForm.checkout}</h1>
                 <p class="text-sm-left overflow-hidden">{lang key='orderForm.enterPersonalDetails'}</p>
@@ -721,7 +710,7 @@ label { margin-top: 25px; }
                         </div>
                     {/if}
 
-                    <button style="background-color:#DAE300;border:none;color:#343B45;" type="submit"
+                    <button style="background-color:#DAE300;border:none;color:#343B45;width:100%;" type="submit"
                             id="btnCompleteOrder"
                             class="btn btn-primary btn-lg disable-on-click spinner-on-click{if $captcha}{$captcha->getButtonClass($captchaForm)}{/if}"
                             {if $cartitems==0}disabled="disabled"{/if}

@@ -1,5 +1,34 @@
 {include file="orderforms/standard_cart/common.tpl"}
-<style> .sidebar-collapsed{ display:none; } </style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('image-product').onerror = function() {
+        this.onerror = null; // Previne loop infinito se a imagem alternativa também não for encontrada
+        this.src = '/assets/img/products/product.png';
+        console.log('source:'+this.src);
+    };
+});
+</script>
+<style> .sidebar-collapsed{ display:none; } .cart-body{ width:100% !important; } 
+.product-domain-info{
+margin: 0 0 -13px 0;
+    padding: 6px 15px;
+    font-size: .85em;
+    background-color: #f8f8f8;
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+    position: relative;
+    overflow: hidden;
+}
+.image-product {
+    width: 180px;
+    float: right;
+    margin-right: 0px;
+}
+.product-domain-info h1 {
+    font-size: 26px;
+    font-weight: 1000;
+    padding-top: 20px; }
+</style>
 
 <div id="order-standard_cart">
 
@@ -10,7 +39,16 @@
 
         <div class="cart-body">
             <div class="header-lined">
-                <h1 class="font-size-36">{$LANG.domaincheckerchoosedomain}</h1>
+                <div class="breadcrumb-lkn"> <ul><li class="ativa">{$LANG.domaincheckerchoosedomain} <hr /></li/><li>{$LANG.orderconfigure} <hr /></li><li>{$LANG.cartreviewcheckout} <hr /></li><li>{$LANG.orderForm.checkout}</li></ul></div>
+            </div>
+            <div class="row">
+                <div class="secondary-cart-body-child">
+                    <div class="product-domain-info">
+                        <img src="/assets/img/products/{$productinfo.name}.png" class="image-product" id="image-product" />
+                        <h1>{$productinfo.name}</h1>
+                        <h2 class="font-size-18">{$LANG.domaincheckerchoosedomain}</h2>                        
+                    </div>
+                </div>
             </div>
             {include file="orderforms/standard_cart/sidebar-categories-collapsed.tpl"}
             <form id="frmProductDomain">
@@ -330,7 +368,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled">
+                    <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled" style="background-color:#DAE300;border:none;color:#343B45;width:100%;">
                         {$LANG.continue}
                         &nbsp;<i class="fas fa-arrow-circle-right"></i>
                     </button>
