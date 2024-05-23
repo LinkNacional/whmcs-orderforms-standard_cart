@@ -15,10 +15,26 @@
     padding:15px 0 15px 20px;
 }
 
-.suggested-domains > div.panel-heading.card-header{background-color:#fff;}
-.suggested-domains .btn:not(.domain-contact-support){padding:2px 10px;font-size:11px;line-height:1.4;border-radius:3px;background-color:#f8f8f8;border-color:#f8f8f8;color:#121519}
-.suggested-domains{ width:70%; margin:auto; }
+#searchDomainInfo{
+    background-color: #f6f6f6f6;
+    padding: 30px;
+    margin-bottom: 25px;
+}
 
+#btnDomainContinue[disabled] {
+    display: none !important;
+}
+
+.btn-primary {
+    background-color:  #0C71C3;
+    border-color:  #0C71C3;
+}
+
+.suggested-domains > div.panel-heading.card-header{background-color:#fff;}
+.suggested-domains .btn:not(.domain-contact-support){padding:7px 10px;font-size:11px;line-height:1.4;border-radius:30px;background-color:#fff;border-color:#121519;color:#121519}
+#domainSuggestions .suggested-domains{ margin:auto; }
+#domainSuggestions .list-group-item { padding: .75rem 4.25rem; }
+#domainSuggestions .list-group-item:hover { background-color: #f6f6f6;}
 
 section#main-body { min-height: 70vh !important; }
 .navbar.navbar-expand-xl.main-navbar-wrapper,form.form-inline.ml-auto{ display:none; }
@@ -82,12 +98,16 @@ color:#121519 !important;
         width:100% !important;
         margin:0 !important;
     }
+    .btn-add-to-cart-mobile{ display:none; }
+    .fixed { position: fixed; bottom: 0; left: 0; z-index: 1000; }
 }
 @media (min-width: 1024px) {
 #order-standard_cart .product-info { display:flex !important;}
 .breadcrumb-lkn ul { display: flex !important;}
 .breadcrumb-lkn hr{ width: 90px;margin: 13px 0 0 15px;}
 .breadcrumb-lkn hr{ width: 90px; margin: 13px 0 0 15px; }
+#domainSuggestions .domain{ padding-left: 100px; }
+#domainSuggestions .price{ padding-right: 75px; }
 }
 
 

@@ -234,8 +234,8 @@ margin: 0 0 -13px 0;
                             <span class="domain-lookup-other-loader">{lang key='orderForm.verifyingDomain'}...</span>
                         </p>
                         <div id="primaryLookupResult" class="domain-lookup-result domain-lookup-primary-results w-hidden">
-                            <div class="domain-unavailable domain-checker-unavailable headline">{lang key='orderForm.domainIsUnavailable'}</div>
-                            <div class="domain-available domain-checker-available headline">{$LANG.domainavailablemessage}</div>
+                            <div class="domain-unavailable domain-checker-unavailable headline" >{lang key='orderForm.domainIsUnavailable'}</div>
+                            <div class="domain-available domain-checker-available headline" style="color: #0C71C3;">{$LANG.domainavailablemessage}</div>
                             <div class="btn btn-primary domain-contact-support headline">{$LANG.domainContactUs}</div>
                             <div class="transfer-eligible">
                                 <p class="domain-checker-available headline">{lang key='orderForm.transferEligible'}</p>
@@ -289,7 +289,7 @@ margin: 0 0 -13px 0;
                             <input type="hidden" id="resultDomainPricingTerm" />
                         </div>
                         <div class="text-center">
-                            <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled" style="margin:30px 0 30px 0;background-color:#DAE300;border:none;color:#343B45;width:100%;"> {$LANG.continue} &nbsp;<i class="fas fa-arrow-circle-right"></i>
+                            <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden fixed" disabled="disabled" style="background-color:#DAE300;border:none;color:#343B45;width:100%;"> {$LANG.continue} &nbsp;<i class="fas fa-arrow-circle-right"></i>
                             </button>
                         </div>
                     </div>
@@ -344,7 +344,7 @@ margin: 0 0 -13px 0;
                             </div>
                             <div id="domainSuggestions" class="domain-lookup-result list-group w-hidden">
                                 <div class="domain-suggestion list-group-item w-hidden">
-                                    <button type="button" class="btn btn-add-to-cart product-domain" data-whois="1" data-domain="">
+                                    <button type="button" class="btn btn-add-to-cart product-domain btn-add-to-cart-mobile" data-whois="1" data-domain="">
                                             <span class="to-add"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                             <span class="loading">
                                                 <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
@@ -356,7 +356,7 @@ margin: 0 0 -13px 0;
                                     <div class="actions">
                                         <span class="price"></span>
                                         <span class="promo w-hidden"></span>
-                                        <button type="button" class="btn btn-add-to-cart product-domain" data-whois="1" data-domain="">
+                                        <button type="button" class="btn btn-add-to-cart product-domain" data-whois="1" data-domain="" style="border-color: #fff;background-color: #f6f6f6;">
                                             <span class="to-add">{$LANG.addtocart}</span>
                                             <span class="loading">
                                                 <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
@@ -380,15 +380,26 @@ margin: 0 0 -13px 0;
                     {/if}
                 </div>
 
-                <div class="text-center">
+                <!-- div class="text-center">
                     <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled" style="background-color:#DAE300;border:none;color:#343B45;width:100%;">
                         {$LANG.continue}
                         &nbsp;<i class="fas fa-arrow-circle-right"></i>
                     </button>
-                </div>
+                </div -->
             </form>
         </div>
     </div>
 </div>
 
 {include file="orderforms/standard_cart/recommendations-modal.tpl"}
+
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('frmProductDomain').addEventListener('submit', function(event) {
+            // Rolagem até o elemento do formulário
+            document.getElementById('frmProductDomain').scrollIntoView({
+                behavior: 'smooth' // Isso fará com que o scroll seja suave
+            });
+        });
+    });
+    </script>
