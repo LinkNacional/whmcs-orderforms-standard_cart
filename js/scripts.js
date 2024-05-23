@@ -2704,9 +2704,9 @@ jQuery(document).ready(function(){
         jQuery("#containerNewUserSignup").slideUp('', function() {
             jQuery("#containerExistingUserSignin").slideDown('', function() {
                 jQuery("#inputCustType").val('existing');
-                //jQuery("#btnAlreadyRegistered").fadeOut('', function() {
-                    //jQuery("#btnNewUserSignup").fadeIn();
-                //});
+                jQuery("#btnAlreadyRegistered").fadeOut('', function() {
+                    jQuery("#btnNewUserSignup").fadeIn();
+                });
             });
         });
         jQuery("#containerNewUserSecurity").hide();
@@ -2724,9 +2724,9 @@ jQuery(document).ready(function(){
                 if (jQuery("#passwdFeedback").html().length == 0) {
                     jQuery("#containerNewUserSecurity").show();
                 }
-                //jQuery("#btnNewUserSignup").fadeOut('', function() {
-                    //jQuery("#btnAlreadyRegistered").fadeIn();
-                //});
+                jQuery("#btnNewUserSignup").fadeOut('', function() {
+                    jQuery("#btnAlreadyRegistered").fadeIn();
+                });
             });
             jQuery('.marketing-email-optin').slideDown();
         });

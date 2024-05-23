@@ -431,7 +431,9 @@
 
                                 {if $cartitems == 0}
                                     <div class="view-cart-empty">
-                                        {$LANG.cartempty}
+                                        {$LANG.cartempty} <br /><a href="{$WEB_ROOT}/cart.php" class="btn btn-success btn-lg" id="continueShopping" style="background-color: #DAE300;border: 0;color: #343B45;">
+                                        {$LANG.orderForm.continueShopping}
+                                    </a>
                                     </div>
                                 {/if}
 
@@ -534,90 +536,91 @@
 
                     </div>
                     <div class="secondary-cart-sidebar" id="scrollingPanelContainer">
-
-                        <div class="order-summary" id="orderSummary">
-                            <div class="loader w-hidden" id="orderSummaryLoader">
-                                <i class="fas fa-fw fa-sync fa-spin"></i>
-                            </div>
-                            <h2 class="font-size-30" style="color: #121519;">{$LANG.ordersummary}</h2>
-                            <div class="summary-container" style="background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;">
-
-                                <div class="subtotal clearfix" style="border-bottom:solid 1px #f8f8f8;">
-                                    <span class="pull-left float-left">{$LANG.ordersubtotal}</span>
-                                    <span id="subtotal" class="pull-right float-right">{$subtotal}</span>
+                        {if $cartitems != 0}
+                            <div class="order-summary" id="orderSummary">
+                                <div class="loader w-hidden" id="orderSummaryLoader">
+                                    <i class="fas fa-fw fa-sync fa-spin"></i>
                                 </div>
-                                {if $promotioncode || $taxrate || $taxrate2}
-                                    <div class="bordered-totals">
-                                        {if $promotioncode}
-                                            <div class="clearfix">
-                                                <span class="pull-left float-left">{$promotiondescription}</span>
-                                                <span id="discount" class="pull-right float-right">{$discount}</span>
-                                            </div>
-                                        {/if}
-                                        {if $taxrate}
-                                            <div class="clearfix">
-                                                <span class="pull-left float-left">{$taxname} @ {$taxrate}%</span>
-                                                <span id="taxTotal1" class="pull-right float-right">{$taxtotal}</span>
-                                            </div>
-                                        {/if}
-                                        {if $taxrate2}
-                                            <div class="clearfix">
-                                                <span class="pull-left float-left">{$taxname2} @ {$taxrate2}%</span>
-                                                <span id="taxTotal2" class="pull-right float-right">{$taxtotal2}</span>
-                                            </div>
-                                        {/if}
+                                <h2 class="font-size-30" style="color: #121519;">{$LANG.ordersummary}</h2>
+                                <div class="summary-container" style="background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;">
+
+                                    <div class="subtotal clearfix" style="border-bottom:solid 1px #f8f8f8;">
+                                        <span class="pull-left float-left">{$LANG.ordersubtotal}</span>
+                                        <span id="subtotal" class="pull-right float-right">{$subtotal}</span>
                                     </div>
-                                {/if}
-                                <div class="recurring-totals clearfix">
-                                    <span class="pull-left float-left">{$LANG.orderForm.totals}</span>
-                                    <span id="recurring" class="pull-right float-right recurring-charges">
-                                        <span id="recurringMonthly" {if !$totalrecurringmonthly}style="display:none;"{/if}>
-                                            <span class="cost">{$totalrecurringmonthly}</span> {$LANG.orderpaymenttermmonthly}<br />
-                                        </span>
-                                        <span id="recurringQuarterly" {if !$totalrecurringquarterly}style="display:none;"{/if}>
-                                            <span class="cost">{$totalrecurringquarterly}</span> {$LANG.orderpaymenttermquarterly}<br />
-                                        </span>
-                                        <span id="recurringSemiAnnually" {if !$totalrecurringsemiannually}style="display:none;"{/if}>
-                                            <span class="cost">{$totalrecurringsemiannually}</span> {$LANG.orderpaymenttermsemiannually}<br />
-                                        </span>
-                                        <span id="recurringAnnually" {if !$totalrecurringannually}style="display:none;"{/if}>
-                                            <span class="cost">{$totalrecurringannually}</span> {$LANG.orderpaymenttermannually}<br />
-                                        </span>
-                                        <span id="recurringBiennially" {if !$totalrecurringbiennially}style="display:none;"{/if}>
-                                            <span class="cost">{$totalrecurringbiennially}</span> {$LANG.orderpaymenttermbiennially}<br />
-                                        </span>
-                                        <span id="recurringTriennially" {if !$totalrecurringtriennially}style="display:none;"{/if}>
-                                            <span class="cost">{$totalrecurringtriennially}</span> {$LANG.orderpaymenttermtriennially}<br />
-                                        </span>
-                                    </span>
-                                </div>
-
-                                <div class="total-due-today total-due-today-padded">
-                                    <span id="totalDueToday" class="amt">{$total}</span>
-                                    <!--span>{$LANG.ordertotalduetoday}</span-->
-                                </div>
-
-                                <div class="express-checkout-buttons">
-                                    {foreach $expressCheckoutButtons as $checkoutButton}
-                                        {$checkoutButton}
-                                        <div class="separator">
-                                            - {$LANG.or|strtoupper} -
+                                    {if $promotioncode || $taxrate || $taxrate2}
+                                        <div class="bordered-totals">
+                                            {if $promotioncode}
+                                                <div class="clearfix">
+                                                    <span class="pull-left float-left">{$promotiondescription}</span>
+                                                    <span id="discount" class="pull-right float-right">{$discount}</span>
+                                                </div>
+                                            {/if}
+                                            {if $taxrate}
+                                                <div class="clearfix">
+                                                    <span class="pull-left float-left">{$taxname} @ {$taxrate}%</span>
+                                                    <span id="taxTotal1" class="pull-right float-right">{$taxtotal}</span>
+                                                </div>
+                                            {/if}
+                                            {if $taxrate2}
+                                                <div class="clearfix">
+                                                    <span class="pull-left float-left">{$taxname2} @ {$taxrate2}%</span>
+                                                    <span id="taxTotal2" class="pull-right float-right">{$taxtotal2}</span>
+                                                </div>
+                                            {/if}
                                         </div>
-                                    {/foreach}
-                                </div>
+                                    {/if}
+                                    <div class="recurring-totals clearfix">
+                                        <span class="pull-left float-left">{$LANG.orderForm.totals}</span>
+                                        <span id="recurring" class="pull-right float-right recurring-charges">
+                                            <span id="recurringMonthly" {if !$totalrecurringmonthly}style="display:none;"{/if}>
+                                                <span class="cost">{$totalrecurringmonthly}</span> {$LANG.orderpaymenttermmonthly}<br />
+                                            </span>
+                                            <span id="recurringQuarterly" {if !$totalrecurringquarterly}style="display:none;"{/if}>
+                                                <span class="cost">{$totalrecurringquarterly}</span> {$LANG.orderpaymenttermquarterly}<br />
+                                            </span>
+                                            <span id="recurringSemiAnnually" {if !$totalrecurringsemiannually}style="display:none;"{/if}>
+                                                <span class="cost">{$totalrecurringsemiannually}</span> {$LANG.orderpaymenttermsemiannually}<br />
+                                            </span>
+                                            <span id="recurringAnnually" {if !$totalrecurringannually}style="display:none;"{/if}>
+                                                <span class="cost">{$totalrecurringannually}</span> {$LANG.orderpaymenttermannually}<br />
+                                            </span>
+                                            <span id="recurringBiennially" {if !$totalrecurringbiennially}style="display:none;"{/if}>
+                                                <span class="cost">{$totalrecurringbiennially}</span> {$LANG.orderpaymenttermbiennially}<br />
+                                            </span>
+                                            <span id="recurringTriennially" {if !$totalrecurringtriennially}style="display:none;"{/if}>
+                                                <span class="cost">{$totalrecurringtriennially}</span> {$LANG.orderpaymenttermtriennially}<br />
+                                            </span>
+                                        </span>
+                                    </div>
 
-                                <div class="text-right">
-                                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping" id="continueShopping">
-                                        {$LANG.orderForm.continueShopping}
-                                    </a>
-                                    <a href="{$WEB_ROOT}/cart.php?a=checkout&e=false" class="btn btn-success btn-lg btn-checkout{if $cartitems == 0} disabled{/if}" id="checkout" style="background-color: #DAE300;border: 0;color: #343B45;">
-                                        {$LANG.orderForm.checkout}
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
+                                    <div class="total-due-today total-due-today-padded">
+                                        <span id="totalDueToday" class="amt">{$total}</span>
+                                        <!--span>{$LANG.ordertotalduetoday}</span-->
+                                    </div>
 
+                                    <div class="express-checkout-buttons">
+                                        {foreach $expressCheckoutButtons as $checkoutButton}
+                                            {$checkoutButton}
+                                            <div class="separator">
+                                                - {$LANG.or|strtoupper} -
+                                            </div>
+                                        {/foreach}
+                                    </div>
+
+                                    <div class="text-right">
+                                        <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping" id="continueShopping">
+                                            {$LANG.orderForm.continueShopping}
+                                        </a>
+                                        <a href="{$WEB_ROOT}/cart.php?a=checkout&e=false" class="btn btn-success btn-lg btn-checkout{if $cartitems == 0} disabled{/if}" id="checkout" style="background-color: #DAE300;border: 0;color: #343B45;">
+                                            {$LANG.orderForm.checkout}
+                                            <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
+                        {/if}
                     </div>
                 </div>
             </div>

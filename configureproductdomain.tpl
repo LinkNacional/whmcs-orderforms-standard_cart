@@ -288,6 +288,10 @@ margin: 0 0 -13px 0;
                             <input type="hidden" id="resultDomain" name="domains[]" />
                             <input type="hidden" id="resultDomainPricingTerm" />
                         </div>
+                        <div class="text-center">
+                            <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled" style="margin:30px 0 30px 0;background-color:#DAE300;border:none;color:#343B45;width:100%;"> {$LANG.continue} &nbsp;<i class="fas fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
                     </div>
 
                     {if $registerdomainenabled}
@@ -340,8 +344,18 @@ margin: 0 0 -13px 0;
                             </div>
                             <div id="domainSuggestions" class="domain-lookup-result list-group w-hidden">
                                 <div class="domain-suggestion list-group-item w-hidden">
+                                    <button type="button" class="btn btn-add-to-cart product-domain" data-whois="1" data-domain="">
+                                            <span class="to-add"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                            <span class="loading">
+                                                <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
+                                            </span>
+                                            <span class="added">{lang key='domaincheckeradded'}</span>
+                                            <span class="unavailable">{$LANG.domaincheckertaken}</span>
+                                        </button>
                                     <span class="domain"></span><span class="extension"></span>
                                     <div class="actions">
+                                        <span class="price"></span>
+                                        <span class="promo w-hidden"></span>
                                         <button type="button" class="btn btn-add-to-cart product-domain" data-whois="1" data-domain="">
                                             <span class="to-add">{$LANG.addtocart}</span>
                                             <span class="loading">
@@ -351,8 +365,7 @@ margin: 0 0 -13px 0;
                                             <span class="unavailable">{$LANG.domaincheckertaken}</span>
                                         </button>
                                         <button type="button" class="btn btn-primary domain-contact-support w-hidden">{lang key='domainChecker.contactSupport'}</button>
-                                        <span class="price"></span>
-                                        <span class="promo w-hidden"></span>
+                                        
                                     </div>
                                 </div>
                             </div>

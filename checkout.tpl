@@ -30,17 +30,18 @@
             </div>
             {include file="orderforms/standard_cart/sidebar-categories-collapsed.tpl"}
 
-            <div class="already-registered">
-                <div>
-                    <button type="button" class="btn-checkout" id="btnNewUserSignup">
-                        {$LANG.orderForm.createAccount}
-                    </button>
-                    <button type="button" class="btn-checkout" id="btnAlreadyRegistered">
-                        {$LANG.orderForm.alreadyRegistered}
-                    </button> 
+            {if !$loggedin}
+                <div class="already-registered">
+                    <div>
+                        <button type="button" class="btn-checkout" id="btnNewUserSignup">
+                            {$LANG.orderForm.createAccount}
+                        </button>
+                        <button type="button" class="btn-checkout" id="btnAlreadyRegistered">
+                            {$LANG.orderForm.alreadyRegistered}
+                        </button> 
+                    </div>   
                 </div>
-                
-            </div>
+            {/if}
 
             {if $errormessage}
                 <div class="alert alert-danger checkout-error-feedback" role="alert">
@@ -52,17 +53,17 @@
                 <div class="clearfix"></div>
             {/if}
 
-            <form method="post" action="{$smarty.server.PHP_SELF}?a=checkout" name="orderfrm" id="frmCheckout" style="display:none">
+            <form method="post" action="{$smarty.server.PHP_SELF}?a=checkout" name="orderfrm" id="frmCheckout" {if !$loggedin}style="display:none"{/if}>
                 <input type="hidden" name="submit" value="true" />
                 <input type="hidden" name="custtype" id="inputCustType" value="{$custtype}" />
 
                 {if $custtype neq "new" && $loggedin}
-                    <div class="sub-heading">
+                    <!-- div class="sub-heading">
                         <span class="primary-bg-color">
                             {lang key='switchAccount.title'}
                         </span>
-                    </div>
-                    <div id="containerExistingAccountSelect" class="row account-select-container">
+                    </div -->
+                    <div id="containerExistingAccountSelect" class="row account-select-container" style="margin-bottom: 15px;">
                         {foreach $accounts as $account}
                             <div class="col-sm-{if $accounts->count() == 1}12{else}6{/if}">
                                 <div class="account{if $selectedAccountId == $account->id} active{/if}">
@@ -108,40 +109,41 @@
                         </div>
                     </div>
                 {/if}
+                {if !$loggedin}
+                    <div id="containerExistingUserSignin"{if $loggedin || $custtype neq "existing"} class="w-hidden"{/if}>
+                        <div class="card mb-4">
+                            <h3 class="card-title">{$LANG.orderForm.existingCustomerLogin}</h3>
 
-                <div id="containerExistingUserSignin"{if $loggedin || $custtype neq "existing"} class="w-hidden"{/if}>
-                    <div class="card mb-4">
-                        <h3 class="card-title">{$LANG.orderForm.existingCustomerLogin}</h3>
+                            <div class="alert alert-danger w-hidden" id="existingLoginMessage"></div>
 
-                        <div class="alert alert-danger w-hidden" id="existingLoginMessage"></div>
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputLoginEmail" class="field-icon">
-                                        <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
-                                    </label>
-                                    <input type="text" name="loginemail" id="inputLoginEmail" class="field form-control" placeholder="{$LANG.orderForm.emailAddress}" value="{$loginemail}">
-                                </div>
-                                <div>
-                                    <label for="inputLoginPassword" class="field-icon">
-                                        <i class="fas fa-lock"></i> {$LANG.clientareapassword}
-                                    </label>
-                                    <input type="password" name="loginpassword" id="inputLoginPassword" class="field form-control" placeholder="{$LANG.clientareapassword}">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputLoginEmail" class="field-icon">
+                                            <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
+                                        </label>
+                                        <input type="text" name="loginemail" id="inputLoginEmail" class="field form-control" placeholder="{$LANG.orderForm.emailAddress}" value="{$loginemail}">
+                                    </div>
+                                    <div>
+                                        <label for="inputLoginPassword" class="field-icon">
+                                            <i class="fas fa-lock"></i> {$LANG.clientareapassword}
+                                        </label>
+                                        <input type="password" name="loginpassword" id="inputLoginPassword" class="field form-control" placeholder="{$LANG.clientareapassword}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div style="margin-top:15px;">
-                            <button type="button" id="btnExistingLogin" class="btn btn-primary btn-md">
-                                <span id="existingLoginButton">{lang key='login'}</span>
-                                <span id="existingLoginPleaseWait" class="w-hidden">{lang key='pleasewait'}</span>
-                            </button>
-                        </div>
+                            <div style="margin-top:15px;">
+                                <button type="button" id="btnExistingLogin" class="btn btn-primary btn-md">
+                                    <span id="existingLoginButton">{lang key='login'}</span>
+                                    <span id="existingLoginPleaseWait" class="w-hidden">{lang key='pleasewait'}</span>
+                                </button>
+                            </div>
 
-                        <!-- {include file="orderforms/standard_cart/linkedaccounts.tpl" linkContext="checkout-existing"} -->
+                            <!-- {include file="orderforms/standard_cart/linkedaccounts.tpl" linkContext="checkout-existing"} -->
+                        </div>
                     </div>
-                </div>
+                {/if}
 
                 <div id="containerNewUserSignup"{if $custtype === 'existing' || (is_numeric($selectedAccountId) && $selectedAccountId > 0) || ($loggedin && $accounts->count() > 0 && $selectedAccountId !== 'new')} class="w-hidden"{/if}>
 
