@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             {if $pricing.type eq "recurring"}
                             <div class="field-container">
                                 <div class="form-group">
+                                    <span style="font-size: 24px;font-weight: 1000;">{$productinfo.name}: </span>
                                     <label for="inputBillingcycle">{$LANG.cartchoosecycle}</label>
                                     <br>
                                     <select name="billingcycle" id="inputBillingcycle" class="form-control select-inline custom-select" onchange="updateConfigurableOptions({$i}, this.value); return false">

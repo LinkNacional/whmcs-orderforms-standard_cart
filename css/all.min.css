@@ -102,6 +102,7 @@ color:#121519 !important;
     }
     .btn-add-to-cart-mobile{ display:none; }
     .fixed { position: fixed; bottom: 0; left: 0; z-index: 1000; }
+    #inputBillingcycle { width:100%; }
 }
 @media (min-width: 1024px) {
 #order-standard_cart .product-info { display:flex !important;}
