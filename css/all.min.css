@@ -5,8 +5,10 @@
 
 #domainregister, #domaintransfer, #domainowndomain, #domainincart { padding-bottom:20px;}
 #order-standard_cart .domain-selection-options .option {
-    margin: 0 0 5px 0;
+    margin: 15px 0 0 0;
     padding:0;
+    background-color: #f6f6f6;
+    border: 1px solid #ccc;
 }
 #order-standard_cart .option label {
     display: block;

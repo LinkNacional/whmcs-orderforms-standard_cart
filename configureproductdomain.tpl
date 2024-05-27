@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <style> .sidebar-collapsed{ display:none; } .cart-body{ width:100% !important; } 
 .product-domain-info{
-margin: 0 0 -13px 0;
+margin: -20px 0 10px 0;
     padding: 6px 15px;
     font-size: .85em;
     background-color: #f8f8f8;
     border-top: 1px solid #efefef;
-    border-bottom: 1px solid #efefef;
+   /* border-bottom: 1px solid #efefef; */
     position: relative;
     overflow: hidden;
 }
