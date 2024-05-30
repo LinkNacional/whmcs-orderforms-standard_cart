@@ -1,11 +1,10 @@
 {include file="orderforms/standard_cart/common.tpl"}
-
 <div id="order-standard_cart">
     <div class="row">
-        <div class="cart-sidebar">
+        <!--div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
-        </div>
-        <div class="cart-body">
+        </div -->
+        <div class="cart-body" style="width:100%;">
             <div class="header-lined">
                 <h1 class="font-size-36">
                     {if $totalResults > 1}{lang key='navrenewdomains'}{else}{lang key='domainrenew'}{/if}
@@ -56,7 +55,7 @@
                                                 {lang key='domainrenewalspastgraceperiod'}
                                             </span>
                                         {elseif !$renewalData.beforeRenewLimit && $renewalData.daysUntilExpiry > 0}
-                                            <span class="label label-{if $renewalData.daysUntilExpiry > 30}success{else}warning{/if}">
+                                            <span class="label label-{if $renewalData.daysUntilExpiry > 30}info{else}warning{/if}">
                                                 {lang key='domainRenewal.expiringIn' days=$renewalData.daysUntilExpiry}
                                             </span>
                                         {elseif $renewalData.daysUntilExpiry === 0}
@@ -91,7 +90,7 @@
                                                         *
                                                     {/if}
                                                 </label>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm">
                                                     <select class="form-control select-renewal-pricing" id="renewalPricing{$renewalData.id}" data-domain-id="{$renewalData.id}">
                                                         {foreach $renewalData.renewalOptions as $renewalOption}
                                                             <option value="{$renewalOption.period}">
