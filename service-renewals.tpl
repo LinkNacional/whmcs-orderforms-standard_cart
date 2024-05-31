@@ -1,10 +1,10 @@
 {include file="orderforms/standard_cart/common.tpl"}
 <div id="order-standard_cart">
     <div class="row">
-        <div class="cart-sidebar">
+        <!--div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
-        </div>
-        <div class="cart-body">
+        </div-->
+        <div class="cart-body" style="width:100%;">
             <div class="header-lined row">
                 <div class="col-md-6">
                     <h1 class="font-size-36">
@@ -16,14 +16,14 @@
                     </h1>
                 </div>
                 <div class="col-md-6">
-                    <button id="hideShowServiceRenewalButton" class="btn btn-sm btn-default service-renewals-quick-filter">
+                    <!--button id="hideShowServiceRenewalButton" class="btn btn-sm btn-default service-renewals-quick-filter">
                         <span class="to-hide">
                             {lang key='renewService.hideShowServices.hide'}
                         </span>
                         <span class="to-show">
                             {lang key='renewService.hideShowServices.show'}
                         </span>
-                    </button>
+                    </button-->
                     {if $totalResults > 5}
                         <input id="serviceRenewalFilter" type="search" class="service-renewals-filter form-control" placeholder="{lang key='renewService.searchPlaceholder'}">
                     {/if}
