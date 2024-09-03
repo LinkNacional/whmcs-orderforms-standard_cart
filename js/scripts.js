@@ -2376,6 +2376,7 @@ jQuery(document).ready(function () {
                         available = result.find('.domain-available'),
                         availablePrice = result.find('.domain-price'),
                         unavailable = result.find('.domain-unavailable'),
+                        unavailableTld = result.find('.domain-unavailable'),
                         invalid = result.find('.domain-invalid'),
                         contactSupport = result.find('.domain-contact-support'),
                         resultDomain = jQuery('#resultDomain'),
