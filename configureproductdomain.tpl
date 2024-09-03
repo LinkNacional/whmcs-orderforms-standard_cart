@@ -180,7 +180,6 @@
                                     {$LANG.cartregisterdomainchoice|sprintf2:$companyname}
                                 </label>
                             </div>
-
                         </div>
                     {/if}
 
@@ -193,7 +192,6 @@
                                     {$LANG.carttransferdomainchoice|sprintf2:$companyname}
                                 </label>
                             </div>
-
                         </div>
                     {/if}
 
@@ -206,7 +204,6 @@
                                     {$LANG.cartexistingdomainchoice|sprintf2:$companyname}
                                 </label>
                             </div>
-
                         </div>
                     {/if}
 
@@ -235,50 +232,50 @@
                         </div>
                     {/if}
                 </div>
-                <div>
 
-                    <div class="domain-input-group" id="domainregister">
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">{$LANG.orderForm.www}</span>
-                            <input type="text" id="registersld" value="{$sld}" class="form-control"
-                                autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                                title="{lang key='orderForm.enterDomain'}" />
-                        </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            {$LANG.orderForm.check}
-                        </button>
-                    </div>
-                    <div class="domain-input-group" id="domainowndomain">
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">{$LANG.orderForm.www}</span>
-                            <input type="text" id="owndomainsld" value="{$sld}"
-                                placeholder="{lang key='yourdomainplaceholder'}" class="form-control"
-                                autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                                title="{lang key='orderForm.enterDomain'}" />
-                        </div>
-                        <input type="text" id="owndomaintld" value="{$tld|substr:1}"
-                            placeholder="{$LANG.yourtldplaceholder}" class="form-control mb-2" autocapitalize="none"
+
+                <div class="domain-input-group" id="domainregister">
+                    <div class="input-group input-group-lg input-group-box">
+                        <span class="input-group-text">{$LANG.orderForm.www}</span>
+                        <input type="text" id="registersld" value="{$sld}" class="form-control" autocapitalize="none"
                             data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                            title="{lang key='orderForm.required'}" />
-                        <button type="submit" class="btn btn-primary">
-                            {$LANG.orderForm.use}
-                        </button>
+                            title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
+                    <button type="submit" class="btn btn-primary">
+                        {$LANG.orderForm.check}
+                    </button>
+                </div>
 
-                    <div class="domain-input-group" id="domaintransfer">
-                        <div class="input-group mb-2">
-                            <span class="input-group-text">{$LANG.orderForm.www}</span>
-                            <input type="text" id="transfersld" value="{$sld}" class="form-control"
-                                autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                                title="{lang key='orderForm.enterDomain'}" />
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">
-                            {$LANG.orderForm.transfer}
-                        </button>
+                <div class="domain-input-group" id="domainowndomain">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">{$LANG.orderForm.www}</span>
+                        <input type="text" id="owndomainsld" value="{$sld}"
+                            placeholder="{lang key='yourdomainplaceholder'}" class="form-control" autocapitalize="none"
+                            data-toggle="tooltip" data-placement="top" data-trigger="manual"
+                            title="{lang key='orderForm.enterDomain'}" />
                     </div>
+                    <input type="text" id="owndomaintld" value="{$tld|substr:1}"
+                        placeholder="{$LANG.yourtldplaceholder}" class="form-control mb-2" autocapitalize="none"
+                        data-toggle="tooltip" data-placement="top" data-trigger="manual"
+                        title="{lang key='orderForm.required'}" />
+                    <button type="submit" class="btn btn-primary">
+                        {$LANG.orderForm.use}
+                    </button>
+                </div>
+
+                <div class="domain-input-group" id="domaintransfer">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">{$LANG.orderForm.www}</span>
+                        <input type="text" id="transfersld" value="{$sld}" class="form-control" autocapitalize="none"
+                            data-toggle="tooltip" data-placement="top" data-trigger="manual"
+                            title="{lang key='orderForm.enterDomain'}" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        {$LANG.orderForm.transfer}
+                    </button>
                 </div>
 
                 {if $freedomaintlds}
@@ -286,6 +283,7 @@
                     </p>
                 {/if}
             </form>
+
 
 
 

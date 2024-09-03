@@ -2243,7 +2243,7 @@ jQuery(document).ready(function () {
         jQuery(".domain-selection-options .option").removeClass('option-selected');
         jQuery(this).parents('.option').addClass('option-selected');
         jQuery(".domain-input-group").hide();
-        jQuery("#domain" + jQuery(this).val()).show();
+        jQuery("#domain" + jQuery(this).val()).css({ 'display': 'flex' });
     });
 
     jQuery('#frmProductDomain').submit(function (e) {
