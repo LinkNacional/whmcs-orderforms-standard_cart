@@ -97,13 +97,15 @@
         background-color: #F7F7F7 !important;
 
     }
-    .input-group{
+
+    .input-group {
         display: flex;
         align-items: center;
     }
-    #registertld{
+
+    #registertld {
         width: 20%;
-        
+
     }
 </style>
 
@@ -225,11 +227,7 @@
                                         data-placement="top" data-trigger="manual"
                                         title="{lang key='orderForm.enterDomain'}" />
                                 </div>
-                                <select id="subdomaintld" class="form-control mb-2">
-                                    {foreach $subdomains as $subid => $subdomain}
-                                        <option value="{$subid}">{$subdomain}</option>
-                                    {/foreach}
-                                </select>
+
                                 <button type="submit" class="btn btn-primary">
                                     {$LANG.orderForm.check}
                                 </button>
@@ -246,12 +244,7 @@
                                 autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
                                 title="{lang key='orderForm.enterDomain'}" />
                         </div>
-                        <select id="registertld" class="form-control mb-2">
-                            {foreach from=$registertlds item=listtld}
-                                <option value="{$listtld}" {if $listtld eq $tld} selected="selected" {/if}>{$listtld}
-                                </option>
-                            {/foreach}
-                        </select>
+
                         <button type="submit" class="btn btn-primary">
                             {$LANG.orderForm.check}
                         </button>
@@ -281,12 +274,7 @@
                                 autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
                                 title="{lang key='orderForm.enterDomain'}" />
                         </div>
-                        <select id="transfertld" class="form-control mb-2">
-                            {foreach from=$transfertlds item=listtld}
-                                <option value="{$listtld}" {if $listtld eq $tld} selected="selected" {/if}>{$listtld}
-                                </option>
-                            {/foreach}
-                        </select>
+
                         <button type="submit" class="btn btn-primary">
                             {$LANG.orderForm.transfer}
                         </button>
@@ -342,6 +330,10 @@
                                     {lang key='orderForm.domainLetterOrNumber'}<span
                                         class="domain-length-restrictions">{lang key='orderForm.domainLengthRequirements'}</span><br />
                                     {lang key='orderForm.domainInvalidCheckEntry'}
+                                </p>
+                            </div>
+                            <div class="domain-tld-unavailable">
+                                <p class="domain-checker-unavailable headline">{lang key='orderForm.domainNotSupported'}
                                 </p>
                             </div>
                             <div id="idnLanguageSelector" class="margin-10 idn-language-selector idn-language w-hidden">
