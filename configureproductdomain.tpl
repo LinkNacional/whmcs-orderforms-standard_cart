@@ -80,7 +80,7 @@
         width: 100%;
         margin: 0;
         padding: 0;
-        display: flex;
+        display: none;
     }
 
     #order-standard_cart .domain-selection-options .option {
@@ -106,6 +106,14 @@
     #registertld {
         width: 20%;
 
+    }
+
+    .auto {
+        width: auto;
+    }
+
+    .mw-100 {
+        width: 100%;
     }
 </style>
 
@@ -236,44 +244,40 @@
 
 
                 <div class="domain-input-group" id="domainregister">
-                    <div class="input-group input-group-lg input-group-box">
-                        <span class="input-group-text">{$LANG.orderForm.www}</span>
+                    <div class="input-group input-group-lg input-group-box mw-100">
+                        <span class="input-group-addon auto">{$LANG.orderForm.www}</span>
                         <input type="text" id="registersld" value="{$sld}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual"
+                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="example.com"
                             title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary domain-check-availability">
                         {$LANG.orderForm.check}
                     </button>
                 </div>
 
-                <div class="domain-input-group" id="domainowndomain">
-                    <div class="input-group mb-2">
-                        <span class="input-group-text">{$LANG.orderForm.www}</span>
-                        <input type="text" id="owndomainsld" value="{$sld}"
-                            placeholder="{lang key='yourdomainplaceholder'}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                            title="{lang key='orderForm.enterDomain'}" />
+                <div class="domain-input-group " id="domainowndomain">
+                    <div class="input-group input-group-lg input-group-box mw-100">
+                        <span class="input-group-addon auto">{$LANG.orderForm.www}</span>
+                        <input type="text" id="owndomainsld" value="{$sld}" placeholder="example.com"
+                            class="form-control" autocapitalize="none" data-toggle="tooltip" data-placement="top"
+                            data-trigger="manual" title="{lang key='orderForm.enterDomain'}" />
                     </div>
-                    <input type="text" id="owndomaintld" value="{$tld|substr:1}"
-                        placeholder="{$LANG.yourtldplaceholder}" class="form-control mb-2" autocapitalize="none"
-                        data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                        title="{lang key='orderForm.required'}" />
-                    <button type="submit" class="btn btn-primary">
+
+                    <button type="submit" class="btn btn-primary domain-check-availability">
                         {$LANG.orderForm.use}
                     </button>
                 </div>
 
                 <div class="domain-input-group" id="domaintransfer">
-                    <div class="input-group mb-2">
-                        <span class="input-group-text">{$LANG.orderForm.www}</span>
+                    <div class="input-group input-group-lg input-group-box mw-100">
+                        <span class="input-group-addon auto">{$LANG.orderForm.www}</span>
                         <input type="text" id="transfersld" value="{$sld}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual"
+                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="example.com"
                             title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary domain-check-availability">
                         {$LANG.orderForm.transfer}
                     </button>
                 </div>

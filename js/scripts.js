@@ -2650,6 +2650,33 @@ jQuery(document).ready(function () {
 
         btnDomainContinue.show();
     });
+    $(document).ready(function () {
+        // Função para mostrar o elemento com display flex e !important
+        function showElementAsFlex(selector) {
+            $(selector).get(0).style.setProperty('display', 'flex', 'important');
+        }
+
+        $('.domain-input-group').hide();
+        showElementAsFlex('.domain-input-group:first');
+
+        $('#domainregister button').on('click', function () {
+            $('.domain-input-group').hide();
+            showElementAsFlex('#domainregister');
+        });
+
+        $('#domainowndomain button').on('click', function () {
+            $('.domain-input-group').hide();
+            showElementAsFlex('#domainowndomain');
+        });
+
+        $('#domaintransfer button').on('click', function () {
+            $('.domain-input-group').hide();
+            showElementAsFlex('#domaintransfer');
+        });
+    });
+
+
+
 
     jQuery('#frmProductDomainSelections').on('submit', function (e) {
         var idnLanguage = jQuery('#idnLanguageSelector'),
