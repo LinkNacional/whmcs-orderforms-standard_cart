@@ -180,7 +180,7 @@
                     {/if}
 
                     {if $registerdomainenabled}
-                        <div class="option">
+                        <div class="option option-selected">
                             <div class="options-container d-flex align-items-center mb-2">
                                 <label class="d-flex align-items-center me-3">
                                     <input type="radio" name="domainoption" value="register" id="selregister"
