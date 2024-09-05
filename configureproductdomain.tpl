@@ -3,7 +3,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('image-product').onerror = function() {
             this.onerror = null; // Previne loop infinito se a imagem alternativa também não for encontrada
-            this.src = '/assets/img/products/product.png';
+            this.src = '{$BASE_PATH_IMG}/products/product.png';
             console.log('source:' + this.src);
         };
     });
@@ -150,6 +150,8 @@
         font-size: 17px;
         font-weight: 800;
         padding: 5px;
+        padding-right: 90px;
+        text-transform: uppercase;
         border-color: #aab005;
     }
 
@@ -242,7 +244,7 @@
             <div class="row">
                 <div class="secondary-cart-body-child">
                     <div class="product-domain-info">
-                        <img src="/assets/img/products/{$productinfo.name}.png" class="image-product"
+                        <img src="{$BASE_PATH_IMG}/products/product.png" class="image-product"
                             id="image-product" />
                         <h1>{$productinfo.name}</h1>
                         <h2 class="font-size-18">{$LANG.domaincheckerchoosedomain}</h2>
