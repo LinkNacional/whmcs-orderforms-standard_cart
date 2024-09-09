@@ -1,5 +1,5 @@
 {if in_array($templatefile, ['configureproductdomain', 'configureproduct'])}
-<div class="hidden" id="divProductHasRecommendations" data-value="{$productinfo.hasRecommendations}"></div>
+    <div class="hidden" id="divProductHasRecommendations" data-value="{$productinfo.hasRecommendations}"></div>
 {/if}
 <div class="modal fade" id="recommendationsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -12,15 +12,18 @@
                         {lang key="recommendations.title.addedTo"}
                     {/if}
                 </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <div class="clearfix"></div>
             </div>
             <div class="modal-body">
                 {include file="orderforms/standard_cart/includes/product-recommendations.tpl"}
             </div>
             <div class="modal-footer">
-                <a class="btn btn-primary" href="#" id="btnContinueRecommendationsModal" data-dismiss="modal" role="button">
-                    <span class="w-hidden hidden"><i class="fas fa-spinner fa-spin"></i>&nbsp;</span>{lang key="continue"}
+                <a class="btn btn-primary" href="#" id="btnContinueRecommendationsModal" data-dismiss="modal"
+                    role="button">
+                    <span class="w-hidden hidden"><i
+                            class="fas fa-spinner fa-spin"></i>&nbsp;</span>{lang key="continue"}
                 </a>
             </div>
         </div>
@@ -39,7 +42,8 @@
                 </button>
             </div>
             <div class="expander">
-                <i class="fas fa-chevron-right rotate" data-toggle="tooltip" data-placement="right" title="{lang key="recommendations.learnMore"}"></i>
+                <i class="fas fa-chevron-right rotate" data-toggle="tooltip" data-placement="right"
+                    title="{lang key="recommendations.learnMore"}"></i>
             </div>
             <div class="content">
                 <div class="headline truncate"></div>
@@ -48,6 +52,8 @@
                 </div>
             </div>
         </div>
-        <div class="body clearfix"><p></p></div>
+        <div class="body clearfix">
+            <p></p>
+        </div>
     </div>
 </div>

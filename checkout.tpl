@@ -13,7 +13,22 @@
     window.langPasswordModerate = "{$LANG.pwstrengthmoderate}";
     window.langPasswordStrong = "{$LANG.pwstrengthstrong}";
 </script>
-<style> .card { padding: 20px; border: 1px solid rgba(0, 0, 0, .125) !important; border-radius: .25rem !important;} #order-standard_cart .field, #order-standard_cart .form-control{ font-size:13px; } .cart-body{ width:100% !important; } </style>
+<style>
+    .card {
+        padding: 20px;
+        border: 1px solid rgba(0, 0, 0, .125) !important;
+        border-radius: .25rem !important;
+    }
+
+    #order-standard_cart .field,
+    #order-standard_cart .form-control {
+        font-size: 13px;
+    }
+
+    .cart-body {
+        width: 100% !important;
+    }
+</style>
 <div id="order-standard_cart">
 
     <div class="row">
@@ -22,7 +37,20 @@
         </div-->
         <div class="cart-body">
             <div class="header-lined">
-                <div class="breadcrumb-lkn"> <ul><li class="done">{$LANG.domaincheckerchoosedomain} <hr /></li/><li class="done"><a href="cart.php?a=confproduct&i=0">{$LANG.orderconfigure}</a> <hr /></li><li class="done"><a href="cart.php?a=view">{$LANG.cartreviewcheckout}</a> <hr /></li><li class="ativa">{$LANG.orderForm.checkout}</li></ul></div>
+                <div class="breadcrumb-lkn">
+                    <ul>
+                        <li class="done">{$LANG.domaincheckerchoosedomain}
+                            <hr />
+                        </li />
+                        <li class="done"><a href="cart.php?a=confproduct&i=0">{$LANG.orderconfigure}</a>
+                            <hr />
+                        </li>
+                        <li class="done"><a href="cart.php?a=view">{$LANG.cartreviewcheckout}</a>
+                            <hr />
+                        </li>
+                        <li class="ativa">{$LANG.orderForm.checkout}</li>
+                    </ul>
+                </div>
             </div>
             <div class="header-lined">
                 <h1 class="font-size-36">{$LANG.orderForm.checkout}</h1>
@@ -38,8 +66,8 @@
                         </button>
                         <button type="button" class="btn-checkout" id="btnAlreadyRegistered">
                             {$LANG.orderForm.alreadyRegistered}
-                        </button> 
-                    </div>   
+                        </button>
+                    </div>
                 </div>
             {/if}
 
@@ -63,12 +91,18 @@
                             {lang key='switchAccount.title'}
                         </span>
                     </div -->
-                    <div id="containerExistingAccountSelect" class="row account-select-container" style="margin-bottom: 15px;">
+                    <div id="containerExistingAccountSelect" class="row account-select-container"
+                        style="margin-bottom: 15px;">
                         {foreach $accounts as $account}
                             <div class="col-sm-{if $accounts->count() == 1}12{else}6{/if}">
                                 <div class="account{if $selectedAccountId == $account->id} active{/if}">
                                     <label class="radio-inline" for="account{$account->id}">
-                                        <input id="account{$account->id}" class="account-select{if $account->isClosed || $account->noPermission || $inExpressCheckout} disabled{/if}" type="radio" name="account_id" value="{$account->id}"{if $account->isClosed || $account->noPermission || $inExpressCheckout} disabled="disabled"{/if}{if $selectedAccountId == $account->id} checked="checked"{/if}>
+                                        <input id="account{$account->id}"
+                                            class="account-select{if $account->isClosed || $account->noPermission || $inExpressCheckout} disabled{/if}"
+                                            type="radio" name="account_id" value="{$account->id}"
+                                            {if $account->isClosed || $account->noPermission || $inExpressCheckout}
+                                                disabled="disabled" {/if}{if $selectedAccountId == $account->id} checked="checked"
+                                            {/if}>
                                         <span class="address">
                                             <strong>
                                                 {if $account->company}{$account->company}{else}{$account->fullName}{/if}
@@ -100,122 +134,138 @@
                             </div>
                         {/foreach}
                         <div class="col-sm-12">
-                            <div class="account border-bottom{if !$selectedAccountId || !is_numeric($selectedAccountId)} active{/if}">
+                            <div
+                                class="account border-bottom{if !$selectedAccountId || !is_numeric($selectedAccountId)} active{/if}">
                                 <label class="radio-inline">
-                                    <input class="account-select" type="radio" name="account_id" value="new"{if !$selectedAccountId || !is_numeric($selectedAccountId)} checked="checked"{/if}{if $inExpressCheckout} disabled="disabled" class="disabled"{/if}>
-                                    {lang key='orderForm.createAccount'}
-                                </label>
+                                    <input class="account-select" type="radio" name="account_id" value="new"
+                                        {if !$selectedAccountId || !is_numeric($selectedAccountId)} checked="checked"
+                                            {/if}{if $inExpressCheckout} disabled="disabled" class="disabled" {/if}>
+                                        {lang key='orderForm.createAccount'}
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {/if}
-                {if !$loggedin}
-                    <div id="containerExistingUserSignin"{if $loggedin || $custtype neq "existing"} class="w-hidden"{/if}>
-                        <div class="card mb-4">
-                            <h3 class="card-title">{$LANG.orderForm.existingCustomerLogin}</h3>
+                    {/if}
+                    {if !$loggedin}
+                        <div id="containerExistingUserSignin" {if $loggedin || $custtype neq "existing"} class="w-hidden" {/if}>
+                            <div class="card mb-4">
+                                <h3 class="card-title">{$LANG.orderForm.existingCustomerLogin}</h3>
 
-                            <div class="alert alert-danger w-hidden" id="existingLoginMessage"></div>
+                                <div class="alert alert-danger w-hidden" id="existingLoginMessage"></div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <label for="inputLoginEmail" class="field-icon">
+                                                <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
+                                            </label>
+                                            <input type="text" name="loginemail" id="inputLoginEmail" class="field form-control"
+                                                placeholder="{$LANG.orderForm.emailAddress}" value="{$loginemail}">
+                                        </div>
+                                        <div>
+                                            <label for="inputLoginPassword" class="field-icon">
+                                                <i class="fas fa-lock"></i> {$LANG.clientareapassword}
+                                            </label>
+                                            <input type="password" name="loginpassword" id="inputLoginPassword"
+                                                class="field form-control" placeholder="{$LANG.clientareapassword}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top:15px;">
+                                    <button type="button" id="btnExistingLogin" class="btn btn-primary btn-md">
+                                        <span id="existingLoginButton">{lang key='login'}</span>
+                                        <span id="existingLoginPleaseWait" class="w-hidden">{lang key='pleasewait'}</span>
+                                    </button>
+                                </div>
+
+                                <!-- {include file="orderforms/standard_cart/linkedaccounts.tpl" linkContext="checkout-existing"} -->
+                            </div>
+                        </div>
+                    {/if}
+
+                    <div id="containerNewUserSignup"
+                        {if $custtype === 'existing' || (is_numeric($selectedAccountId) && $selectedAccountId > 0) || ($loggedin && $accounts->count() > 0 && $selectedAccountId !== 'new')}
+                        class="w-hidden" {/if}>
+
+                        <!-- div{if $loggedin} class="w-hidden"{/if}>
+                        {include file="orderforms/standard_cart/linkedaccounts.tpl" linkContext="checkout-new"}
+                    </div -->
+
+                        <div class="card mb-4">
+                            <h3 class="card-title">{$LANG.orderForm.personalInformation}</h3>
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div>
-                                        <label for="inputLoginEmail" class="field-icon">
+                                        <label for="inputFirstName" class="field-icon">
+                                            <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
+                                        </label>
+                                        <input type="text" name="firstname" id="inputFirstName" class="field form-control"
+                                            placeholder="{$LANG.orderForm.firstName}" value="{$clientsdetails.firstname}"
+                                            autofocus>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputLastName" class="field-icon">
+                                            <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
+                                        </label>
+                                        <input type="text" name="lastname" id="inputLastName" class="field form-control"
+                                            placeholder="{$LANG.orderForm.lastName}" value="{$clientsdetails.lastname}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputEmail" class="field-icon">
                                             <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
                                         </label>
-                                        <input type="text" name="loginemail" id="inputLoginEmail" class="field form-control" placeholder="{$LANG.orderForm.emailAddress}" value="{$loginemail}">
+                                        <input type="email" name="email" id="inputEmail" class="field form-control"
+                                            placeholder="{$LANG.orderForm.emailAddress}" value="{$clientsdetails.email}">
                                     </div>
+                                </div>
+                                <div class="col-sm-6">
                                     <div>
-                                        <label for="inputLoginPassword" class="field-icon">
-                                            <i class="fas fa-lock"></i> {$LANG.clientareapassword}
+                                        <label for="inputPhone" class="field-icon">
+                                            <i class="fas fa-phone"></i> {$LANG.orderForm.phoneNumber}
                                         </label>
-                                        <input type="password" name="loginpassword" id="inputLoginPassword" class="field form-control" placeholder="{$LANG.clientareapassword}">
+                                        <input type="tel" name="phonenumber" id="inputPhone" class="field form-control"
+                                            placeholder="{$LANG.orderForm.phoneNumber}"
+                                            value="{$clientsdetails.phonenumber}">
                                     </div>
                                 </div>
                             </div>
-
-                            <div style="margin-top:15px;">
-                                <button type="button" id="btnExistingLogin" class="btn btn-primary btn-md">
-                                    <span id="existingLoginButton">{lang key='login'}</span>
-                                    <span id="existingLoginPleaseWait" class="w-hidden">{lang key='pleasewait'}</span>
-                                </button>
-                            </div>
-
-                            <!-- {include file="orderforms/standard_cart/linkedaccounts.tpl" linkContext="checkout-existing"} -->
                         </div>
-                    </div>
-                {/if}
 
-                <div id="containerNewUserSignup"{if $custtype === 'existing' || (is_numeric($selectedAccountId) && $selectedAccountId > 0) || ($loggedin && $accounts->count() > 0 && $selectedAccountId !== 'new')} class="w-hidden"{/if}>
-
-                    <!-- div{if $loggedin} class="w-hidden"{/if}>
-                        {include file="orderforms/standard_cart/linkedaccounts.tpl" linkContext="checkout-new"}
-                    </div -->
-
-                    <div class="card mb-4">
-                        <h3 class="card-title">{$LANG.orderForm.personalInformation}</h3>
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputFirstName" class="field-icon">
-                                        <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
-                                    </label>
-                                    <input type="text" name="firstname" id="inputFirstName" class="field form-control" placeholder="{$LANG.orderForm.firstName}" value="{$clientsdetails.firstname}" autofocus>
+                        <div class="card mb-4">
+                            <h3 class="card-title">{$LANG.orderForm.billingAddress}</h3>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputCountry" class="field-icon" id="inputCountryIcon">
+                                            <i class="fas fa-globe"></i> {$LANG['orderForm']['country']}
+                                        </label>
+                                        <select name="country" id="inputCountry" class="field form-control">
+                                            {foreach $countries as $countrycode => $countrylabel}
+                                                <option value="{$countrycode}"
+                                                    {if (!$country && $countrycode == $defaultcountry) || $countrycode eq $country}
+                                                    selected{/if}>
+                                                    {$countrylabel}
+                                                </option>
+                                            {/foreach}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputLastName" class="field-icon">
-                                        <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
-                                    </label>
-                                    <input type="text" name="lastname" id="inputLastName" class="field form-control" placeholder="{$LANG.orderForm.lastName}" value="{$clientsdetails.lastname}">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputPostcode" class="field-icon">
+                                            <i class="fas fa-certificate"></i> {$LANG.orderForm.postcode}
+                                        </label>
+                                        <input type="text" name="postcode" id="inputPostcode" class="field form-control"
+                                            placeholder="{$LANG.orderForm.postcode}" value="{$clientsdetails.postcode}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputEmail" class="field-icon">
-                                        <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
-                                    </label>
-                                    <input type="email" name="email" id="inputEmail" class="field form-control" placeholder="{$LANG.orderForm.emailAddress}" value="{$clientsdetails.email}">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputPhone" class="field-icon">
-                                        <i class="fas fa-phone"></i> {$LANG.orderForm.phoneNumber}
-                                    </label>
-                                    <input type="tel" name="phonenumber" id="inputPhone" class="field form-control" placeholder="{$LANG.orderForm.phoneNumber}" value="{$clientsdetails.phonenumber}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card mb-4">
-                        <h3 class="card-title">{$LANG.orderForm.billingAddress}</h3>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputCountry" class="field-icon" id="inputCountryIcon">
-                                        <i class="fas fa-globe"></i> {$LANG['orderForm']['country']}
-                                    </label>
-                                    <select name="country" id="inputCountry" class="field form-control">
-                                        {foreach $countries as $countrycode => $countrylabel}
-                                            <option value="{$countrycode}"{if (!$country && $countrycode == $defaultcountry) || $countrycode eq $country} selected{/if}>
-                                                {$countrylabel}
-                                            </option>
-                                        {/foreach}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputPostcode" class="field-icon">
-                                        <i class="fas fa-certificate"></i> {$LANG.orderForm.postcode}
-                                    </label>
-                                    <input type="text" name="postcode" id="inputPostcode" class="field form-control" placeholder="{$LANG.orderForm.postcode}" value="{$clientsdetails.postcode}">
-                                </div>
-                            </div>
-                            <!--div class="col-sm-12">
+                                <!--div class="col-sm-12">
                                 <!-- div>
                                     <label for="inputCompanyName" class="field-icon">
                                         <i class="fas fa-building"></i>
@@ -223,217 +273,271 @@
                                     <input type="text" name="companyname" id="inputCompanyName" class="field form-control" placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})" value="{$clientsdetails.companyname}">
                                 </div>
                             </div -->
-                            <div class="col-sm-12">
-                                <div>
-                                    <label for="inputAddress1" class="field-icon">
-                                        <i class="far fa-building"></i> {$LANG.orderForm.streetAddress}
-                                    </label>
-                                    <input type="text" name="address1" id="inputAddress1" class="field form-control" placeholder="{$LANG.orderForm.streetAddress}" value="{$clientsdetails.address1}">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div>
-                                    <label for="inputAddress2" class="field-icon">
-                                        <i class="fas fa-map-marker-alt"></i> {$LANG.orderForm.streetAddress2}
-                                    </label>
-                                    <input type="text" name="address2" id="inputAddress2" class="field form-control" placeholder="{$LANG.orderForm.streetAddress2}" value="{$clientsdetails.address2}">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="inputCity" class="field-icon">
-                                        <i class="far fa-building"></i> {$LANG.orderForm.city}
-                                    </label>
-                                    <input type="text" name="city" id="inputCity" class="field form-control" placeholder="{$LANG.orderForm.city}" value="{$clientsdetails.city}">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div>
-                                    <label for="state" class="field-icon" id="inputStateIcon">
-                                        <i class="fas fa-map-signs"></i> {$LANG.orderForm.state}
-                                    </label>
-                                    <label for="stateinput" class="field-icon" id="inputStateIcon">
-                                        <i class="fas fa-map-signs"></i>
-                                    </label>
-                                    <input type="text" name="state" id="inputState" class="field form-control" placeholder="{$LANG.orderForm.state}" value="{$clientsdetails.state}">
-                                </div>
-                            </div>
-                            
-                            {if $showTaxIdField}
-                                <div class="col-sm-12">
-                                    <div class="form-group prepend-icon">
-                                        <label for="inputTaxId" class="field-icon">
-                                            <i class="fas fa-building"></i>
-                                        </label>
-                                        <input type="text" name="tax_id" id="inputTaxId" class="field form-control" placeholder="{$taxLabel} ({$LANG.orderForm.optional})" value="{$clientsdetails.tax_id}">
-                                    </div>
-                                </div>
-                            {/if}
-                        </div>
-                    </div>
-
-                    {if $customfields}
-                        <!-- div class="sub-heading">
-                            <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                        </div>
-                        <div class="field-container">
-                            <div class="row">
-                                {foreach $customfields as $customfield}
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                            {$customfield.input}
-                                            {if $customfield.description}
-                                                <span class="field-help-text">
-                                                    {$customfield.description}
-                                                </span>
-                                            {/if}
-                                        </div>
-                                    </div>
-                                {/foreach}
-                            </div>
-                        </div -->
-                    {/if}
-
-                </div>
-
-                {if $domainsinorder}
-
-                    <div class="card mb-4"><h3 class="card-title">{$LANG.domainregistrantinfo}</h3>
-                        <p class="small text-muted">{$LANG.orderForm.domainAlternativeContact}</p>
-
-                        <div class="row margin-bottom">
-                            <div class="col-sm-6">
-                                <select name="contact" id="inputDomainContact" class="field form-control">
-                                    <option value="">{$LANG.usedefaultcontact}</option>
-                                    {foreach $domaincontacts as $domcontact}
-                                        <option value="{$domcontact.id}"{if $contact == $domcontact.id} selected{/if}>
-                                            {$domcontact.name}
-                                        </option>
-                                    {/foreach}
-                                    <option value="addingnew"{if $contact == "addingnew"} selected{/if}>
-                                        {$LANG.clientareanavaddcontact}...
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div{if $contact neq "addingnew"} class="w-hidden"{/if}>
-                            <div class="row" id="domainRegistrantInputFields">
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputDCFirstName" class="field-icon">
-                                            <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
-                                        </label>
-                                        <input type="text" name="domaincontactfirstname" id="inputDCFirstName" class="field form-control" placeholder="{$LANG.orderForm.firstName}" value="{$domaincontact.firstname}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputDCLastName" class="field-icon">
-                                            <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
-                                        </label>
-                                        <input type="text" name="domaincontactlastname" id="inputDCLastName" class="field form-control" placeholder="{$LANG.orderForm.lastName}" value="{$domaincontact.lastname}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputDCEmail" class="field-icon">
-                                            <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
-                                        </label>
-                                        <input type="email" name="domaincontactemail" id="inputDCEmail" class="field form-control" placeholder="{$LANG.orderForm.emailAddress}" value="{$domaincontact.email}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputDCPhone" class="field-icon">
-                                            <i class="fas fa-phone"></i> {$LANG.orderForm.phoneNumber}
-                                        </label>
-                                        <input type="tel" name="domaincontactphonenumber" id="inputDCPhone" class="field form-control" placeholder="{$LANG.orderForm.phoneNumber}" value="{$domaincontact.phonenumber}">
-                                    </div>
-                                </div>
                                 <div class="col-sm-12">
                                     <div>
-                                        <label for="inputDCCompanyName" class="field-icon">
-                                            <i class="fas fa-building"></i> {$LANG.orderForm.companyName}
-                                        </label>
-                                        <input type="text" name="domaincontactcompanyname" id="inputDCCompanyName" class="field form-control" placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})" value="{$domaincontact.companyname}">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div>
-                                        <label for="inputDCAddress1" class="field-icon">
+                                        <label for="inputAddress1" class="field-icon">
                                             <i class="far fa-building"></i> {$LANG.orderForm.streetAddress}
                                         </label>
-                                        <input type="text" name="domaincontactaddress1" id="inputDCAddress1" class="field form-control" placeholder="{$LANG.orderForm.streetAddress}" value="{$domaincontact.address1}">
+                                        <input type="text" name="address1" id="inputAddress1" class="field form-control"
+                                            placeholder="{$LANG.orderForm.streetAddress}"
+                                            value="{$clientsdetails.address1}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div>
-                                        <label for="inputDCAddress2" class="field-icon">
+                                        <label for="inputAddress2" class="field-icon">
                                             <i class="fas fa-map-marker-alt"></i> {$LANG.orderForm.streetAddress2}
                                         </label>
-                                        <input type="text" name="domaincontactaddress2" id="inputDCAddress2" class="field form-control" placeholder="{$LANG.orderForm.streetAddress2}" value="{$domaincontact.address2}">
+                                        <input type="text" name="address2" id="inputAddress2" class="field form-control"
+                                            placeholder="{$LANG.orderForm.streetAddress2}"
+                                            value="{$clientsdetails.address2}">
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <div>
-                                        <label for="inputDCCity" class="field-icon">
+                                        <label for="inputCity" class="field-icon">
                                             <i class="far fa-building"></i> {$LANG.orderForm.city}
                                         </label>
-                                        <input type="text" name="domaincontactcity" id="inputDCCity" class="field form-control" placeholder="{$LANG.orderForm.city}" value="{$domaincontact.city}">
+                                        <input type="text" name="city" id="inputCity" class="field form-control"
+                                            placeholder="{$LANG.orderForm.city}" value="{$clientsdetails.city}">
                                     </div>
                                 </div>
-                                <div class="col-sm-5">
+                                <div class="col-sm-6">
                                     <div>
-                                        <label for="inputDCState" class="field-icon">
+                                        <label for="state" class="field-icon" id="inputStateIcon">
                                             <i class="fas fa-map-signs"></i> {$LANG.orderForm.state}
                                         </label>
-                                        <input type="text" name="domaincontactstate" id="inputDCState" class="field form-control" placeholder="{$LANG.orderForm.state}" value="{$domaincontact.state}">
+                                        <label for="stateinput" class="field-icon" id="inputStateIcon">
+                                            <i class="fas fa-map-signs"></i>
+                                        </label>
+                                        <input type="text" name="state" id="inputState" class="field form-control"
+                                            placeholder="{$LANG.orderForm.state}" value="{$clientsdetails.state}">
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div>
-                                        <label for="inputDCPostcode" class="field-icon">
-                                            <i class="fas fa-certificate"></i> {$LANG.orderForm.postcode}
-                                        </label>
-                                        <input type="text" name="domaincontactpostcode" id="inputDCPostcode" class="field form-control" placeholder="{$LANG.orderForm.postcode}" value="{$domaincontact.postcode}">
+
+                                {if $showTaxIdField}
+                                    <div class="col-sm-12">
+                                        <div class="form-group prepend-icon">
+                                            <label for="inputTaxId" class="field-icon">
+                                                <i class="fas fa-building"></i>
+                                            </label>
+                                            <input type="text" name="tax_id" id="inputTaxId" class="field form-control"
+                                                placeholder="{$taxLabel} ({$LANG.orderForm.optional})"
+                                                value="{$clientsdetails.tax_id}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div>
-                                        <label for="inputDCCountry" class="field-icon" id="inputCountryIcon">
-                                            <i class="fas fa-globe"></i> {$LANG.orderForm.country}
-                                        </label>
-                                        <select name="domaincontactcountry" id="inputDCCountry" class="field form-control">
-                                            {foreach $countries as $countrycode => $countrylabel}
-                                                <option value="{$countrycode}"{if (!$domaincontact.country && $countrycode == $defaultcountry) || $countrycode eq $domaincontact.country} selected{/if}>
-                                                    {$countrylabel}
+                                {/if}
+                            </div>
+                        </div>
+
+                        {if $customfields}
+                            <!-- div class="sub-heading">
+                                                                            <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                        </div>
+                                                                        <div class="field-container">
+                                                                            <div class="row">
+
+
+
+
+                                {foreach $customfields as $customfield}
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <div class="form-group">
+                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                            {$customfield.input}
+
+
+
+
+                                    {if $customfield.description}
+                                                                                                                                <span class="field-help-text">
+                                                                                                                                    {$customfield.description}
+                                                                                                                                </span>
+
+
+
+
+                                    {/if}
+                                                                                                        </div>
+                                                                                                    </div>
+
+
+
+
+                                {/foreach}
+                                                                            </div>
+                                                                        </div -->
+                            {/if}
+
+                        </div>
+
+                        {if $domainsinorder}
+
+                            <div class="card mb-4">
+                                <h3 class="card-title">{$LANG.domainregistrantinfo}</h3>
+                                <p class="small text-muted">{$LANG.orderForm.domainAlternativeContact}</p>
+
+                                <div class="row margin-bottom">
+                                    <div class="col-sm-6">
+                                        <select name="contact" id="inputDomainContact" class="field form-control">
+                                            <option value="">{$LANG.usedefaultcontact}</option>
+                                            {foreach $domaincontacts as $domcontact}
+                                                <option value="{$domcontact.id}" {if $contact == $domcontact.id} selected{/if}>
+                                                    {$domcontact.name}
                                                 </option>
                                             {/foreach}
+                                            <option value="addingnew" {if $contact == "addingnew"} selected{/if}>
+                                                {$LANG.clientareanavaddcontact}...
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    <div>
-                                        <label for="inputDCTaxId" class="field-icon">
-                                            <i class="fas fa-building"></i> {$taxLabel} ({$LANG.orderForm.optional})
-                                        </label>
-                                        <input type="text" name="domaincontacttax_id" id="inputDCTaxId" class="field form-control" placeholder="{$taxLabel} ({$LANG.orderForm.optional})" value="{$domaincontact.tax_id}">
+
+                                <div{if $contact neq "addingnew"} class="w-hidden" {/if}>
+                                    <div class="row" id="domainRegistrantInputFields">
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <label for="inputDCFirstName" class="field-icon">
+                                                    <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
+                                                </label>
+                                                <input type="text" name="domaincontactfirstname" id="inputDCFirstName"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.firstName}"
+                                                    value="{$domaincontact.firstname}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <label for="inputDCLastName" class="field-icon">
+                                                    <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
+                                                </label>
+                                                <input type="text" name="domaincontactlastname" id="inputDCLastName"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.lastName}"
+                                                    value="{$domaincontact.lastname}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <label for="inputDCEmail" class="field-icon">
+                                                    <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
+                                                </label>
+                                                <input type="email" name="domaincontactemail" id="inputDCEmail"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.emailAddress}"
+                                                    value="{$domaincontact.email}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <label for="inputDCPhone" class="field-icon">
+                                                    <i class="fas fa-phone"></i> {$LANG.orderForm.phoneNumber}
+                                                </label>
+                                                <input type="tel" name="domaincontactphonenumber" id="inputDCPhone"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.phoneNumber}"
+                                                    value="{$domaincontact.phonenumber}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div>
+                                                <label for="inputDCCompanyName" class="field-icon">
+                                                    <i class="fas fa-building"></i> {$LANG.orderForm.companyName}
+                                                </label>
+                                                <input type="text" name="domaincontactcompanyname" id="inputDCCompanyName"
+                                                    class="field form-control"
+                                                    placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})"
+                                                    value="{$domaincontact.companyname}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div>
+                                                <label for="inputDCAddress1" class="field-icon">
+                                                    <i class="far fa-building"></i> {$LANG.orderForm.streetAddress}
+                                                </label>
+                                                <input type="text" name="domaincontactaddress1" id="inputDCAddress1"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.streetAddress}"
+                                                    value="{$domaincontact.address1}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div>
+                                                <label for="inputDCAddress2" class="field-icon">
+                                                    <i class="fas fa-map-marker-alt"></i> {$LANG.orderForm.streetAddress2}
+                                                </label>
+                                                <input type="text" name="domaincontactaddress2" id="inputDCAddress2"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.streetAddress2}"
+                                                    value="{$domaincontact.address2}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div>
+                                                <label for="inputDCCity" class="field-icon">
+                                                    <i class="far fa-building"></i> {$LANG.orderForm.city}
+                                                </label>
+                                                <input type="text" name="domaincontactcity" id="inputDCCity"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.city}"
+                                                    value="{$domaincontact.city}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div>
+                                                <label for="inputDCState" class="field-icon">
+                                                    <i class="fas fa-map-signs"></i> {$LANG.orderForm.state}
+                                                </label>
+                                                <input type="text" name="domaincontactstate" id="inputDCState"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.state}"
+                                                    value="{$domaincontact.state}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div>
+                                                <label for="inputDCPostcode" class="field-icon">
+                                                    <i class="fas fa-certificate"></i> {$LANG.orderForm.postcode}
+                                                </label>
+                                                <input type="text" name="domaincontactpostcode" id="inputDCPostcode"
+                                                    class="field form-control" placeholder="{$LANG.orderForm.postcode}"
+                                                    value="{$domaincontact.postcode}">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div>
+                                                <label for="inputDCCountry" class="field-icon" id="inputCountryIcon">
+                                                    <i class="fas fa-globe"></i> {$LANG.orderForm.country}
+                                                </label>
+                                                <select name="domaincontactcountry" id="inputDCCountry" class="field form-control">
+                                                    {foreach $countries as $countrycode => $countrylabel}
+                                                        <option value="{$countrycode}"
+                                                            {if (!$domaincontact.country && $countrycode == $defaultcountry) || $countrycode eq $domaincontact.country}
+                                                            selected{/if}>
+                                                            {$countrylabel}
+                                                        </option>
+                                                    {/foreach}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div>
+                                                <label for="inputDCTaxId" class="field-icon">
+                                                    <i class="fas fa-building"></i> {$taxLabel} ({$LANG.orderForm.optional})
+                                                </label>
+                                                <input type="text" name="domaincontacttax_id" id="inputDCTaxId"
+                                                    class="field form-control"
+                                                    placeholder="{$taxLabel} ({$LANG.orderForm.optional})"
+                                                    value="{$domaincontact.tax_id}">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
-                        </div>
                     </div>
 
                 {/if}
 
                 {if !$loggedin}
 
-                    <div id="containerNewUserSecurity"{if (!$loggedin && $custtype eq "existing") || ($remote_auth_prelinked && !$securityquestions)} class="w-hidden"{/if}>
+                    <div id="containerNewUserSecurity"
+                        {if (!$loggedin && $custtype eq "existing") || ($remote_auth_prelinked && !$securityquestions)}
+                        class="w-hidden" {/if}>
 
 
-                        <div class="card mb-4"><h3 class="card-title">{$LANG.orderForm.accountSecurity}</h3>
+                        <div class="card mb-4">
+                            <h3 class="card-title">{$LANG.orderForm.accountSecurity}</h3>
 
                             <div id="containerPassword" class="row{if $remote_auth_prelinked && $securityquestions} w-hidden{/if}">
                                 <div id="passwdFeedback" class="alert alert-info text-center col-sm-12 w-hidden"></div>
@@ -442,7 +546,11 @@
                                         <label for="inputNewPassword1" class="field-icon">
                                             <i class="fas fa-lock"></i> {$LANG.clientareaconfirmpassword}
                                         </label>
-                                        <input type="password" name="password" id="inputNewPassword1" data-error-threshold="{$pwStrengthErrorThreshold}" data-warning-threshold="{$pwStrengthWarningThreshold}" class="field form-control" placeholder="{$LANG.clientareapassword}"{if $remote_auth_prelinked} value="{$password}"{/if}>
+                                        <input type="password" name="password" id="inputNewPassword1"
+                                            data-error-threshold="{$pwStrengthErrorThreshold}"
+                                            data-warning-threshold="{$pwStrengthWarningThreshold}" class="field form-control"
+                                            placeholder="{$LANG.clientareapassword}" {if $remote_auth_prelinked} value="{$password}"
+                                            {/if}>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -450,7 +558,9 @@
                                         <label for="inputNewPassword2" class="field-icon">
                                             <i class="fas fa-lock"></i> {$LANG.clientareaconfirmpassword}
                                         </label>
-                                        <input type="password" name="password2" id="inputNewPassword2" class="field form-control" placeholder="{$LANG.clientareaconfirmpassword}"{if $remote_auth_prelinked} value="{$password}"{/if}>
+                                        <input type="password" name="password2" id="inputNewPassword2" class="field form-control"
+                                            placeholder="{$LANG.clientareaconfirmpassword}" {if $remote_auth_prelinked}
+                                            value="{$password}" {/if}>
                                     </div>
                                 </div>
                                 <!-- div class="col-sm-6">
@@ -461,10 +571,13 @@
                                 <div class="col-sm-6">
                                     <div class="password-strength-meter">
                                         <div class="progress">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="passwordStrengthMeterBar">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                                id="passwordStrengthMeterBar">
                                             </div>
                                         </div>
-                                        <p class="text-center small text-muted" id="passwordStrengthTextLabel">{$LANG.pwstrength}: {$LANG.pwstrengthenter}</p>
+                                        <p class="text-center small text-muted" id="passwordStrengthTextLabel">{$LANG.pwstrength}:
+                                            {$LANG.pwstrengthenter}</p>
                                     </div>
                                 </div>
                             </div>
@@ -474,7 +587,7 @@
                                         <select name="securityqid" id="inputSecurityQId" class="field form-control">
                                             <option value="">{$LANG.clientareasecurityquestion}</option>
                                             {foreach $securityquestions as $question}
-                                                <option value="{$question.id}"{if $question.id eq $securityqid} selected{/if}>
+                                                <option value="{$question.id}" {if $question.id eq $securityqid} selected{/if}>
                                                     {$question.question}
                                                 </option>
                                             {/foreach}
@@ -485,13 +598,14 @@
                                             <label for="inputSecurityQAns" class="field-icon">
                                                 <i class="fas fa-lock"></i>
                                             </label>
-                                            <input type="password" name="securityqans" id="inputSecurityQAns" class="field form-control" placeholder="{$LANG.clientareasecurityanswer}">
+                                            <input type="password" name="securityqans" id="inputSecurityQAns" class="field form-control"
+                                                placeholder="{$LANG.clientareasecurityanswer}">
                                         </div>
                                     </div>
                                 </div>
                             {/if}
-                            </div>
                         </div>
+                    </div>
                 {/if}
 
                 {foreach $hookOutput as $output}
@@ -500,26 +614,32 @@
                     </div>
                 {/foreach}
 
-                <div class="card mb-4"><h3 class="card-title">{$LANG.orderForm.paymentDetails}</h3>
+                <div class="card mb-4">
+                    <h3 class="card-title">{$LANG.orderForm.paymentDetails}</h3>
 
                     <div class="alert alert-success text-center large-text" role="alert" id="totalDueToday">
                         {$LANG.ordertotalduetoday}: &nbsp; <strong id="totalCartPrice">{$total}</strong>
                     </div>
 
-                    <div id="applyCreditContainer" class="apply-credit-container{if !$canUseCreditOnCheckout} w-hidden{/if}" data-apply-credit="{$applyCredit}">
+                    <div id="applyCreditContainer" class="apply-credit-container{if !$canUseCreditOnCheckout} w-hidden{/if}"
+                        data-apply-credit="{$applyCredit}">
                         <p>{lang key='cart.availableCreditBalance' amount=$creditBalance}</p>
 
                         <label class="radio">
-                            <input id="useCreditOnCheckout" type="radio" name="applycredit" value="1"{if $applyCredit} checked{/if}>
-                            <span id="spanFullCredit"{if !($creditBalance->toNumeric() >= $total->toNumeric())} class="w-hidden"{/if}>
+                            <input id="useCreditOnCheckout" type="radio" name="applycredit" value="1" {if $applyCredit}
+                                checked{/if}>
+                            <span id="spanFullCredit" {if !($creditBalance->toNumeric() >= $total->toNumeric())}
+                                class="w-hidden" {/if}>
                                 {lang key='cart.applyCreditAmountNoFurtherPayment' amount=$total}
                             </span>
-                            <span id="spanUseCredit"{if $creditBalance->toNumeric() >= $total->toNumeric()} class="w-hidden"{/if}>
+                            <span id="spanUseCredit" {if $creditBalance->toNumeric() >= $total->toNumeric()} class="w-hidden"
+                                {/if}>
                                 {lang key='cart.applyCreditAmount' amount=$creditBalance}
                             </span>
                         </label>
                         <label class="radio">
-                            <input id="skipCreditOnCheckout" type="radio" name="applycredit" value="0"{if !$applyCredit} checked{/if}>
+                            <input id="skipCreditOnCheckout" type="radio" name="applycredit" value="0" {if !$applyCredit}
+                                checked{/if}>
                             {lang key='cart.applyCreditSkip' amount=$creditBalance}
                         </label>
                     </div>
@@ -531,15 +651,11 @@
                             <div class="text-center">
                                 {foreach $gateways as $gateway}
                                     <label class="radio-inline">
-                                        <input type="radio"
-                                            name="paymentmethod"
-                                            value="{$gateway.sysname}"
-                                            data-payment-type="{$gateway.payment_type}"
-                                            data-show-local="{$gateway.show_local_cards}"
+                                        <input type="radio" name="paymentmethod" value="{$gateway.sysname}"
+                                            data-payment-type="{$gateway.payment_type}" data-show-local="{$gateway.show_local_cards}"
                                             data-remote-inputs="{$gateway.uses_remote_inputs}"
                                             class="payment-methods{if $gateway.type eq "CC"} is-credit-card{/if}"
-                                                {if $selectedgateway eq $gateway.sysname} checked{/if}
-                                        />
+                                            {if $selectedgateway eq $gateway.sysname} checked{/if} />
                                         {$gateway.name}
                                     </label>
                                 {/foreach}
@@ -565,9 +681,12 @@
                                             <i class="fas fa-barcode"></i>
                                         </label>
                                         <div class="input-group">
-                                            <input type="tel" name="cccvv" id="inputCardCVV2" class="field form-control" placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
+                                            <input type="tel" name="cccvv" id="inputCardCVV2" class="field form-control"
+                                                placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
                                             <span class="input-group-btn input-group-append">
-                                                <button type="button" class="btn btn-default" data-toggle="popover" data-placement="bottom" data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
+                                                <button type="button" class="btn btn-default" data-toggle="popover"
+                                                    data-placement="bottom"
+                                                    data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
                                                     ?
                                                 </button>
                                             </span>
@@ -580,7 +699,8 @@
                             <ul>
                                 <li>
                                     <label class="radio-inline">
-                                        <input type="radio" name="ccinfo" value="new" id="new" {if !$client || $client->payMethods->count() === 0} checked="checked"{/if} />
+                                        <input type="radio" name="ccinfo" value="new" id="new"
+                                            {if !$client || $client->payMethods->count() === 0} checked="checked" {/if} />
                                         &nbsp;
                                         {lang key='creditcardenternewcard'}
                                     </label>
@@ -593,7 +713,12 @@
                                         <label for="inputCardNumber" class="field-icon">
                                             <i class="fas fa-credit-card"></i>
                                         </label>
-                                        <input type="tel" name="ccnumber" id="inputCardNumber" class="field form-control cc-number-field" placeholder="{$LANG.orderForm.cardNumber}" autocomplete="cc-number" data-message-unsupported="{lang key='paymentMethodsManage.unsupportedCardType'}" data-message-invalid="{lang key='paymentMethodsManage.cardNumberNotValid'}" data-supported-cards="{$supportedCardTypes}" />
+                                        <input type="tel" name="ccnumber" id="inputCardNumber"
+                                            class="field form-control cc-number-field" placeholder="{$LANG.orderForm.cardNumber}"
+                                            autocomplete="cc-number"
+                                            data-message-unsupported="{lang key='paymentMethodsManage.unsupportedCardType'}"
+                                            data-message-invalid="{lang key='paymentMethodsManage.cardNumberNotValid'}"
+                                            data-supported-cards="{$supportedCardTypes}" />
                                         <span class="field-error-msg"></span>
                                     </div>
                                 </div>
@@ -602,7 +727,9 @@
                                         <label for="inputCardExpiry" class="field-icon">
                                             <i class="fas fa-calendar-alt"></i>
                                         </label>
-                                        <input type="tel" name="ccexpirydate" id="inputCardExpiry" class="field form-control" placeholder="MM / YY{if $showccissuestart} ({$LANG.creditcardcardexpires}){/if}" autocomplete="cc-exp">
+                                        <input type="tel" name="ccexpirydate" id="inputCardExpiry" class="field form-control"
+                                            placeholder="MM / YY{if $showccissuestart} ({$LANG.creditcardcardexpires}){/if}"
+                                            autocomplete="cc-exp">
                                         <span class="field-error-msg">{lang key="paymentMethodsManage.expiryDateNotValid"}</span>
                                     </div>
                                 </div>
@@ -612,9 +739,12 @@
                                             <i class="fas fa-barcode"></i>
                                         </label>
                                         <div class="input-group">
-                                            <input type="tel" name="cccvv" id="inputCardCVV" class="field form-control" placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
+                                            <input type="tel" name="cccvv" id="inputCardCVV" class="field form-control"
+                                                placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
                                             <span class="input-group-btn input-group-append">
-                                                <button type="button" class="btn btn-default" data-toggle="popover" data-placement="bottom" data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
+                                                <button type="button" class="btn btn-default" data-toggle="popover"
+                                                    data-placement="bottom"
+                                                    data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
                                                     ?
                                                 </button>
                                             </span><br>
@@ -628,7 +758,8 @@
                                             <label for="inputCardStart" class="field-icon">
                                                 <i class="far fa-calendar-check"></i>
                                             </label>
-                                            <input type="tel" name="ccstartdate" id="inputCardStart" class="field form-control" placeholder="MM / YY ({$LANG.creditcardcardstart})" autocomplete="cc-exp">
+                                            <input type="tel" name="ccstartdate" id="inputCardStart" class="field form-control"
+                                                placeholder="MM / YY ({$LANG.creditcardcardstart})" autocomplete="cc-exp">
                                         </div>
                                     </div>
                                     <div class="col-sm-3 new-card-container">
@@ -636,7 +767,8 @@
                                             <label for="inputCardIssue" class="field-icon">
                                                 <i class="fas fa-asterisk"></i>
                                             </label>
-                                            <input type="tel" name="ccissuenum" id="inputCardIssue" class="field form-control" placeholder="{$LANG.creditcardcardissuenum}">
+                                            <input type="tel" name="ccissuenum" id="inputCardIssue" class="field form-control"
+                                                placeholder="{$LANG.creditcardcardissuenum}">
                                         </div>
                                     </div>
                                 {/if}
@@ -648,13 +780,17 @@
                                             <label for="inputDescription" class="field-icon">
                                                 <i class="fas fa-pencil"></i>
                                             </label>
-                                            <input type="text" class="field form-control" id="inputDescription" name="ccdescription" autocomplete="off" value="" placeholder="{$LANG.paymentMethods.descriptionInput} {$LANG.paymentMethodsManage.optional}" />
+                                            <input type="text" class="field form-control" id="inputDescription" name="ccdescription"
+                                                autocomplete="off" value=""
+                                                placeholder="{$LANG.paymentMethods.descriptionInput} {$LANG.paymentMethodsManage.optional}" />
                                         </div>
                                     </div>
                                     {if $allowClientsToRemoveCards}
                                         <div id="inputNoStoreContainer" class="col-md-6" style="line-height: 32px;">
                                             <input type="hidden" name="nostore" value="1">
-                                            <input type="checkbox" class="toggle-switch-success no-icheck" data-size="mini" checked="checked" name="nostore" id="inputNoStore" value="0" data-on-text="{lang key='yes'}" data-off-text="{lang key='no'}">
+                                            <input type="checkbox" class="toggle-switch-success no-icheck" data-size="mini"
+                                                checked="checked" name="nostore" id="inputNoStore" value="0"
+                                                data-on-text="{lang key='yes'}" data-off-text="{lang key='no'}">
                                             <label for="inputNoStore" class="checkbox-inline no-padding">
                                                 &nbsp;&nbsp;
                                                 {$LANG.creditCardStore}
@@ -676,11 +812,13 @@
                 {/if}
 
                 {if $shownotesfield}
-                    <div class="card mb-4"><h3 class="card-title">{$LANG.orderForm.additionalNotes}</h3>
+                    <div class="card mb-4">
+                        <h3 class="card-title">{$LANG.orderForm.additionalNotes}</h3>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <textarea name="notes" class="field form-control" rows="4" placeholder="{$LANG.ordernotesdescription}">{$orderNotes}</textarea>
+                                    <textarea name="notes" class="field form-control" rows="4"
+                                        placeholder="{$LANG.ordernotesdescription}">{$orderNotes}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -691,7 +829,9 @@
                     <div class="marketing-email-optin">
                         <h4 class="font-size-18">{lang key='emailMarketing.joinOurMailingList'}</h4>
                         <p>{$marketingEmailOptInMessage}</p>
-                        <input type="checkbox" name="marketingoptin" value="1"{if $marketingEmailOptIn} checked{/if} class="no-icheck toggle-switch-success" data-size="small" data-on-text="{lang key='yes'}" data-off-text="{lang key='no'}">
+                        <input type="checkbox" name="marketingoptin" value="1" {if $marketingEmailOptIn} checked{/if}
+                            class="no-icheck toggle-switch-success" data-size="small" data-on-text="{lang key='yes'}"
+                            data-off-text="{lang key='no'}">
                     </div>
                 {/if}
 
@@ -713,29 +853,28 @@
                     {/if}
 
                     <button style="background-color:#DAE300;border:none;color:#343B45;width:100%;" type="submit"
-                            id="btnCompleteOrder"
-                            class="btn btn-primary btn-lg disable-on-click spinner-on-click{if $captcha}{$captcha->getButtonClass($captchaForm)}{/if}"
-                            {if $cartitems==0}disabled="disabled"{/if}
-                    >
+                        id="btnCompleteOrder"
+                        class="btn btn-primary btn-lg disable-on-click spinner-on-click{if $captcha}{$captcha->getButtonClass($captchaForm)}{/if}"
+                        {if $cartitems==0}disabled="disabled" {/if}>
                         {if $inExpressCheckout}{$LANG.confirmAndPay}{else}{$LANG.completeorder}{/if}
                         &nbsp;<i class="fas fa-arrow-circle-right"></i>
                     </button>
                 </div>
-            </form>
+                </form>
 
-            {if $servedOverSsl}
-                <!-- div class="alert alert-warning checkout-security-msg">
+                {if $servedOverSsl}
+                    <!-- div class="alert alert-warning checkout-security-msg">
                     <i class="fas fa-lock"></i>
                     {$LANG.ordersecure} (<strong>{$ipaddress}</strong>) {$LANG.ordersecure2}
                     <div class="clearfix"></div>
                 </div -->
-            {/if}
+                {/if}
+            </div>
         </div>
-    </div>
-</div>
+        </div>
 
-<script type="text/javascript" src="{$BASE_PATH_JS}/jquery.payment.js"></script>
-<script>
-    var hideCvcOnCheckoutForExistingCard = '{if $canUseCreditOnCheckout && $applyCredit && ($creditBalance->toNumeric() >= $total->toNumeric())}1{else}0{/if}';
-</script>
-{include file="orderforms/standard_cart/recommendations-modal.tpl"}
+        <script type="text/javascript" src="{$BASE_PATH_JS}/jquery.payment.js"></script>
+        <script>
+            var hideCvcOnCheckoutForExistingCard = '{if $canUseCreditOnCheckout && $applyCredit && ($creditBalance->toNumeric() >= $total->toNumeric())}1{else}0{/if}';
+        </script>
+        {include file="orderforms/standard_cart/recommendations-modal.tpl"}

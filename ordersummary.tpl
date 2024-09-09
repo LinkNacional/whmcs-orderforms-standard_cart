@@ -1,5 +1,6 @@
 {if $producttotals}
-    <span class="product-name">{if $producttotals.allowqty && $producttotals.qty > 1}{$producttotals.qty} x {/if}{$producttotals.productinfo.name}</span>
+    <span class="product-name">{if $producttotals.allowqty && $producttotals.qty > 1}{$producttotals.qty} x
+        {/if}{$producttotals.productinfo.name}</span>
     <span class="product-group">{$producttotals.productinfo.groupname}</span>
 
     <div class="clearfix">
@@ -11,7 +12,8 @@
         {if $configoption}
             <div class="clearfix">
                 <span class="pull-left float-left">&nbsp;&raquo; {$configoption.name}: {$configoption.optionname}</span>
-                <span class="pull-right float-right">{$configoption.recurring}{if $configoption.setup} + {$configoption.setup} {$LANG.ordersetupfee}{/if}</span>
+                <span class="pull-right float-right">{$configoption.recurring}{if $configoption.setup} + {$configoption.setup}
+                    {$LANG.ordersetupfee}{/if}</span>
             </div>
         {/if}
     {/foreach}
@@ -76,7 +78,8 @@
                         </div>
                         <div>
                             {$serviceRenewal.recurringBeforeTax}
-                            <a onclick="removeItem('r','{$serviceId}','service'); return false;" href="#" id="linkCartRemoveServiceRenewal{$serviceId}">
+                            <a onclick="removeItem('r','{$serviceId}','service'); return false;" href="#"
+                                id="linkCartRemoveServiceRenewal{$serviceId}">
                                 <i class="fas fa-fw fa-trash-alt"></i>
                             </a>
                         </div>
@@ -102,7 +105,8 @@
                         </div>
                         <div>
                             {$serviceAddonRenewal.recurringBeforeTax}
-                            <a onclick="removeItem('r','{$serviceAddonId}','addon'); return false;" href="#" id="linkCartRemoveServiceAddonRenewal{$serviceAddonId}">
+                            <a onclick="removeItem('r','{$serviceAddonId}','addon'); return false;" href="#"
+                                id="linkCartRemoveServiceAddonRenewal{$serviceAddonId}">
                                 <i class="fas fa-fw fa-trash-alt"></i>
                             </a>
                         </div>
@@ -115,11 +119,13 @@
         {foreach $carttotals.renewalsByType.domains as $domainId => $renewal}
             <div class="clearfix" id="cartDomainRenewal{$domainId}">
                 <span class="pull-left float-left">
-                    {$renewal.domain} - {$renewal.regperiod} {if $renewal.regperiod == 1}{lang key='orderForm.year'}{else}{lang key='orderForm.years'}{/if}
+                    {$renewal.domain} - {$renewal.regperiod}
+                    {if $renewal.regperiod == 1}{lang key='orderForm.year'}{else}{lang key='orderForm.years'}{/if}
                 </span>
                 <span class="pull-right float-right">
                     {$renewal.priceBeforeTax}
-                    <a onclick="removeItem('r','{$domainId}','domain'); return false;" href="#" id="linkCartRemoveDomainRenewal{$domainId}">
+                    <a onclick="removeItem('r','{$domainId}','domain'); return false;" href="#"
+                        id="linkCartRemoveDomainRenewal{$domainId}">
                         <i class="fas fa-fw fa-trash-alt"></i>
                     </a>
                 </span>

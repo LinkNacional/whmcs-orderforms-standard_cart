@@ -25,7 +25,8 @@
                         </span>
                     </button-->
                     {if $totalResults > 5}
-                        <input id="serviceRenewalFilter" type="search" class="service-renewals-filter form-control" placeholder="{lang key='renewService.searchPlaceholder'}">
+                        <input id="serviceRenewalFilter" type="search" class="service-renewals-filter form-control"
+                            placeholder="{lang key='renewService.searchPlaceholder'}">
                     {/if}
                 </div>
             </div>
@@ -88,7 +89,8 @@
                 <div class="modal-content">
                     <div class="modal-header d-block">
                         <h4 class="modal-title">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="{lang key='orderForm.close'}">
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="{lang key='orderForm.close'}">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <i class="fas fa-times fa-3x"></i>
@@ -107,4 +109,6 @@
         </div>
     </form>
 </div>
-<script>recalculateRenewalTotals();</script>
+<script>
+    recalculateRenewalTotals();
+</script>

@@ -1,6 +1,8 @@
 {include file="orderforms/standard_cart/common.tpl"}
 <style>
-.sidebar-collapsed{ display:none; } 
+    .sidebar-collapsed {
+        display: none;
+    }
 </style>
 
 <div id="order-standard_cart">
@@ -26,9 +28,14 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2 offset-md-2 col-xs-10 col-xs-offset-1 col-10 offset-1">
                                 <div class="input-group input-group-lg input-group-box">
-                                    <input type="text" name="domain" class="form-control" placeholder="{$LANG.findyourdomain}" value="{$lookupTerm}" id="inputDomain" data-toggle="tooltip" data-placement="left" data-trigger="manual" title="{lang key='orderForm.domainOrKeyword'}" />
+                                    <input type="text" name="domain" class="form-control"
+                                        placeholder="{$LANG.findyourdomain}" value="{$lookupTerm}" id="inputDomain"
+                                        data-toggle="tooltip" data-placement="left" data-trigger="manual"
+                                        title="{lang key='orderForm.domainOrKeyword'}" />
                                     <span class="input-group-btn input-group-append">
-                                        <button type="submit" id="btnCheckAvailability" class="btn btn-primary domain-check-availability{$captcha->getButtonClass($captchaForm)}" style="background-color:#dae300;border:0;color:black;">{$LANG.search}</button>
+                                        <button type="submit" id="btnCheckAvailability"
+                                            class="btn btn-primary domain-check-availability{$captcha->getButtonClass($captchaForm)}"
+                                            style="background-color:#dae300;border:0;color:black;">{$LANG.search}</button>
                                     </span>
                                 </div>
                             </div>
@@ -45,8 +52,12 @@
                                             <div class="default-captcha default-captcha-register-margin">
                                                 <p>{lang key="cartSimpleCaptcha"}</p>
                                                 <div>
-                                                    <img id="inputCaptchaImage" src="{$systemurl}includes/verifyimage.php" align="middle" />
-                                                    <input id="inputCaptcha" type="text" name="code" maxlength="6" class="form-control input-sm" data-toggle="tooltip" data-placement="right" data-trigger="manual" title="{lang key='orderForm.required'}" />
+                                                    <img id="inputCaptchaImage" src="{$systemurl}includes/verifyimage.php"
+                                                        align="middle" />
+                                                    <input id="inputCaptcha" type="text" name="code" maxlength="6"
+                                                        class="form-control input-sm" data-toggle="tooltip"
+                                                        data-placement="right" data-trigger="manual"
+                                                        title="{lang key='orderForm.required'}" />
                                                 </div>
                                             </div>
                                         {/if}
@@ -59,12 +70,20 @@
             </div>
 
             <div id="DomainSearchResults" class="w-hidden">
-                <div id="searchDomainInfo" class="domain-checker-result-headline" style="padding: 30px 0 50px 0;background-color: #f8f8f8;margin: 0;">
-                    <p id="primaryLookupSearching" class="domain-lookup-loader domain-lookup-primary-loader domain-searching"><i class="fas fa-spinner fa-spin"></i> {lang key='orderForm.searching'}...</p>
+                <div id="searchDomainInfo" class="domain-checker-result-headline"
+                    style="padding: 30px 0 50px 0;background-color: #f8f8f8;margin: 0;">
+                    <p id="primaryLookupSearching"
+                        class="domain-lookup-loader domain-lookup-primary-loader domain-searching"><i
+                            class="fas fa-spinner fa-spin"></i> {lang key='orderForm.searching'}...</p>
                     <div id="primaryLookupResult" class="domain-lookup-result w-hidden">
-                        <p class="domain-invalid domain-checker-invalid">{lang key='orderForm.domainLetterOrNumber'}<span class="domain-length-restrictions">{lang key='orderForm.domainLengthRequirements'}</span></p>
-                        <p class="domain-unavailable domain-checker-unavailable">{lang key='orderForm.domainIsUnavailable'}</p>
-                        <p class="domain-tld-unavailable domain-checker-unavailable">{lang key='orderForm.domainHasUnavailableTld'}</p>
+                        <p class="domain-invalid domain-checker-invalid">
+                            {lang key='orderForm.domainLetterOrNumber'}<span
+                                class="domain-length-restrictions">{lang key='orderForm.domainLengthRequirements'}</span>
+                        </p>
+                        <p class="domain-unavailable domain-checker-unavailable">
+                            {lang key='orderForm.domainIsUnavailable'}</p>
+                        <p class="domain-tld-unavailable domain-checker-unavailable">
+                            {lang key='orderForm.domainHasUnavailableTld'}</p>
                         <p class="domain-available domain-checker-available">{$LANG.domainavailablemessage}</p>
                         <a class="domain-contact-support btn btn-primary">{$LANG.domainContactUs}</a>
                         <div id="idnLanguageSelector" class="form-group idn-language-selector w-hidden">
@@ -80,7 +99,8 @@
                                     <select name="idnlanguage" class="form-control">
                                         <option value="">{lang key='cart.idnLanguage'}</option>
                                         {foreach $idnLanguages as $idnLanguageKey => $idnLanguage}
-                                            <option value="{$idnLanguageKey}">{lang key='idnLanguage.'|cat:$idnLanguageKey}</option>
+                                            <option value="{$idnLanguageKey}">{lang key='idnLanguage.'|cat:$idnLanguageKey}
+                                            </option>
                                         {/foreach}
                                     </select>
                                     <div class="field-error-msg">
@@ -91,7 +111,8 @@
                         </div>
                         <p class="domain-price">
                             <span class="price"></span>
-                            <button class="btn btn-primary btn-add-to-cart" data-whois="0" data-domain="" style="background-color:#dae300;border:0;color:black;">
+                            <button class="btn btn-primary btn-add-to-cart" data-whois="0" data-domain=""
+                                style="background-color:#dae300;border:0;color:black;">
                                 <span class="to-add">{$LANG.addtocart}</span>
                                 <span class="loading">
                                     <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
@@ -125,12 +146,14 @@
                                                 {lang key='domainunavailable'}
                                             </button>
                                             <span class="available price w-hidden">{$data.register}</span>
-                                            <button type="button" class="btn btn-add-to-cart w-hidden" data-whois="0" data-domain="">
+                                            <button type="button" class="btn btn-add-to-cart w-hidden" data-whois="0"
+                                                data-domain="">
                                                 <span class="to-add">{lang key='orderForm.add'}</span>
                                                 <span class="loading">
                                                     <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
                                                 </span>
-                                                <span class="added"><i class="far fa-shopping-cart"></i> {lang key='checkout'}</span>
+                                                <span class="added"><i class="far fa-shopping-cart"></i>
+                                                    {lang key='checkout'}</span>
                                                 <span class="unavailable">{$LANG.domaincheckertaken}</span>
                                             </button>
                                             <button type="button" class="btn btn-primary domain-contact-support w-hidden">
@@ -148,7 +171,8 @@
                     <div class="panel-heading card-header">
                         <b>{lang key='orderForm.suggestedDomains'}</b>
                     </div>
-                    <div id="suggestionsLoader" class="panel-body card-body domain-lookup-loader domain-lookup-suggestions-loader">
+                    <div id="suggestionsLoader"
+                        class="panel-body card-body domain-lookup-loader domain-lookup-suggestions-loader">
                         <i class="fas fa-spinner fa-spin"></i> {lang key='orderForm.generatingSuggestions'}
                     </div>
                     <div id="domainSuggestions" class="domain-lookup-result list-group w-hidden">
@@ -166,7 +190,8 @@
                                     <span class="loading">
                                         <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
                                     </span>
-                                    <span class="added"><i class="far fa-shopping-cart"></i> {lang key='checkout'}</span>
+                                    <span class="added"><i class="far fa-shopping-cart"></i>
+                                        {lang key='checkout'}</span>
                                     <span class="unavailable">{$LANG.domaincheckertaken}</span>
                                 </button>
                                 <button type="button" class="btn btn-primary domain-contact-support w-hidden">
@@ -175,9 +200,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-footer card-footer more-suggestions w-hidden" style="padding: 0;margin-top: 24px;border: 0;">
-                        <a style="background-color:#f8f8f8;padding:15px;border: 1px solid #dae300;" id="moreSuggestions" href="#" onclick="loadMoreSuggestions();return false;">{lang key='domainsmoresuggestions'}</a>
-                        <span id="noMoreSuggestions" class="no-more small w-hidden">{lang key='domaincheckernomoresuggestions'}</span>
+                    <div class="panel-footer card-footer more-suggestions w-hidden"
+                        style="padding: 0;margin-top: 24px;border: 0;">
+                        <a style="background-color:#f8f8f8;padding:15px;border: 1px solid #dae300;" id="moreSuggestions"
+                            href="#"
+                            onclick="loadMoreSuggestions();return false;">{lang key='domainsmoresuggestions'}</a>
+                        <span id="noMoreSuggestions"
+                            class="no-more small w-hidden">{lang key='domaincheckernomoresuggestions'}</span>
                     </div>
                     <!--div class="text-center text-muted domain-suggestions-warning">
                         <p>{lang key='domainssuggestionswarnings'}</p>
@@ -222,7 +251,9 @@
 
                 <div class="tld-filters">
                     {foreach $categoriesWithCounts as $category => $count}
-                        <a href="#" data-category="{$category}" class="badge badge-secondary">{lang key="domainTldCategory.$category" defaultValue=$category} ({$count})</a>
+                        <a href="#" data-category="{$category}"
+                            class="badge badge-secondary">{lang key="domainTldCategory.$category" defaultValue=$category}
+                            ({$count})</a>
                     {/foreach}
                 </div>
 
@@ -238,7 +269,8 @@
                         </div>
                     </div>
                     {foreach $pricing['pricing'] as $tld => $price}
-                        <div class="row no-gutters tld-row" data-category="{foreach $price.categories as $category}|{$category}|{/foreach}">
+                        <div class="row no-gutters tld-row"
+                            data-category="{foreach $price.categories as $category}|{$category}|{/foreach}">
                             <div class="col-md-4 two-row-center px-4">
                                 <strong>.{$tld}</strong>
                                 {if $price.group}
@@ -252,7 +284,8 @@
                                     <div class="col-xs-4 col-4 text-center">
                                         {if isset($price.register) && current($price.register) > 0}
                                             {current($price.register)}<br>
-                                            <small>{key($price.register)} {if key($price.register) > 1}{lang key="orderForm.years"}{else}{lang key="orderForm.year"}{/if}</small>
+                                            <small>{key($price.register)}
+                                                {if key($price.register) > 1}{lang key="orderForm.years"}{else}{lang key="orderForm.year"}{/if}</small>
                                         {elseif isset($price.register) && current($price.register) == 0}
                                             <small>{lang key='orderfree'}</small>
                                         {else}
@@ -262,7 +295,8 @@
                                     <div class="col-xs-4 col-4 text-center">
                                         {if isset($price.transfer) && current($price.transfer) > 0}
                                             {current($price.transfer)}<br>
-                                            <small>{key($price.transfer)} {if key($price.register) > 1}{lang key="orderForm.years"}{else}{lang key="orderForm.year"}{/if}</small>
+                                            <small>{key($price.transfer)}
+                                                {if key($price.register) > 1}{lang key="orderForm.years"}{else}{lang key="orderForm.year"}{/if}</small>
                                         {elseif isset($price.transfer) && current($price.transfer) == 0}
                                             <small>{lang key='orderfree'}</small>
                                         {else}
@@ -272,7 +306,8 @@
                                     <div class="col-xs-4 col-4 text-center">
                                         {if isset($price.renew) && current($price.renew) > 0}
                                             {current($price.renew)}<br>
-                                            <small>{key($price.renew)} {if key($price.register) > 1}{lang key="orderForm.years"}{else}{lang key="orderForm.year"}{/if}</small>
+                                            <small>{key($price.renew)}
+                                                {if key($price.register) > 1}{lang key="orderForm.years"}{else}{lang key="orderForm.year"}{/if}</small>
                                         {elseif isset($price.renew) && current($price.renew) == 0}
                                             <small>{lang key='orderfree'}</small>
                                         {else}
@@ -335,17 +370,17 @@
 </div>
 
 <script>
-jQuery(document).ready(function() {
-    jQuery('.tld-filters a:first-child').click();
-{if $lookupTerm && !$captchaError && !$invalid}
-    jQuery('#btnCheckAvailability').click();
-{/if}
-{if $invalid}
-    jQuery('#primaryLookupSearching').toggle();
-    jQuery('#primaryLookupResult').children().toggle();
-    jQuery('#primaryLookupResult').toggle();
-    jQuery('#DomainSearchResults').toggle();
-    jQuery('.domain-invalid').toggle();
-{/if}
-});
+    jQuery(document).ready(function() {
+        jQuery('.tld-filters a:first-child').click();
+        {if $lookupTerm && !$captchaError && !$invalid}
+            jQuery('#btnCheckAvailability').click();
+        {/if}
+        {if $invalid}
+            jQuery('#primaryLookupSearching').toggle();
+            jQuery('#primaryLookupResult').children().toggle();
+            jQuery('#primaryLookupResult').toggle();
+            jQuery('#DomainSearchResults').toggle();
+            jQuery('.domain-invalid').toggle();
+        {/if}
+    });
 </script>
