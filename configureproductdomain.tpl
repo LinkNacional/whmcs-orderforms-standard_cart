@@ -4,7 +4,6 @@
         document.getElementById('image-product').onerror = function() {
             this.onerror = null; // Previne loop infinito se a imagem alternativa também não for encontrada
             this.src = '{$BASE_PATH_IMG}/products/product.png';
-            console.log('source:' + this.src);
         };
     });
 </script>

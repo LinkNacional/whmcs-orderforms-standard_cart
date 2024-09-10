@@ -2677,7 +2677,8 @@ jQuery(document).ready(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });
         }
-
+        sldInput = null
+        sld = null
         btnDomainContinue.show();
     });
     $(document).ready(function () {
