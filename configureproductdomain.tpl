@@ -4,6 +4,7 @@
         document.getElementById('image-product').onerror = function() {
             this.onerror = null; // Previne loop infinito se a imagem alternativa também não for encontrada
             this.src = '{$BASE_PATH_IMG}/products/product.png';
+            console.log('source:' + this.src);
         };
     });
 </script>
@@ -254,7 +255,7 @@
                 <input type="hidden" id="frmProductDomainPid" value="{$pid}" />
 
                 <div class="domain-selection-options">
-                    {if $incartdomains}
+                    {* {if $incartdomains}
                         <div class="option">
                             <!-- Container flex para as opções -->
                             <div class="options-container d-flex align-items-center mb-2">
@@ -275,7 +276,7 @@
                                 </button>
                             </div>
                         </div>
-                    {/if}
+                    {/if} *}
 
                     {if $registerdomainenabled}
                         <div class="option option-selected">

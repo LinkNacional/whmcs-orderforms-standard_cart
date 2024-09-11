@@ -2319,7 +2319,8 @@ jQuery(document).ready(function () {
         }
 
         sldInput.tooltip('hide');
-
+        console.log("SLD: ", sld);
+        console.log("Domain Option: " + domainoption);
 
         jQuery('input[name="domainoption"]').iCheck('disable');
         domainLookupCallCount = 0;
