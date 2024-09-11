@@ -108,7 +108,6 @@
 
     .option-selected {
         background-color: #F7F7F7 !important;
-
     }
 
     .input-group {
