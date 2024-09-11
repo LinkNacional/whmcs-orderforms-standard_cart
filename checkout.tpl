@@ -332,33 +332,37 @@
 
                         {if $customfields}
                             <!-- div class="sub-heading">
-                                                    <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                </div>
-                                                <div class="field-container">
-                                                    <div class="row">
+                                                                <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                            </div>
+                                                            <div class="field-container">
+                                                                <div class="row">
+
 
 
                                 {foreach $customfields as $customfield}
-                                                                    <div class="col-sm-6">
-                                                                        <div class="form-group">
-                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                            {$customfield.input}
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="form-group">
+                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                            {$customfield.input}
+
 
 
                                     {if $customfield.description}
-                                                                                        <span class="field-help-text">
-                                                                                            {$customfield.description}
-                                                                                        </span>
+                                                                                                            <span class="field-help-text">
+                                                                                                                {$customfield.description}
+                                                                                                            </span>
+
 
 
                                     {/if}
-                                                                        </div>
-                                                                    </div>
+                                                                                        </div>
+                                                                                    </div>
+
 
 
                                 {/foreach}
-                                                    </div>
-                                                </div -->
+                                                                </div>
+                                                            </div -->
                             {/if}
 
                         </div>
