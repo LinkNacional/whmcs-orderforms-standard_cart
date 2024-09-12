@@ -17,13 +17,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputs = document.querySelectorAll('#registersld, #owndomainsld, #transfersld');
 
     if (inputs.length > 0) {
-        function removePrefix(event) {
+        function removePrefixAndSubdomain(event) {
             const input = event.target;
             let value = input.value;
 
-            if (value.startsWith('https://www.')) {
-                input.value = value.substring(12); // Remove 'https://www.'
+            // Remove o prefixo 'https://' ou 'http://'
+            if (value.startsWith('https://')) {
+                value = value.substring(8);
+            } else if (value.startsWith('http://')) {
+                value = value.substring(7);
             }
+
+            // Remove 'www.' se houver
+            if (value.startsWith('www.')) {
+                value = value.substring(4);
+            }
+
+            // Verifica se o domínio contém subdomínios e remove o subdomínio
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts.slice(parts.length - 2).join('.'); // Mantém apenas o domínio de segundo nível e o TLD
+            }
+
+            input.value = value; // Atualiza o valor do input sem o prefixo e subdomínio
         }
 
         function validateDomain(event) {
@@ -42,8 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         inputs.forEach(input => {
-            input.addEventListener('blur', removePrefix);
+            input.addEventListener('blur', removePrefixAndSubdomain);
             input.addEventListener('blur', validateDomain);
         });
     }
+
 });

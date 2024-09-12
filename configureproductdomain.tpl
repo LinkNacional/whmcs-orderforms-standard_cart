@@ -79,9 +79,8 @@
 
 
     .domain-input-group {
-        width: 100%;
         margin: 1px 0px 0px 0px !important;
-        padding: 15px !important;
+        padding: 48px 40px 40px 40px !important;
         box-shadow: 0px 0px 10px 4px #F7F7F7;
         border: 1px solid #f7f7f7;
     }
@@ -122,9 +121,7 @@
 
     .www {
         background-color: white;
-        min-width: 30%;
-        border-right: none;
-        border-radius: 0 !important;
+        min-width: 135px;
         border: 1px solid #efefef !important;
     }
 
@@ -148,10 +145,12 @@
         color: #000000;
         font-size: 17px;
         font-weight: 800;
-        padding: 5px;
-        padding-right: 90px;
         text-transform: uppercase;
-        border-color: #aab005;
+        border: none;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
     }
 
     .form-control {
@@ -170,6 +169,10 @@
         display: none;
     }
 
+    .label-register:hover {
+        background-color: #f6f6f6f6;
+    }
+
     /* Tooltip */
     .tooltip-container {
         position: relative;
@@ -179,15 +182,9 @@
     }
 
     .tooltip-icon {
-        /* Cinza claro para o fundo */
-        color: #4f4f4f;
-        /* Cinza escuro para o ícone */
+        color: #efefef;
         border-radius: 50%;
-        /* Faz o ícone ficar redondo */
-        padding: 5px;
-        /* Ajusta o espaçamento ao redor do ícone */
-        font-size: 18px;
-        /* Ajusta o tamanho do ícone */
+        padding-right: 10px;
     }
 
     .tooltip-text {
@@ -214,6 +211,14 @@
         visibility: visible;
         opacity: 1;
     }
+
+    #order-standard_cart .input-group-lg>.form-control {
+        border-radius: 0 !important;
+        webkit-box-shadow: none;
+        box-shadow: none;
+        -webkit-transition: none;
+        border: 1px solid #fefefe;
+    }
 </style>
 
 <div id="order-standard_cart">
@@ -230,7 +235,7 @@
                         <li class="ativa">{$LANG.domaincheckerchoosedomain}
                             <hr />
                         </li>
-                        <li>{$LANG.orderconfigure}all-none
+                        <li>{$LANG.orderconfigure}
                             <hr />
                         </li>
                         <li>{$LANG.cartreviewcheckout}
@@ -255,36 +260,75 @@
 
                 <div class="domain-selection-options">
                     {* {if $incartdomains}
-                                            <div class="option">
-                                                <!-- Container flex para as opções -->
-                                                <div class="options-container d-flex align-items-center mb-2">
-                                                    <label class="d-flex align-items-center me-3">
-                                                        <input type="radio" name="domainoption" value="incart" id="selincart" />
-                                                        {$LANG.cartproductdomainuseincart}
-                                                    </label>
-                                                </div>
-                                                <!-- Inputs separados das opções -->
-                                                <div class="domain-input-group" id="domainincart">
-                                                    <select id="incartsld" name="incartdomain" class="form-control">
+                                                                                                <div class="option">
+                                                                                                    <!-- Container flex para as opções -->
+                                                                                                    <div class="options-container d-flex align-items-center mb-2">
+                                                                                                        <label class="d-flex align-items-center me-3">
+                                                                                                            <input type="radio" name="domainoption" value="incart" id="selincart" />
+                                                                                                            {$LANG.cartproductdomainuseincart}
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                    <!-- Inputs separados das opções -->
+                                                                                                    <div class="domain-input-group" id="domainincart">
+                                                                                                        <select id="incartsld" name="incartdomain" class="form-control">
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
                         {foreach key=num item=incartdomain from=$incartdomains}
-                                                                                <option value="{$incartdomain}">{$incartdomain}</option>
+                                                                                                                                                                                        <option value="{$incartdomain}">{$incartdomain}</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 
                         {/foreach}
-                                                    </select>
-                                                    <button type="submit" class="btn mt-2">
-                                                        {$LANG.orderForm.use}
-                                                    </button>
-                                                </div>
-                                            </div>
+                                                                                                        </select>
+                                                                                                        <button type="submit" class="btn mt-2">
+                                                                                                            {$LANG.orderForm.use}
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -298,7 +342,7 @@
                                 <label class="d-flex align-items-center me-3 label-register">
                                     <input type="radio" name="domainoption" value="register" id="selregister"
                                         {if $domainoption eq "register"} class="hidden-input" checked {/if} />
-                                    Registrar Domínio
+                                    {$LANG.cartregisterdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
                                         <span class="tooltip-text">Registrar um novo domínio rapidamente.</span>
                                         <i class="fa fa-question-circle tooltip-icon"></i>
@@ -314,7 +358,7 @@
                                 <label class="d-flex align-items-center me-3 label-register">
                                     <input type="radio" name="domainoption" value="transfer" id="seltransfer"
                                         class="hidden-input" {if $domainoption eq "transfer"} checked {/if} />
-                                    Transferir Domínio
+                                    {$LANG.carttransferdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
                                         <span class="tooltip-text">Transferir domínio para Link Nacional (utilizado quando
                                             você já tem um domínio registrado em outro provedor e deseja transferir para a
@@ -333,7 +377,7 @@
                                 <label class="d-flex align-items-center me-3 label-register">
                                     <input type="radio" name="domainoption" value="owndomain" id="selowndomain"
                                         class="hidden-input" {if $domainoption eq "owndomain"} checked {/if} />
-                                    Usar meu domínio
+                                    {$LANG.cartexistingdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
                                         <span class="tooltip-text">Já tenho um domínio registrado em outro provedor.</span>
                                         <i class="fa fa-question-circle tooltip-icon"></i>
@@ -373,7 +417,17 @@
 
                 <div class="domain-input-group" id="domainregister">
                     <div class="input-group input-group-lg input-group-box mw-100">
-                        <input type="text" placeholder="https://www." class="input-group-addon www" readonly>
+                        <!-- Ajuste do span para exibir "https://www." como no HTML anterior -->
+
+                        <span class="input-group-addon" id="basic-addon1" style="
+                        border-right: 0;
+                        width: 134px;
+                        background-color: #f6f6f6f6;
+                        border: 0px solid #fefefe;
+                        font-size: 15px;
+                        color: #939393;
+                        font-style: italic;
+                        ">https://www.</span>
 
                         <input type="text" id="registersld" value="{$sld}" class="form-control" autocapitalize="none"
                             data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="example.com"
@@ -381,28 +435,48 @@
                     </div>
 
                     <button type="submit" class="btn domain-check-availability lkn-check-button">
-                        Pesquisar
-
+                        {$LANG.orderForm.check}
                     </button>
                 </div>
 
+
                 <div class="domain-input-group " id="domainowndomain">
                     <div class="input-group input-group-lg input-group-box mw-100">
-                        <input type="text" placeholder="https://www." class="input-group-addon www" readonly>
+
+                        <span class="input-group-addon" id="basic-addon1" style="
+border-right: 0;
+width: 134px;
+background-color: #f6f6f6f6;
+border: 0px solid #fefefe;
+font-size: 15px;
+color: #939393;
+font-style: italic;
+">https://www.</span>
+
                         <input type="text" id="owndomainsld" value="{$sld}" placeholder="example.com"
                             class="form-control" autocapitalize="none" data-toggle="tooltip" data-placement="top"
                             data-trigger="manual" title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
                     <button type="submit" class="btn domain-check-availability lkn-check-button">
-                        Pesquisar
+                        {$LANG.orderForm.use}
 
                     </button>
                 </div>
 
                 <div class="domain-input-group" id="domaintransfer">
                     <div class="input-group input-group-lg input-group-box mw-100">
-                        <input type="text" placeholder="https://www." class="input-group-addon www" readonly>
+
+                        <span class="input-group-addon" id="basic-addon1" style="
+border-right: 0;
+width: 134px;
+background-color: #f6f6f6f6;
+border: 0px solid #fefefe;
+font-size: 15px;
+color: #939393;
+font-style: italic;
+">https://www.</span>
+
 
 
                         <input type="text" id="transfersld" value="{$sld}" class="form-control" autocapitalize="none"
@@ -411,7 +485,8 @@
                     </div>
 
                     <button type="submit" class="btn domain-check-availability lkn-check-button">
-                        Pesquisar
+                        {$LANG.orderForm.transfer}
+
 
                     </button>
                 </div>
