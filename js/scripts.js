@@ -2324,7 +2324,6 @@ jQuery(document).ready(function () {
 
         jQuery('input[name="domainoption"]').iCheck('disable');
         domainLookupCallCount = 0;
-        btnSearchObj.attr('disabled', 'disabled').addClass('disabled');
 
         jQuery('.domain-lookup-result').hide();
         jQuery('#primaryLookupResult div').filter(function () {
@@ -2616,21 +2615,56 @@ jQuery(document).ready(function () {
                 }
                 jQuery.each(data.result, function (index, domain) {
                     var pricing = domain.pricing;
+                
+                    console.log('Processing domain:', domain);
+                    console.log('Domain pricing:', pricing);
+                
                     jQuery('.domain-lookup-primary-loader').hide();
                     result.show();
+                
                     if (domain.isRegistered) {
-                        transfereligible.show();
-                        transferPrice.show().find('.register-price-label').hide().end()
-                            .find('.transfer-price-label').show().end()
-                            .find('span.price').html(pricing[Object.keys(pricing)[0]].transfer).end()
-                            .find('button').attr('data-domain', domain.domainName);
-                        resultDomain.val(domain.domainName);
-                        resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName + ']');
-                        btnDomainContinue.removeAttr('disabled');
+                        console.log('Domain is registered.');
+                
+                        // Defina o pricingKey corretamente antes da verificação
+                        var pricingKey = Object.keys(pricing)[0];
+                
+                        // Verificação do preço de transferência
+                        if (pricingKey && pricing[pricingKey] && pricing[pricingKey].transfer !== undefined) {
+                            transferPrice.find('span.price').html(pricing[pricingKey].transfer).end();
+                            transfereligible.show();
+                            transferPrice.show()
+                                .find('.register-price-label').hide().end()
+                                .find('.transfer-price-label').show().end();
+                
+                
+                            // Mostra o botão de continuar caso o preço esteja disponível
+                            btnDomainContinue.show();
+                            transferPrice.find('button').attr('data-domain', domain.domainName);
+                        
+                            resultDomain.val(domain.domainName);
+                        
+                            resultDomainPricing.val(pricingKey)
+                                .attr('name', 'domainsregperiod[' + domain.domainName + ']');
+                        } else {
+                
+                            // Exibe a classe 'domain-invalid' quando o preço de transferência não estiver disponível
+                            jQuery('.domain-invalid').show();
+                            
+                            // Esconde o botão de continuar em caso de erro
+                            btnDomainContinue.hide();
+                        }
                     } else {
                         transfernoteligible.show();
+                
+                        // Esconde o botão de continuar se o domínio não for registrado
+                        btnDomainContinue.hide();
                     }
                 });
+                
+                
+                
+                
+                
             }).always(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });

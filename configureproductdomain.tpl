@@ -260,37 +260,14 @@
 
                 <div class="domain-selection-options">
                     {* {if $incartdomains}
-                                                                                                <div class="option">
-                                                                                                    <!-- Container flex para as opções -->
-                                                                                                    <div class="options-container d-flex align-items-center mb-2">
-                                                                                                        <label class="d-flex align-items-center me-3">
-                                                                                                            <input type="radio" name="domainoption" value="incart" id="selincart" />
-                                                                                                            {$LANG.cartproductdomainuseincart}
-                                                                                                        </label>
-                                                                                                    </div>
-                                                                                                    <!-- Inputs separados das opções -->
-                                                                                                    <div class="domain-input-group" id="domainincart">
-                                                                                                        <select id="incartsld" name="incartdomain" class="form-control">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         {foreach key=num item=incartdomain from=$incartdomains}
-                                                                                                                                                                                        <option value="{$incartdomain}">{$incartdomain}</option>
+                                                                                                                                                                                                                                        <option value="{$incartdomain}">{$incartdomain}</option>
+
+
+
+
+
+
 
 
 
@@ -310,13 +287,6 @@
 
 
                         {/foreach}
-                                                                                                        </select>
-                                                                                                        <button type="submit" class="btn mt-2">
-                                                                                                            {$LANG.orderForm.use}
-                                                                                                        </button>
-                                                                                                    </div>
-                                                                                                </div>
-
 
 
 
@@ -444,14 +414,14 @@
                     <div class="input-group input-group-lg input-group-box mw-100">
 
                         <span class="input-group-addon" id="basic-addon1" style="
-border-right: 0;
-width: 134px;
-background-color: #f6f6f6f6;
-border: 0px solid #fefefe;
-font-size: 15px;
-color: #939393;
-font-style: italic;
-">https://www.</span>
+                            border-right: 0;
+                            width: 134px;
+                            background-color: #f6f6f6f6;
+                            border: 0px solid #fefefe;
+                            font-size: 15px;
+                            color: #939393;
+                            font-style: italic;
+                            ">https://www.</span>
 
                         <input type="text" id="owndomainsld" value="{$sld}" placeholder="example.com"
                             class="form-control" autocapitalize="none" data-toggle="tooltip" data-placement="top"
@@ -468,14 +438,14 @@ font-style: italic;
                     <div class="input-group input-group-lg input-group-box mw-100">
 
                         <span class="input-group-addon" id="basic-addon1" style="
-border-right: 0;
-width: 134px;
-background-color: #f6f6f6f6;
-border: 0px solid #fefefe;
-font-size: 15px;
-color: #939393;
-font-style: italic;
-">https://www.</span>
+                        border-right: 0;
+                        width: 134px;
+                        background-color: #f6f6f6f6;
+                        border: 0px solid #fefefe;
+                        font-size: 15px;
+                        color: #939393;
+                        font-style: italic;
+                        ">https://www.</span>
 
 
 
