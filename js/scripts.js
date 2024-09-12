@@ -2598,77 +2598,71 @@ jQuery(document).ready(function () {
             );
 
             transfer.done(function (data) {
-                if (typeof data != 'object' || data.result.length == 0) {
-                    jQuery('.domain-lookup-primary-loader').hide();
-                    return;
-                }
+                jQuery('.domain-lookup-primary-loader').hide();
                 var result = jQuery('#primaryLookupResult'),
                     transfereligible = result.find('.transfer-eligible'),
                     transferPrice = result.find('.domain-price'),
                     transfernoteligible = result.find('.transfer-not-eligible'),
                     resultDomain = jQuery('#resultDomain'),
-                    resultDomainPricing = jQuery('#resultDomainPricingTerm');
+                    resultDomainPricing = jQuery('#resultDomainPricingTerm'),
+                    btnDomainContinue = jQuery('#btnDomainContinue');
+                    transferInvalid = result.find(".domain-invalid");
+
+                    // Ocultar o botão de continuar inicialmente
+                    btnDomainContinue.hide().attr('disabled', 'disabled');
+
+                    if (typeof data != 'object' || data.result.length == 0) {
+                        result.show();
+                        transfernoteligible.show();
+                        return;
+                    }
+
                 if (Object.keys(data.result).length === 0) {
-                    jQuery('.domain-lookup-primary-loader').hide();
                     result.show();
                     transfernoteligible.show();
+                    return;
                 }
+
                 jQuery.each(data.result, function (index, domain) {
                     var pricing = domain.pricing;
-                
-                    console.log('Processing domain:', domain);
-                    console.log('Domain pricing:', pricing);
-                
-                    jQuery('.domain-lookup-primary-loader').hide();
                     result.show();
-                
+
                     if (domain.isRegistered) {
-                        console.log('Domain is registered.');
-                
-                        // Defina o pricingKey corretamente antes da verificação
-                        var pricingKey = Object.keys(pricing)[0];
-                
-                        // Verificação do preço de transferência
-                        if (pricingKey && pricing[pricingKey] && pricing[pricingKey].transfer !== undefined) {
-                            transferPrice.find('span.price').html(pricing[pricingKey].transfer).end();
-                            transfereligible.show();
-                            transferPrice.show()
-                                .find('.register-price-label').hide().end()
-                                .find('.transfer-price-label').show().end();
-                
-                
-                            // Mostra o botão de continuar caso o preço esteja disponível
-                            btnDomainContinue.show();
-                            transferPrice.find('button').attr('data-domain', domain.domainName);
-                        
-                            resultDomain.val(domain.domainName);
-                        
-                            resultDomainPricing.val(pricingKey)
-                                .attr('name', 'domainsregperiod[' + domain.domainName + ']');
+                        if (typeof pricing === 'object' && Object.keys(pricing).length > 0) {
+                            var pricingKey = Object.keys(pricing)[0];
+
+                            if (pricingKey && pricing[pricingKey] && pricing[pricingKey].transfer !== undefined) {
+                                transfereligible.show();
+                                transferPrice.show()
+                                    .find('.register-price-label').hide().end()
+                                    .find('.transfer-price-label').show().end()
+                                    .find('span.price').html(pricing[pricingKey].transfer).end()
+                                    .find('button').attr('data-domain', domain.domainName);
+
+                                resultDomain.val(domain.domainName);
+                                resultDomainPricing.val(pricingKey)
+                                    .attr('name', 'domainsregperiod[' + domain.domainName + ']');
+
+                                // Mostrar o botão de continuar e remover o atributo disabled
+                                btnDomainContinue.show().removeAttr('disabled');
+                            } else {
+                                console.log('Preço de transferência não disponível ou indefinido para o domínio:', domain.domainName);
+                                transfernoteligible.show();
+                            }
                         } else {
-                
-                            // Exibe a classe 'domain-invalid' quando o preço de transferência não estiver disponível
-                            jQuery('.domain-invalid').show();
-                            
-                            // Esconde o botão de continuar em caso de erro
-                            btnDomainContinue.hide();
+                            console.log('Dados de preços inválidos ou ausentes para o domínio:', domain.domainName);
+                            transferInvalid.show();
                         }
                     } else {
+                        console.log('Domínio não registrado.');
                         transfernoteligible.show();
-                
-                        // Esconde o botão de continuar se o domínio não for registrado
-                        btnDomainContinue.hide();
                     }
                 });
-                
-                
-                
-                
-                
             }).always(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });
-        } else if (domainoption == 'owndomain' || domainoption == 'subdomain' || domainoption == 'incart') {
+        }
+        else if (domainoption == 'owndomain' || domainoption == 'subdomain' || domainoption == 'incart') {
 
             var otherDomain = WHMCS.http.jqClient.post(
                 WHMCS.utils.getRouteUrl('/domain/check'),

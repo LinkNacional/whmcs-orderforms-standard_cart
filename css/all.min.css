@@ -50,9 +50,7 @@
     margin-bottom: 25px;
 }
 
-#btnDomainContinue[disabled] {
-    display: none !important;
-}
+
 
 .btn-primary {
     background-color:  #0C71C3;

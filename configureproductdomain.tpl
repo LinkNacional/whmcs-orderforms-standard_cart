@@ -260,6 +260,41 @@
 
                 <div class="domain-selection-options">
                     {* {if $incartdomains}
+                                                                                                                        <div class="option">
+                                                                                                                            <!-- Container flex para as opções -->
+                                                                                                                            <div class="options-container d-flex align-items-center mb-2">
+                                                                                                                                <label class="d-flex align-items-center me-3">
+                                                                                                                                    <input type="radio" name="domainoption" value="incart" id="selincart" />
+                                                                                                                                    {$LANG.cartproductdomainuseincart}
+                                                                                                                                </label>
+                                                                                                                            </div>
+                                                                                                                            <!-- Inputs separados das opções -->
+                                                                                                                            <div class="domain-input-group" id="domainincart">
+                                                                                                                                <select id="incartsld" name="incartdomain" class="form-control">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         {foreach key=num item=incartdomain from=$incartdomains}
                                                                                                                                                                                                                                         <option value="{$incartdomain}">{$incartdomain}</option>
 
@@ -287,6 +322,19 @@
 
 
                         {/foreach}
+                                                                                                                                </select>
+                                                                                                                                <button type="submit" class="btn mt-2">
+                                                                                                                                    {$LANG.orderForm.use}
+                                                                                                                                </button>
+                                                                                                                            </div>
+                                                                                                                        </div>
+
+
+
+
+
+
+
 
 
 
