@@ -28,6 +28,15 @@
     .cart-body {
         width: 100% !important;
     }
+
+    .top-nav li a[href*="clientarea.php"],
+    .top-nav li a[href*="register.php"] {
+        display: none;
+    }
+
+    #main-menu {
+        display: none;
+    }
 </style>
 <div id="order-standard_cart">
 
@@ -332,37 +341,45 @@
 
                         {if $customfields}
                             <!-- div class="sub-heading">
-                                                                <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                            </div>
-                                                            <div class="field-container">
-                                                                <div class="row">
+                                                                                        <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                                    </div>
+                                                                                    <div class="field-container">
+                                                                                        <div class="row">
+
+
 
 
 
                                 {foreach $customfields as $customfield}
-                                                                                    <div class="col-sm-6">
-                                                                                        <div class="form-group">
-                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                                            {$customfield.input}
+                                                                                                                    <div class="col-sm-6">
+                                                                                                                        <div class="form-group">
+                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                                            {$customfield.input}
+
+
 
 
 
                                     {if $customfield.description}
-                                                                                                            <span class="field-help-text">
-                                                                                                                {$customfield.description}
-                                                                                                            </span>
+                                                                                                                                                    <span class="field-help-text">
+                                                                                                                                                        {$customfield.description}
+                                                                                                                                                    </span>
+
+
 
 
 
                                     {/if}
-                                                                                        </div>
-                                                                                    </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+
+
 
 
 
                                 {/foreach}
-                                                                </div>
-                                                            </div -->
+                                                                                        </div>
+                                                                                    </div -->
                             {/if}
 
                         </div>
@@ -808,7 +825,7 @@
                 {/if}
 
                 {if $shownotesfield}
-                    <div class="card mb-4">
+                    {* <div class="card mb-4">
                         <h3 class="card-title">{$LANG.orderForm.additionalNotes}</h3>
                         <div class="row">
                             <div class="col-sm-12">
@@ -818,17 +835,17 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> *}
                 {/if}
 
                 {if $showMarketingEmailOptIn}
-                    <div class="marketing-email-optin">
+                    {* <div class="marketing-email-optin">
                         <h4 class="font-size-18">{lang key='emailMarketing.joinOurMailingList'}</h4>
                         <p>{$marketingEmailOptInMessage}</p>
                         <input type="checkbox" name="marketingoptin" value="1" {if $marketingEmailOptIn} checked{/if}
                             class="no-icheck toggle-switch-success" data-size="small" data-on-text="{lang key='yes'}"
                             data-off-text="{lang key='no'}">
-                    </div>
+                    </div> *}
                 {/if}
 
                 <div class="text-center">

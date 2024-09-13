@@ -11,7 +11,16 @@
     </script>
     {include file="orderforms/standard_cart/common.tpl"}
     <script type="text/javascript" src="{$BASE_PATH_JS}/StatesDropdown.js"></script>
+    <style>
+        .top-nav li a[href*="clientarea.php"],
+        .top-nav li a[href*="register.php"] {
+            display: none;
+        }
 
+        #main-menu {
+            display: none;
+        }
+    </style>
     <div id="order-standard_cart">
 
         <div class="row">

@@ -21,6 +21,15 @@
     .product-info {
         display: flex !important;
     }
+
+    .top-nav li a[href*="clientarea.php"],
+    .top-nav li a[href*="register.php"] {
+        display: none;
+    }
+
+    #main-menu {
+        display: none;
+    }
 </style>
 
 <div id="order-standard_cart">

@@ -2606,16 +2606,16 @@ jQuery(document).ready(function () {
                     resultDomain = jQuery('#resultDomain'),
                     resultDomainPricing = jQuery('#resultDomainPricingTerm'),
                     btnDomainContinue = jQuery('#btnDomainContinue');
-                    transferInvalid = result.find(".domain-invalid");
+                transferInvalid = result.find(".domain-invalid");
 
-                    // Ocultar o botão de continuar inicialmente
-                    btnDomainContinue.hide().attr('disabled', 'disabled');
+                // Ocultar o botão de continuar inicialmente
+                btnDomainContinue.hide().attr('disabled', 'disabled');
 
-                    if (typeof data != 'object' || data.result.length == 0) {
-                        result.show();
-                        transfernoteligible.show();
-                        return;
-                    }
+                if (typeof data != 'object' || data.result.length == 0) {
+                    result.show();
+                    transfernoteligible.show();
+                    return;
+                }
 
                 if (Object.keys(data.result).length === 0) {
                     result.show();
@@ -2760,8 +2760,29 @@ jQuery(document).ready(function () {
         });
     });
 
+    // Inicialmente, esconda todos os elementos, exceto os botões
+    jQuery("#containerNewUserSignup").hide();
+    jQuery("#containerExistingUserSignin").hide();
+    jQuery("#containerNewUserSecurity").hide();
+    jQuery(".card.mb-4").hide(); // Esconde todos os elementos com a classe .card.mb-4
+    jQuery("#btnCompleteOrder").hide(); // Esconde o botão "Completar Pedido"
+
+    // Esconda o formulário de checkout e outros elementos, exceto os botões
+    jQuery("#frmCheckout").hide();
+    jQuery('.marketing-email-optin').hide(); // Esconde a seção de opt-in de marketing
+
+    // Evento para o botão "Already Registered"
+    jQuery("#containerNewUserSignup").hide();
+    jQuery("#containerExistingUserSignin").hide();
+    jQuery("#containerNewUserSecurity").hide();
+    jQuery(".card.mb-4").hide(); // Esconde todos os elementos com a classe .card.mb-4
+    jQuery("#btnCompleteOrder").hide(); // Esconde o botão "Completar Pedido"
+    jQuery("#frmCheckout").hide(); // Esconde o formulário de checkout
+    jQuery('.marketing-email-optin').hide(); // Esconde a seção de opt-in de marketing
+
+    // Evento para o botão "Already Registered"
     jQuery("#btnAlreadyRegistered").click(function () {
-        jQuery("#frmCheckout").show();
+        jQuery("#frmCheckout").show(); // Mostra o formulário de checkout
         jQuery("#containerNewUserSignup").slideUp('', function () {
             jQuery("#containerExistingUserSignin").slideDown('', function () {
                 jQuery("#inputCustType").val('existing');
@@ -2775,10 +2796,13 @@ jQuery(document).ready(function () {
             jQuery("#stateselect").removeAttr('required').addClass('requiredAttributeRemoved');
         }
         jQuery('.marketing-email-optin').slideUp();
+        jQuery(".card.mb-4").slideDown(); // Esconde os elementos .card.mb-4
+        jQuery("#btnCompleteOrder").fadeIn(); // Mostra o botão "Completar Pedido"
     });
 
+    // Adicione um console log para verificar se o botão está clicando
     jQuery("#btnNewUserSignup").click(function () {
-        jQuery("#frmCheckout").show();
+        jQuery("#frmCheckout").show(); // Mostra o formulário de checkout
         jQuery("#containerExistingUserSignin").slideUp('', function () {
             jQuery("#containerNewUserSignup").slideDown('', function () {
                 jQuery("#inputCustType").val('new');
@@ -2794,8 +2818,12 @@ jQuery(document).ready(function () {
         if (jQuery("#stateselect").hasClass('requiredAttributeRemoved')) {
             jQuery("#stateselect").attr('required', 'required').removeClass('requiredAttributeRemoved');
         }
+        jQuery(".card.mb-4").slideDown(); // Mostra os elementos .card.mb-4
+        jQuery("#btnCompleteOrder").fadeIn(); // Mostra o botão "Completar Pedido"
     });
 
+
+    // Evento para o botão "Existing Login"
     jQuery("#btnExistingLogin").click(function () {
         var inputLoginEmail = jQuery('#inputLoginEmail').val(),
             inputLoginPassword = jQuery('#inputLoginPassword').val(),
@@ -2833,6 +2861,8 @@ jQuery(document).ready(function () {
             }
         });
     });
+
+
 
     jQuery('.account-select').on('ifChecked', function (event) {
         var userSignupContainer = jQuery('#containerNewUserSignup'),
