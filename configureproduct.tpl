@@ -22,6 +22,12 @@
         display: flex !important;
     }
 
+    @media (max-width: 750px) {
+        .product-info {
+            flex-direction: column !important;
+        }
+    }
+
     .top-nav li a[href*="clientarea.php"],
     .top-nav li a[href*="register.php"] {
         display: none;

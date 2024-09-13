@@ -134,6 +134,17 @@
         border: 1px solid #efefef !important;
     }
 
+    .input-group-addon {
+        border-right: 0;
+        width: 134px;
+        background-color: #f6f6f6f6;
+        border: 0px solid #fefefe;
+        font-size: 10px;
+        color: #939393;
+        font-style: italic;
+        padding-top: 16px;
+    }
+
     .www::placeholder {
         color: #9e9e9e !important;
     }
@@ -227,6 +238,62 @@
         box-shadow: none;
         -webkit-transition: none;
         border: 1px solid #fefefe;
+    }
+
+    @media (max-width: 600px) {
+        .domain-input-group {
+            margin: 0px !important;
+            padding: 48px 5px 40px 5px !important;
+        }
+
+
+    }
+
+    @media (max-width: 600px) {
+        html {
+            overflow-x: hidden;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .input-group-addon {
+            font-size: 10px !important;
+            padding-top: 16px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .domain-input-group {
+            flex-direction: column !important;
+            align-items: stretch;
+        }
+
+        .domain-check-availability {
+            margin-top: 10px;
+            width: 100%;
+            min-height: 41px;
+            height: 50%;
+        }
+
+        .domain-selection-options {
+            display: flex;
+            flex-direction: column;
+            /* Coloca as opções em coluna */
+        }
+
+        .option {
+            width: 100%;
+            /* Garante que cada opção ocupe toda a largura disponível */
+            margin-bottom: 10px;
+            /* Adiciona espaço entre as opções */
+        }
+
+        .option label {
+            width: 100%;
+            /* Faz o conteúdo do label ocupar toda a largura */
+        }
     }
 </style>
 
@@ -352,18 +419,10 @@
                     <div class="input-group input-group-lg input-group-box mw-100">
                         <!-- Ajuste do span para exibir "https://www." como no HTML anterior -->
 
-                        <span class="input-group-addon" id="basic-addon1" style="
-                        border-right: 0;
-                        width: 134px;
-                        background-color: #f6f6f6f6;
-                        border: 0px solid #fefefe;
-                        font-size: 15px;
-                        color: #939393;
-                        font-style: italic;
-                        ">https://www.</span>
+                        <span class="input-group-addon" id="basic-addon1">https://www.</span>
 
                         <input type="text" id="registersld" value="{$sld}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="example.com"
+                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="site.com"
                             title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
@@ -376,19 +435,11 @@
                 <div class="domain-input-group " id="domainowndomain">
                     <div class="input-group input-group-lg input-group-box mw-100">
 
-                        <span class="input-group-addon" id="basic-addon1" style="
-                            border-right: 0;
-                            width: 134px;
-                            background-color: #f6f6f6f6;
-                            border: 0px solid #fefefe;
-                            font-size: 15px;
-                            color: #939393;
-                            font-style: italic;
-                            ">https://www.</span>
+                        <span class="input-group-addon" id="basic-addon1">https://www.</span>
 
-                        <input type="text" id="owndomainsld" value="{$sld}" placeholder="example.com"
-                            class="form-control" autocapitalize="none" data-toggle="tooltip" data-placement="top"
-                            data-trigger="manual" title="{lang key='orderForm.enterDomain'}" />
+                        <input type="text" id="owndomainsld" value="{$sld}" placeholder="site.com" class="form-control"
+                            autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
+                            title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
                     <button type="submit" class="btn domain-check-availability lkn-check-button">
@@ -400,20 +451,12 @@
                 <div class="domain-input-group" id="domaintransfer">
                     <div class="input-group input-group-lg input-group-box mw-100">
 
-                        <span class="input-group-addon" id="basic-addon1" style="
-                        border-right: 0;
-                        width: 134px;
-                        background-color: #f6f6f6f6;
-                        border: 0px solid #fefefe;
-                        font-size: 15px;
-                        color: #939393;
-                        font-style: italic;
-                        ">https://www.</span>
+                        <span class="input-group-addon" id="basic-addon1">https://www.</span>
 
 
 
                         <input type="text" id="transfersld" value="{$sld}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="example.com"
+                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="site.com"
                             title="{lang key='orderForm.enterDomain'}" />
                     </div>
 
