@@ -1,4 +1,5 @@
 {include file="orderforms/standard_cart/common.tpl"}
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('image-product').onerror = function() {
@@ -344,7 +345,8 @@
                                         {if $domainoption eq "register"} class="hidden-input" checked {/if} />
                                     {$LANG.cartregisterdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
-                                        <span class="tooltip-text">Registrar um novo domínio rapidamente.</span>
+                                        <span class="tooltip-text">{$LANG.lkn_register_domain}</span>
+
                                         <i class="fa fa-question-circle tooltip-icon"></i>
                                     </span>
                                 </label>
@@ -360,9 +362,9 @@
                                         class="hidden-input" {if $domainoption eq "transfer"} checked {/if} />
                                     {$LANG.carttransferdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
-                                        <span class="tooltip-text">Transferir domínio para Link Nacional (utilizado quando
-                                            você já tem um domínio registrado em outro provedor e deseja transferir para a
-                                            Link Nacional).</span>
+
+                                        <span class="tooltip-text">{$LANG.lkn_transfer_domain}</span>
+
                                         <i class="fa fa-question-circle tooltip-icon"></i>
 
                                     </span>
@@ -379,7 +381,7 @@
                                         class="hidden-input" {if $domainoption eq "owndomain"} checked {/if} />
                                     {$LANG.cartexistingdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
-                                        <span class="tooltip-text">Já tenho um domínio registrado em outro provedor.</span>
+                                        <span class="tooltip-text">{$LANG.lkn_my_domain}</span>
                                         <i class="fa fa-question-circle tooltip-icon"></i>
                                     </span>
                                 </label>
@@ -472,10 +474,6 @@
                     </p>
                 {/if}
             </form>
-
-
-
-
 
             <div class="clearfix"></div>
             <form method="post" action="{$WEB_ROOT}/cart.php?a=add&pid={$pid}&domainselect=1"
@@ -666,11 +664,11 @@
                 </div>
 
                 <!-- div class="text-center">
-                    <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled" style="background-color:#DAE300;border:none;color:#343B45;width:100%;">
-                        {$LANG.continue}
-                        &nbsp;<i class="fas fa-arrow-circle-right"></i>
-                    </button>
-                </div -->
+                        <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden" disabled="disabled" style="background-color:#DAE300;border:none;color:#343B45;width:100%;">
+                            {$LANG.continue}
+                            &nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div -->
             </form>
         </div>
     </div>
