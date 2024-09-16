@@ -144,6 +144,7 @@
         color: #939393;
         font-style: italic;
         padding-top: 16px;
+        text-align: center;
     }
 
     .www::placeholder {
@@ -247,6 +248,11 @@
             padding: 48px 5px 40px 5px !important;
         }
 
+        .www {
+            text-align: center;
+            padding: 12px;
+            font-size: 15px !important;
+        }
 
     }
 
@@ -260,8 +266,8 @@
         }
 
         .input-group-addon {
-            font-size: 10px !important;
-            padding-top: 16px !important;
+            font-size: 15px !important;
+            text-align: center;
         }
     }
 
