@@ -754,7 +754,6 @@ function elementOutOfViewPort(element) {
                     } else {
                         var emailField = jQuery("input[name=email]");
                         var firstNameField = jQuery("input[name=firstname]");
-                        var lastNameField = jQuery("input[name=lastname]");
 
                         if (emailField.val() === "") {
                             emailField.val(data.remote_account.email);
@@ -764,9 +763,6 @@ function elementOutOfViewPort(element) {
                             firstNameField.val(data.remote_account.firstname);
                         }
 
-                        if (lastNameField.val() === "") {
-                            lastNameField.val(data.remote_account.lastname);
-                        }
 
                         if (htmlTarget === targetRegister) {
                             if (typeof WHMCS.client.registration === 'object') {
@@ -2710,30 +2706,42 @@ jQuery(document).ready(function () {
         sld = null
         btnDomainContinue.show();
     });
-    $(document).ready(function () {
-        // Função para mostrar o elemento com display flex e !important
-        function showElementAsFlex(selector) {
+    function showElementAsFlex(selector) {
+        if ($(selector).length) { // Verifica se o elemento existe
             $(selector).get(0).style.setProperty('display', 'flex', 'important');
         }
+    }
 
+    // Verifica se existem elementos com a classe .domain-input-group
+    if ($('.domain-input-group').length) {
         $('.domain-input-group').hide();
         showElementAsFlex('.domain-input-group:first');
+    }
 
+    // Verifica se existe o botão dentro de #domainregister
+    if ($('#domainregister button').length) {
         $('#domainregister button').on('click', function () {
             $('.domain-input-group').hide();
             showElementAsFlex('#domainregister');
         });
+    }
 
+    // Verifica se existe o botão dentro de #domainowndomain
+    if ($('#domainowndomain button').length) {
         $('#domainowndomain button').on('click', function () {
             $('.domain-input-group').hide();
             showElementAsFlex('#domainowndomain');
         });
+    }
 
+    // Verifica se existe o botão dentro de #domaintransfer
+    if ($('#domaintransfer button').length) {
         $('#domaintransfer button').on('click', function () {
             $('.domain-input-group').hide();
             showElementAsFlex('#domaintransfer');
         });
-    });
+    }
+
 
 
 
@@ -2760,24 +2768,12 @@ jQuery(document).ready(function () {
         });
     });
 
-    // Inicialmente, esconda todos os elementos, exceto os botões
+
     jQuery("#containerNewUserSignup").hide();
     jQuery("#containerExistingUserSignin").hide();
     jQuery("#containerNewUserSecurity").hide();
     jQuery(".card.mb-4").hide(); // Esconde todos os elementos com a classe .card.mb-4
     jQuery("#btnCompleteOrder").hide(); // Esconde o botão "Completar Pedido"
-
-    // Esconda o formulário de checkout e outros elementos, exceto os botões
-    jQuery("#frmCheckout").hide();
-    jQuery('.marketing-email-optin').hide(); // Esconde a seção de opt-in de marketing
-
-    // Evento para o botão "Already Registered"
-    jQuery("#containerNewUserSignup").hide();
-    jQuery("#containerExistingUserSignin").hide();
-    jQuery("#containerNewUserSecurity").hide();
-    jQuery(".card.mb-4").hide(); // Esconde todos os elementos com a classe .card.mb-4
-    jQuery("#btnCompleteOrder").hide(); // Esconde o botão "Completar Pedido"
-    jQuery("#frmCheckout").hide(); // Esconde o formulário de checkout
     jQuery('.marketing-email-optin').hide(); // Esconde a seção de opt-in de marketing
 
     // Evento para o botão "Already Registered"

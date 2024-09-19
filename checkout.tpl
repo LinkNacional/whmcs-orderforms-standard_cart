@@ -13,6 +13,7 @@
     window.langPasswordModerate = "{$LANG.pwstrengthmoderate}";
     window.langPasswordStrong = "{$LANG.pwstrengthstrong}";
 </script>
+<script type="text/javascript" src="{assetPath file='findCep.js'}"></script>
 <style>
     .card {
         padding: 20px;
@@ -27,7 +28,8 @@
         h3 {
             font-size: 16px !important;
         }
-        .card{
+
+        .card {
             margin-bottom: 24px;
         }
     }
@@ -227,15 +229,7 @@
                                             autofocus>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputLastName" class="field-icon">
-                                            <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
-                                        </label>
-                                        <input type="text" name="lastname" id="inputLastName" class="field form-control"
-                                            placeholder="{$LANG.orderForm.lastName}" value="{$clientsdetails.lastname}">
-                                    </div>
-                                </div>
+
                                 <div class="col-sm-6">
                                     <div>
                                         <label for="inputEmail" class="field-icon">
@@ -266,7 +260,7 @@
                                         <label for="inputCountry" class="field-icon" id="inputCountryIcon">
                                             <i class="fas fa-globe"></i> {$LANG['orderForm']['country']}
                                         </label>
-                                        <select name="country" id="inputCountry" class="field form-control">
+                                        <select name="country" id="inputCountry" class="field form-control" disabled>
                                             {foreach $countries as $countrycode => $countrylabel}
                                                 <option value="{$countrycode}"
                                                     {if (!$country && $countrycode == $defaultcountry) || $countrycode eq $country}
@@ -353,10 +347,17 @@
 
                         {if $customfields}
                             <!-- div class="sub-heading">
-                                                                                                    <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                                                                </div>
-                                                                                                <div class="field-container">
-                                                                                                    <div class="row">
+                                                                                                                                                                                        <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    <div class="field-container">
+                                                                                                                                                                                        <div class="row">
+
+
+
+
+
+
+
 
 
 
@@ -364,10 +365,17 @@
 
 
                                 {foreach $customfields as $customfield}
-                                                                                                                                    <div class="col-sm-6">
-                                                                                                                                        <div class="form-group">
-                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                                                                                            {$customfield.input}
+                                                                                                                                                                                                                                                    <div class="col-sm-6">
+                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                                                                                                                                                                            {$customfield.input}
+
+
+
+
+
+
+
 
 
 
@@ -375,9 +383,16 @@
 
 
                                     {if $customfield.description}
-                                                                                                                                                                        <span class="field-help-text">
-                                                                                                                                                                            {$customfield.description}
-                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                                                    <span class="field-help-text">
+                                                                                                                                                                                                                                                                                                                        {$customfield.description}
+                                                                                                                                                                                                                                                                                                                    </span>
+
+
+
+
+
+
+
 
 
 
@@ -385,8 +400,15 @@
 
 
                                     {/if}
-                                                                                                                                        </div>
-                                                                                                                                    </div>
+                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                    </div>
+
+
+
+
+
+
+
 
 
 
@@ -394,8 +416,8 @@
 
 
                                 {/foreach}
-                                                                                                    </div>
-                                                                                                </div -->
+                                                                                                                                                                                        </div>
+                                                                                                                                                                                    </div -->
                             {/if}
 
                         </div>
