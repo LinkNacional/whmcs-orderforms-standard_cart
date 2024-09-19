@@ -2774,6 +2774,10 @@ jQuery(document).ready(function () {
     jQuery("#containerNewUserSecurity").hide();
     jQuery(".card.mb-4").hide(); // Esconde todos os elementos com a classe .card.mb-4
     jQuery("#btnCompleteOrder").hide(); // Esconde o botão "Completar Pedido"
+    if ($('.account.active').length) {
+        // Muda o estilo do botão para display block
+        $('#btnCompleteOrder').css('display', 'block');
+    }
     jQuery('.marketing-email-optin').hide(); // Esconde a seção de opt-in de marketing
 
     // Evento para o botão "Already Registered"
