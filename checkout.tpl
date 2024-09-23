@@ -54,6 +54,7 @@
 </style>
 <div id="order-standard_cart">
 
+
     <div class="row">
         <!--div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
@@ -117,7 +118,7 @@
                     <div id="containerExistingAccountSelect" class="row account-select-container"
                         style="margin-bottom: 15px;">
                         {foreach $accounts as $account}
-                           
+
                             <div class="col-sm-{if $accounts->count() == 1}12{else}6{/if}">
                                 <div class="account{if $selectedAccountId == $account->id} active{/if}">
                                     <label class="radio-inline" for="account{$account->id}">
@@ -128,7 +129,7 @@
                                                 disabled="disabled" {/if}{if $selectedAccountId == $account->id} checked="checked"
                                             {/if}>
                                         <span class="address">
-                                        <strong>{$LANG.useMyAccount}</strong>
+                                            <strong>{$LANG.useMyAccount}</strong>
 
                                             <strong>
 
@@ -253,7 +254,12 @@
                                             placeholder="{$LANG.orderForm.phoneNumber}"
                                             value="{$clientsdetails.phonenumber}">
                                     </div>
+                                    {if $isWhatsappField}
+                                            {$isWhatsappField}
+                                    {/if}
+                                   
                                 </div>
+                                    
                             </div>
                         </div>
 
@@ -352,10 +358,18 @@
 
                         {if $customfields}
                             <!-- div class="sub-heading">
-                                                                                                                                                                                                                            <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                        <div class="field-container">
-                                                                                                                                                                                                                            <div class="row">
+                                                                                                                                                                                                                                                                                                                            <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                        <div class="field-container">
+                                                                                                                                                                                                                                                                                                                            <div class="row">
+
+
+
+
+
+
+
+
 
 
 
@@ -373,10 +387,18 @@
 
 
                                 {foreach $customfields as $customfield}
-                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
-                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                                                                                                                                                                                                                                                            {$customfield.input}
+                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
+                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
+
+
+
+
+
+
+
+
 
 
 
@@ -394,9 +416,17 @@
 
 
                                     {if $customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                <span class="field-help-text">
-                                                                                                                                                                                                                                                                                                                                                                                    {$customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="field-help-text">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    {$customfield.description}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>
+
+
+
+
+
+
+
+
 
 
 
@@ -414,8 +444,16 @@
 
 
                                     {/if}
-                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -433,8 +471,8 @@
 
 
                                 {/foreach}
-                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                        </div -->
+                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                        </div -->
                             {/if}
 
                         </div>
