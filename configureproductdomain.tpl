@@ -42,7 +42,6 @@
     }
 
     .image-product {
-        width: 180px;
         float: right;
         margin-right: 0px;
     }
@@ -330,7 +329,8 @@
             <div class="row">
                 <div class="secondary-cart-body-child">
                     <div class="product-domain-info">
-                        <img src="{$BASE_PATH_IMG}/products/{$productinfo.name}.png" class="image-product" id="image-product" />
+                        <img src="{$BASE_PATH_IMG}/products/{$productinfo.name}.png" class="image-product"
+                            id="image-product" />
                         <h1>{$productinfo.name}</h1>
                         <h2 class="font-size-18">{$LANG.domaincheckerchoosedomain}</h2>
                     </div>
