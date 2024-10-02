@@ -13,7 +13,10 @@
     window.langPasswordModerate = "{$LANG.pwstrengthmoderate}";
     window.langPasswordStrong = "{$LANG.pwstrengthstrong}";
 </script>
-<script type="text/javascript" src="{assetPath file='findCep.js'}"></script>
+{if $isWhatsappField}
+    <script type="text/javascript" src="{assetPath file='findCep.js'}"></script>
+{/if}
+
 <style>
     .card {
         padding: 20px;
@@ -65,7 +68,7 @@
                     <ul>
                         <li class="done">{$LANG.domaincheckerchoosedomain}
                             <hr />
-                        </li />
+                        </li>
                         <li class="done"><a href="cart.php?a=confproduct&i=0">{$LANG.orderconfigure}</a>
                             <hr />
                         </li>
@@ -227,6 +230,16 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div>
+                                        <label for="fullName" class="field-icon">
+                                            <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
+                                        </label>
+                                        <input type="text" name="fullName" id="fullName" class="field form-control"
+                                            placeholder="{$LANG.orderForm.firstName}" value="{$clientsdetails.firstname}"
+                                            autofocus>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="display: none;">
+                                    <div>
                                         <label for="inputFirstName" class="field-icon">
                                             <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
                                         </label>
@@ -234,6 +247,16 @@
                                             placeholder="{$LANG.orderForm.firstName}" value="{$clientsdetails.firstname}"
                                             autofocus>
                                     </div>
+                                </div>
+                                <div class="col-sm-6" style="display: none;">
+                                    <div class="form-group prepend-icon">
+                                        <label for="inputLastName" class="field-icon">
+                                            <i class="fas fa-user"></i>
+                                        </label>
+                                        <input type="text" name="lastname" id="inputLastName" class="field form-control"
+                                            placeholder="{$LANG.orderForm.lastName}" value="{$clientsdetails.lastname}">
+                                    </div>
+
                                 </div>
 
                                 <div class="col-sm-6">
@@ -255,11 +278,11 @@
                                             value="{$clientsdetails.phonenumber}">
                                     </div>
                                     {if $isWhatsappField}
-                                            {$isWhatsappField}
+                                        {$isWhatsappField}
                                     {/if}
-                                   
                                 </div>
-                                    
+                             
+
                             </div>
                         </div>
 
@@ -271,7 +294,7 @@
                                         <label for="inputCountry" class="field-icon" id="inputCountryIcon">
                                             <i class="fas fa-globe"></i> {$LANG['orderForm']['country']}
                                         </label>
-                                        <select name="country" id="inputCountry" class="field form-control" disabled>
+                                        <select name="country" id="inputCountry" class="field form-control">
                                             {foreach $countries as $countrycode => $countrylabel}
                                                 <option value="{$countrycode}"
                                                     {if (!$country && $countrycode == $defaultcountry) || $countrycode eq $country}
@@ -355,570 +378,787 @@
                                 {/if}
                             </div>
                         </div>
-
-                        {if $customfields}
-                            <!-- div class="sub-heading">
-                                                                                                                                                                                                                                                                                                                            <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                        <div class="field-container">
-                                                                                                                                                                                                                                                                                                                            <div class="row">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                {foreach $customfields as $customfield}
-                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
-                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    {if $customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="field-help-text">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    {$customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    {/if}
-                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                {/foreach}
-                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                        </div -->
-                            {/if}
-
-                        </div>
-
-                        {if $domainsinorder}
-
-                            <div class="card mb-4">
-                                <h3 class="card-title">{$LANG.domainregistrantinfo}</h3>
-                                <p class="small text-muted">{$LANG.orderForm.domainAlternativeContact}</p>
-
-                                <div class="row margin-bottom">
-                                    <div class="col-sm-6">
-                                        <select name="contact" id="inputDomainContact" class="field form-control">
-                                            <option value="">{$LANG.usedefaultcontact}</option>
-                                            {foreach $domaincontacts as $domcontact}
-                                                <option value="{$domcontact.id}" {if $contact == $domcontact.id} selected{/if}>
-                                                    {$domcontact.name}
-                                                </option>
-                                            {/foreach}
-                                            <option value="addingnew" {if $contact == "addingnew"} selected{/if}>
-                                                {$LANG.clientareanavaddcontact}...
-                                            </option>
-                                        </select>
+                        <div class="card mb-4" id="lkn-optional">
+                            <h3 class="card-title">Dados Fiscais (Opcional)</h3>
+                            <div class="row">
+                                <div class="col-sm-6" style="display: flex">
+                                    <div>
+                                        <label for="inputCPF" class="field-icon" id="inputCPF">CPF</label>
+                                        <input type="text" name="inputCPF" id="inputCPF" class="field form-control"
+                                            placeholder="123.456.789-10">
                                     </div>
                                 </div>
-
-                                <div{if $contact neq "addingnew"} class="w-hidden" {/if}>
-                                    <div class="row" id="domainRegistrantInputFields">
-                                        <div class="col-sm-6">
-                                            <div>
-                                                <label for="inputDCFirstName" class="field-icon">
-                                                    <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
-                                                </label>
-                                                <input type="text" name="domaincontactfirstname" id="inputDCFirstName"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.firstName}"
-                                                    value="{$domaincontact.firstname}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div>
-                                                <label for="inputDCLastName" class="field-icon">
-                                                    <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
-                                                </label>
-                                                <input type="text" name="domaincontactlastname" id="inputDCLastName"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.lastName}"
-                                                    value="{$domaincontact.lastname}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div>
-                                                <label for="inputDCEmail" class="field-icon">
-                                                    <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
-                                                </label>
-                                                <input type="email" name="domaincontactemail" id="inputDCEmail"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.emailAddress}"
-                                                    value="{$domaincontact.email}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div>
-                                                <label for="inputDCPhone" class="field-icon">
-                                                    <i class="fas fa-phone"></i> {$LANG.orderForm.phoneNumber}
-                                                </label>
-                                                <input type="tel" name="domaincontactphonenumber" id="inputDCPhone"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.phoneNumber}"
-                                                    value="{$domaincontact.phonenumber}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div>
-                                                <label for="inputDCCompanyName" class="field-icon">
-                                                    <i class="fas fa-building"></i> {$LANG.orderForm.companyName}
-                                                </label>
-                                                <input type="text" name="domaincontactcompanyname" id="inputDCCompanyName"
-                                                    class="field form-control"
-                                                    placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})"
-                                                    value="{$domaincontact.companyname}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div>
-                                                <label for="inputDCAddress1" class="field-icon">
-                                                    <i class="far fa-building"></i> {$LANG.orderForm.streetAddress}
-                                                </label>
-                                                <input type="text" name="domaincontactaddress1" id="inputDCAddress1"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.streetAddress}"
-                                                    value="{$domaincontact.address1}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div>
-                                                <label for="inputDCAddress2" class="field-icon">
-                                                    <i class="fas fa-map-marker-alt"></i> {$LANG.orderForm.streetAddress2}
-                                                </label>
-                                                <input type="text" name="domaincontactaddress2" id="inputDCAddress2"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.streetAddress2}"
-                                                    value="{$domaincontact.address2}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div>
-                                                <label for="inputDCCity" class="field-icon">
-                                                    <i class="far fa-building"></i> {$LANG.orderForm.city}
-                                                </label>
-                                                <input type="text" name="domaincontactcity" id="inputDCCity"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.city}"
-                                                    value="{$domaincontact.city}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div>
-                                                <label for="inputDCState" class="field-icon">
-                                                    <i class="fas fa-map-signs"></i> {$LANG.orderForm.state}
-                                                </label>
-                                                <input type="text" name="domaincontactstate" id="inputDCState"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.state}"
-                                                    value="{$domaincontact.state}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div>
-                                                <label for="inputDCPostcode" class="field-icon">
-                                                    <i class="fas fa-certificate"></i> {$LANG.orderForm.postcode}
-                                                </label>
-                                                <input type="text" name="domaincontactpostcode" id="inputDCPostcode"
-                                                    class="field form-control" placeholder="{$LANG.orderForm.postcode}"
-                                                    value="{$domaincontact.postcode}">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div>
-                                                <label for="inputDCCountry" class="field-icon" id="inputCountryIcon">
-                                                    <i class="fas fa-globe"></i> {$LANG.orderForm.country}
-                                                </label>
-                                                <select name="domaincontactcountry" id="inputDCCountry" class="field form-control">
-                                                    {foreach $countries as $countrycode => $countrylabel}
-                                                        <option value="{$countrycode}"
-                                                            {if (!$domaincontact.country && $countrycode == $defaultcountry) || $countrycode eq $domaincontact.country}
-                                                            selected{/if}>
-                                                            {$countrylabel}
-                                                        </option>
-                                                    {/foreach}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div>
-                                                <label for="inputDCTaxId" class="field-icon">
-                                                    <i class="fas fa-building"></i> {$taxLabel} ({$LANG.orderForm.optional})
-                                                </label>
-                                                <input type="text" name="domaincontacttax_id" id="inputDCTaxId"
-                                                    class="field form-control"
-                                                    placeholder="{$taxLabel} ({$LANG.orderForm.optional})"
-                                                    value="{$domaincontact.tax_id}">
-                                            </div>
-                                        </div>
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputDate" class="field-icon">Data de nascimento:</label>
+                                        <input type="date" name="inputDate" id="inputDate" class="field form-control">
                                     </div>
+                                </div>
+                                <div class="col-sm-12" id="">
+                                    <div>
+                                        <input type="checkbox" id="isPessoaJuridica">
+                                        <label for="isPessoaJuridica" class="field-icon">É pessoa jurídica?</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="display: none;" id="lkn-input-cnpj">
+                                    <div>
+                                        <label for="inputCNPJ" class="field-icon">CNPJ:</label>
+                                        <input type="text" id="inputCNPJ" class="field form-control"
+                                            placeholder="12.345.678/0001-95">
+                                    </div>
+                                </div>
                             </div>
-                    </div>
-
-                {/if}
-
-                {if !$loggedin}
-
-                    <div id="containerNewUserSecurity"
-                        {if (!$loggedin && $custtype eq "existing") || ($remote_auth_prelinked && !$securityquestions)}
-                        class="w-hidden" {/if}>
 
 
-                        <div class="card mb-4">
-                            <h3 class="card-title">{$LANG.orderForm.accountSecurity}</h3>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    const isPessoaJuridica = document.getElementById('isPessoaJuridica');
+                                    const cnpjField = document.getElementById('lkn-input-cnpj');
+                                    const checkBoxWrapper = document.getElementById('iCheck-isPessoaJuridica');
 
-                            <div id="containerPassword" class="row{if $remote_auth_prelinked && $securityquestions} w-hidden{/if}">
-                                <div id="passwdFeedback" class="alert alert-info text-center col-sm-12 w-hidden"></div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputNewPassword1" class="field-icon">
-                                            <i class="fas fa-lock"></i> {$LANG.clientareaconfirmpassword}
-                                        </label>
-                                        <input type="password" name="password" id="inputNewPassword1"
-                                            data-error-threshold="{$pwStrengthErrorThreshold}"
-                                            data-warning-threshold="{$pwStrengthWarningThreshold}" class="field form-control"
-                                            placeholder="{$LANG.clientareapassword}" {if $remote_auth_prelinked} value="{$password}"
-                                            {/if}>
+                                    function toggleCNPJField() {
+                                        if (isPessoaJuridica.checked || checkBoxWrapper.classList.contains(
+                                                'checked')) {
+                                            cnpjField.style.display = 'flex'; // Mostra o campo CNPJ
+                                        } else {
+                                            cnpjField.style.display = 'none'; // Esconde o campo CNPJ
+                                        }
+                                    }
+
+                                    // Chama a função inicialmente para verificar o estado do checkbox
+                                    toggleCNPJField();
+
+                                    // Cria um observador para monitorar mudanças nas classes do checkbox
+                                    const observer = new MutationObserver(function(mutations) {
+                                        mutations.forEach(function(mutation) {
+                                            if (mutation.attributeName === 'class') {
+                                                toggleCNPJField
+                                                    (); // Chama a função se a classe mudar
+                                            }
+                                        });
+                                    });
+
+                                    // Configura o observador para observar o atributo de classe
+                                    observer.observe(checkBoxWrapper, {
+                                        attributes: true // Observa mudanças em atributos
+                                    });
+
+                                    // Também é bom adicionar um listener para o próprio checkbox
+                                    isPessoaJuridica.addEventListener('change', toggleCNPJField);
+                                });
+                            </script>
+
+
+
+                            {if $customfields}
+                                <!-- div class="sub-heading">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="field-container">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="row">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    {foreach $customfields as $customfield}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        {if $customfield.description}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span class="field-help-text">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.description}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        {/if}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    {/foreach}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div -->
+                                {/if}
+
+                            </div>
+
+                            {if $domainsinorder}
+
+                                <div class="card mb-4">
+                                    <h3 class="card-title">{$LANG.domainregistrantinfo}</h3>
+                                    <p class="small text-muted">{$LANG.orderForm.domainAlternativeContact}</p>
+
+                                    <div class="row margin-bottom">
+                                        <div class="col-sm-6">
+                                            <select name="contact" id="inputDomainContact" class="field form-control">
+                                                <option value="">{$LANG.usedefaultcontact}</option>
+                                                {foreach $domaincontacts as $domcontact}
+                                                    <option value="{$domcontact.id}" {if $contact == $domcontact.id} selected{/if}>
+                                                        {$domcontact.name}
+                                                    </option>
+                                                {/foreach}
+                                                <option value="addingnew" {if $contact == "addingnew"} selected{/if}>
+                                                    {$LANG.clientareanavaddcontact}...
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
+
+                                    <div{if $contact neq "addingnew"} class="w-hidden" {/if}>
+                                        <div class="row" id="domainRegistrantInputFields">
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <label for="inputDCFirstName" class="field-icon">
+                                                        <i class="fas fa-user"></i> {$LANG.orderForm.firstName}
+                                                    </label>
+                                                    <input type="text" name="domaincontactfirstname" id="inputDCFirstName"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.firstName}"
+                                                        value="{$domaincontact.firstname}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <label for="inputDCLastName" class="field-icon">
+                                                        <i class="fas fa-user"></i> {$LANG.orderForm.lastName}
+                                                    </label>
+                                                    <input type="text" name="domaincontactlastname" id="inputDCLastName"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.lastName}"
+                                                        value="{$domaincontact.lastname}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <label for="inputDCEmail" class="field-icon">
+                                                        <i class="fas fa-envelope"></i> {$LANG.orderForm.emailAddress}
+                                                    </label>
+                                                    <input type="email" name="domaincontactemail" id="inputDCEmail"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.emailAddress}"
+                                                        value="{$domaincontact.email}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div>
+                                                    <label for="inputDCPhone" class="field-icon">
+                                                        <i class="fas fa-phone"></i> {$LANG.orderForm.phoneNumber}
+                                                    </label>
+                                                    <input type="tel" name="domaincontactphonenumber" id="inputDCPhone"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.phoneNumber}"
+                                                        value="{$domaincontact.phonenumber}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div>
+                                                    <label for="inputDCCompanyName" class="field-icon">
+                                                        <i class="fas fa-building"></i> {$LANG.orderForm.companyName}
+                                                    </label>
+                                                    <input type="text" name="domaincontactcompanyname" id="inputDCCompanyName"
+                                                        class="field form-control"
+                                                        placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})"
+                                                        value="{$domaincontact.companyname}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div>
+                                                    <label for="inputDCAddress1" class="field-icon">
+                                                        <i class="far fa-building"></i> {$LANG.orderForm.streetAddress}
+                                                    </label>
+                                                    <input type="text" name="domaincontactaddress1" id="inputDCAddress1"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.streetAddress}"
+                                                        value="{$domaincontact.address1}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div>
+                                                    <label for="inputDCAddress2" class="field-icon">
+                                                        <i class="fas fa-map-marker-alt"></i> {$LANG.orderForm.streetAddress2}
+                                                    </label>
+                                                    <input type="text" name="domaincontactaddress2" id="inputDCAddress2"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.streetAddress2}"
+                                                        value="{$domaincontact.address2}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div>
+                                                    <label for="inputDCCity" class="field-icon">
+                                                        <i class="far fa-building"></i> {$LANG.orderForm.city}
+                                                    </label>
+                                                    <input type="text" name="domaincontactcity" id="inputDCCity"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.city}"
+                                                        value="{$domaincontact.city}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div>
+                                                    <label for="inputDCState" class="field-icon">
+                                                        <i class="fas fa-map-signs"></i> {$LANG.orderForm.state}
+                                                    </label>
+                                                    <input type="text" name="domaincontactstate" id="inputDCState"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.state}"
+                                                        value="{$domaincontact.state}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    <label for="inputDCPostcode" class="field-icon">
+                                                        <i class="fas fa-certificate"></i> {$LANG.orderForm.postcode}
+                                                    </label>
+                                                    <input type="text" name="domaincontactpostcode" id="inputDCPostcode"
+                                                        class="field form-control" placeholder="{$LANG.orderForm.postcode}"
+                                                        value="{$domaincontact.postcode}">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div>
+                                                    <label for="inputDCCountry" class="field-icon" id="inputCountryIcon">
+                                                        <i class="fas fa-globe"></i> {$LANG.orderForm.country}
+                                                    </label>
+                                                    <select name="domaincontactcountry" id="inputDCCountry"
+                                                        class="field form-control">
+                                                        {foreach $countries as $countrycode => $countrylabel}
+                                                            <option value="{$countrycode}"
+                                                                {if (!$domaincontact.country && $countrycode == $defaultcountry) || $countrycode eq $domaincontact.country}
+                                                                selected{/if}>
+                                                                {$countrylabel}
+                                                            </option>
+                                                        {/foreach}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div>
+                                                    <label for="inputDCTaxId" class="field-icon">
+                                                        <i class="fas fa-building"></i> {$taxLabel} ({$LANG.orderForm.optional})
+                                                    </label>
+                                                    <input type="text" name="domaincontacttax_id" id="inputDCTaxId"
+                                                        class="field form-control"
+                                                        placeholder="{$taxLabel} ({$LANG.orderForm.optional})"
+                                                        value="{$domaincontact.tax_id}">
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div>
-                                        <label for="inputNewPassword2" class="field-icon">
-                                            <i class="fas fa-lock"></i> {$LANG.clientareaconfirmpassword}
-                                        </label>
-                                        <input type="password" name="password2" id="inputNewPassword2" class="field form-control"
-                                            placeholder="{$LANG.clientareaconfirmpassword}" {if $remote_auth_prelinked}
-                                            value="{$password}" {/if}>
-                                    </div>
-                                </div>
-                                <!-- div class="col-sm-6">
+                            </div>
+
+                        {/if}
+
+                        {if !$loggedin}
+
+                            <div id="containerNewUserSecurity"
+                                {if (!$loggedin && $custtype eq "existing") || ($remote_auth_prelinked && !$securityquestions)}
+                                class="w-hidden" {/if}>
+
+
+                                <div class="card mb-4">
+                                    <h3 class="card-title">{$LANG.orderForm.accountSecurity}</h3>
+
+                                    <div id="containerPassword"
+                                        class="row{if $remote_auth_prelinked && $securityquestions} w-hidden{/if}">
+                                        <div id="passwdFeedback" class="alert alert-info text-center col-sm-12 w-hidden"></div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <label for="inputNewPassword1" class="field-icon">
+                                                    <i class="fas fa-lock"></i> {$LANG.clientareaconfirmpassword}
+                                                </label>
+                                                <input type="password" name="password" id="inputNewPassword1"
+                                                    data-error-threshold="{$pwStrengthErrorThreshold}"
+                                                    data-warning-threshold="{$pwStrengthWarningThreshold}"
+                                                    class="field form-control" placeholder="{$LANG.clientareapassword}"
+                                                    {if $remote_auth_prelinked} value="{$password}" {/if}>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div>
+                                                <label for="inputNewPassword2" class="field-icon">
+                                                    <i class="fas fa-lock"></i> {$LANG.clientareaconfirmpassword}
+                                                </label>
+                                                <input type="password" name="password2" id="inputNewPassword2"
+                                                    class="field form-control" placeholder="{$LANG.clientareaconfirmpassword}"
+                                                    {if $remote_auth_prelinked} value="{$password}" {/if}>
+                                            </div>
+                                        </div>
+                                        <!-- div class="col-sm-6">
                                     <button type="button" class="btn btn-default btn-sm generate-password" data-targetfields="inputNewPassword1,inputNewPassword2">
                                         {$LANG.generatePassword.btnLabel}
                                     </button>
                                 </div -->
-                                <div class="col-sm-6">
-                                    <div class="password-strength-meter">
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-                                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                                id="passwordStrengthMeterBar">
+                                        <div class="col-sm-6">
+                                            <div class="password-strength-meter">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                        role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                                        id="passwordStrengthMeterBar">
+                                                    </div>
+                                                </div>
+                                                <p class="text-center small text-muted" id="passwordStrengthTextLabel">
+                                                    {$LANG.pwstrength}:
+                                                    {$LANG.pwstrengthenter}</p>
                                             </div>
                                         </div>
-                                        <p class="text-center small text-muted" id="passwordStrengthTextLabel">{$LANG.pwstrength}:
-                                            {$LANG.pwstrengthenter}</p>
                                     </div>
-                                </div>
-                            </div>
-                            {if $securityquestions}
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <select name="securityqid" id="inputSecurityQId" class="field form-control">
-                                            <option value="">{$LANG.clientareasecurityquestion}</option>
-                                            {foreach $securityquestions as $question}
-                                                <option value="{$question.id}" {if $question.id eq $securityqid} selected{/if}>
-                                                    {$question.question}
-                                                </option>
-                                            {/foreach}
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group prepend-icon">
-                                            <label for="inputSecurityQAns" class="field-icon">
-                                                <i class="fas fa-lock"></i>
-                                            </label>
-                                            <input type="password" name="securityqans" id="inputSecurityQAns" class="field form-control"
-                                                placeholder="{$LANG.clientareasecurityanswer}">
-                                        </div>
-                                    </div>
-                                </div>
-                            {/if}
-                        </div>
-                    </div>
-                {/if}
-
-                {foreach $hookOutput as $output}
-                    <div>
-                        {$output}
-                    </div>
-                {/foreach}
-
-                <div class="card mb-4">
-                    <h3 class="card-title">{$LANG.orderForm.paymentDetails}</h3>
-
-                    <div class="alert alert-success text-center large-text" role="alert" id="totalDueToday">
-                        {$LANG.ordertotalduetoday}: &nbsp; <strong id="totalCartPrice">{$total}</strong>
-                    </div>
-
-                    <div id="applyCreditContainer" class="apply-credit-container{if !$canUseCreditOnCheckout} w-hidden{/if}"
-                        data-apply-credit="{$applyCredit}">
-                        <p>{lang key='cart.availableCreditBalance' amount=$creditBalance}</p>
-
-                        <label class="radio">
-                            <input id="useCreditOnCheckout" type="radio" name="applycredit" value="1" {if $applyCredit}
-                                checked{/if}>
-                            <span id="spanFullCredit" {if !($creditBalance->toNumeric() >= $total->toNumeric())}
-                                class="w-hidden" {/if}>
-                                {lang key='cart.applyCreditAmountNoFurtherPayment' amount=$total}
-                            </span>
-                            <span id="spanUseCredit" {if $creditBalance->toNumeric() >= $total->toNumeric()} class="w-hidden"
-                                {/if}>
-                                {lang key='cart.applyCreditAmount' amount=$creditBalance}
-                            </span>
-                        </label>
-                        <label class="radio">
-                            <input id="skipCreditOnCheckout" type="radio" name="applycredit" value="0" {if !$applyCredit}
-                                checked{/if}>
-                            {lang key='cart.applyCreditSkip' amount=$creditBalance}
-                        </label>
-                    </div>
-
-                    {if !$inExpressCheckout}
-                        <div id="paymentGatewaysContainer" class="form-group">
-                            <p class="small text-muted">{$LANG.orderForm.preferredPaymentMethod}</p>
-
-                            <div class="text-center">
-                                {foreach $gateways as $gateway}
-                                    <label class="radio-inline">
-                                        <input type="radio" name="paymentmethod" value="{$gateway.sysname}"
-                                            data-payment-type="{$gateway.payment_type}" data-show-local="{$gateway.show_local_cards}"
-                                            data-remote-inputs="{$gateway.uses_remote_inputs}"
-                                            class="payment-methods{if $gateway.type eq "CC"} is-credit-card{/if}"
-                                            {if $selectedgateway eq $gateway.sysname} checked{/if} />
-                                        {$gateway.name}
-                                    </label>
-                                {/foreach}
-                            </div>
-                        </div>
-
-                        <div class="alert alert-danger text-center gateway-errors w-hidden"></div>
-
-                        <div class="clearfix"></div>
-
-                        <div id="paymentGatewayInput"></div>
-
-                        <div class="cc-input-container{if $selectedgatewaytype neq "CC"} w-hidden{/if}" id="creditCardInputFields">
-                            {if $client}
-                                <div id="existingCardsContainer" class="existing-cc-grid">
-                                    {include file="orderforms/standard_cart/includes/existing-paymethods.tpl"}
-                                </div>
-                            {/if}
-                            <div class="row cvv-input" id="existingCardInfo">
-                                <div class="col-lg-3 col-sm-4">
-                                    <div class="form-group prepend-icon">
-                                        <label for="inputCardCVV2" class="field-icon">
-                                            <i class="fas fa-barcode"></i>
-                                        </label>
-                                        <div class="input-group">
-                                            <input type="tel" name="cccvv" id="inputCardCVV2" class="field form-control"
-                                                placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
-                                            <span class="input-group-btn input-group-append">
-                                                <button type="button" class="btn btn-default" data-toggle="popover"
-                                                    data-placement="bottom"
-                                                    data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
-                                                    ?
-                                                </button>
-                                            </span>
-                                        </div>
-                                        <span class="field-error-msg">{lang key="paymentMethodsManage.cvcNumberNotValid"}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <ul>
-                                <li>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="ccinfo" value="new" id="new"
-                                            {if !$client || $client->payMethods->count() === 0} checked="checked" {/if} />
-                                        &nbsp;
-                                        {lang key='creditcardenternewcard'}
-                                    </label>
-                                </li>
-                            </ul>
-
-                            <div class="row" id="newCardInfo">
-                                <div id="cardNumberContainer" class="col-sm-6 new-card-container">
-                                    <div class="form-group prepend-icon">
-                                        <label for="inputCardNumber" class="field-icon">
-                                            <i class="fas fa-credit-card"></i>
-                                        </label>
-                                        <input type="tel" name="ccnumber" id="inputCardNumber"
-                                            class="field form-control cc-number-field" placeholder="{$LANG.orderForm.cardNumber}"
-                                            autocomplete="cc-number"
-                                            data-message-unsupported="{lang key='paymentMethodsManage.unsupportedCardType'}"
-                                            data-message-invalid="{lang key='paymentMethodsManage.cardNumberNotValid'}"
-                                            data-supported-cards="{$supportedCardTypes}" />
-                                        <span class="field-error-msg"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 new-card-container">
-                                    <div class="form-group prepend-icon">
-                                        <label for="inputCardExpiry" class="field-icon">
-                                            <i class="fas fa-calendar-alt"></i>
-                                        </label>
-                                        <input type="tel" name="ccexpirydate" id="inputCardExpiry" class="field form-control"
-                                            placeholder="MM / YY{if $showccissuestart} ({$LANG.creditcardcardexpires}){/if}"
-                                            autocomplete="cc-exp">
-                                        <span class="field-error-msg">{lang key="paymentMethodsManage.expiryDateNotValid"}</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3" id="cvv-field-container">
-                                    <div class="form-group prepend-icon">
-                                        <label for="inputCardCVV" class="field-icon">
-                                            <i class="fas fa-barcode"></i>
-                                        </label>
-                                        <div class="input-group">
-                                            <input type="tel" name="cccvv" id="inputCardCVV" class="field form-control"
-                                                placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
-                                            <span class="input-group-btn input-group-append">
-                                                <button type="button" class="btn btn-default" data-toggle="popover"
-                                                    data-placement="bottom"
-                                                    data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
-                                                    ?
-                                                </button>
-                                            </span><br>
-                                        </div>
-                                        <span class="field-error-msg">{lang key="paymentMethodsManage.cvcNumberNotValid"}</span>
-                                    </div>
-                                </div>
-                                {if $showccissuestart}
-                                    <div class="col-sm-3 col-sm-offset-6 new-card-container offset-sm-6">
-                                        <div class="form-group prepend-icon">
-                                            <label for="inputCardStart" class="field-icon">
-                                                <i class="far fa-calendar-check"></i>
-                                            </label>
-                                            <input type="tel" name="ccstartdate" id="inputCardStart" class="field form-control"
-                                                placeholder="MM / YY ({$LANG.creditcardcardstart})" autocomplete="cc-exp">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 new-card-container">
-                                        <div class="form-group prepend-icon">
-                                            <label for="inputCardIssue" class="field-icon">
-                                                <i class="fas fa-asterisk"></i>
-                                            </label>
-                                            <input type="tel" name="ccissuenum" id="inputCardIssue" class="field form-control"
-                                                placeholder="{$LANG.creditcardcardissuenum}">
-                                        </div>
-                                    </div>
-                                {/if}
-                            </div>
-                            <div id="newCardSaveSettings">
-                                <div class="row form-group new-card-container">
-                                    <div id="inputDescriptionContainer" class="col-md-6">
-                                        <div class="prepend-icon">
-                                            <label for="inputDescription" class="field-icon">
-                                                <i class="fas fa-pencil"></i>
-                                            </label>
-                                            <input type="text" class="field form-control" id="inputDescription" name="ccdescription"
-                                                autocomplete="off" value=""
-                                                placeholder="{$LANG.paymentMethods.descriptionInput} {$LANG.paymentMethodsManage.optional}" />
-                                        </div>
-                                    </div>
-                                    {if $allowClientsToRemoveCards}
-                                        <div id="inputNoStoreContainer" class="col-md-6" style="line-height: 32px;">
-                                            <input type="hidden" name="nostore" value="1">
-                                            <input type="checkbox" class="toggle-switch-success no-icheck" data-size="mini"
-                                                checked="checked" name="nostore" id="inputNoStore" value="0"
-                                                data-on-text="{lang key='yes'}" data-off-text="{lang key='no'}">
-                                            <label for="inputNoStore" class="checkbox-inline no-padding">
-                                                &nbsp;&nbsp;
-                                                {$LANG.creditCardStore}
-                                            </label>
+                                    {if $securityquestions}
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <select name="securityqid" id="inputSecurityQId" class="field form-control">
+                                                    <option value="">{$LANG.clientareasecurityquestion}</option>
+                                                    {foreach $securityquestions as $question}
+                                                        <option value="{$question.id}" {if $question.id eq $securityqid} selected{/if}>
+                                                            {$question.question}
+                                                        </option>
+                                                    {/foreach}
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group prepend-icon">
+                                                    <label for="inputSecurityQAns" class="field-icon">
+                                                        <i class="fas fa-lock"></i>
+                                                    </label>
+                                                    <input type="password" name="securityqans" id="inputSecurityQAns"
+                                                        class="field form-control" placeholder="{$LANG.clientareasecurityanswer}">
+                                                </div>
+                                            </div>
                                         </div>
                                     {/if}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                {else}
-                    {if $expressCheckoutOutput}
-                        {$expressCheckoutOutput}
-                    {else}
-                        <p align="center">
-                            {lang key='paymentPreApproved' gateway=$expressCheckoutGateway}
-                        </p>
-                    {/if}
-                {/if}
+                        {/if}
 
-                {if $shownotesfield}
-                    {* <div class="card mb-4">
+                        {foreach $hookOutput as $output}
+                            <div>
+                                {$output}
+                            </div>
+                        {/foreach}
+
+                        <div class="card mb-4">
+                            <h3 class="card-title">{$LANG.orderForm.paymentDetails}</h3>
+
+                            <div class="alert alert-success text-center large-text" role="alert" id="totalDueToday">
+                                {$LANG.ordertotalduetoday}: &nbsp; <strong id="totalCartPrice">{$total}</strong>
+                            </div>
+
+                            <div id="applyCreditContainer"
+                                class="apply-credit-container{if !$canUseCreditOnCheckout} w-hidden{/if}"
+                                data-apply-credit="{$applyCredit}">
+                                <p>{lang key='cart.availableCreditBalance' amount=$creditBalance}</p>
+
+                                <label class="radio">
+                                    <input id="useCreditOnCheckout" type="radio" name="applycredit" value="1" {if $applyCredit}
+                                        checked{/if}>
+                                    <span id="spanFullCredit" {if !($creditBalance->toNumeric() >= $total->toNumeric())}
+                                        class="w-hidden" {/if}>
+                                        {lang key='cart.applyCreditAmountNoFurtherPayment' amount=$total}
+                                    </span>
+                                    <span id="spanUseCredit" {if $creditBalance->toNumeric() >= $total->toNumeric()}
+                                        class="w-hidden" {/if}>
+                                        {lang key='cart.applyCreditAmount' amount=$creditBalance}
+                                    </span>
+                                </label>
+                                <label class="radio">
+                                    <input id="skipCreditOnCheckout" type="radio" name="applycredit" value="0"
+                                        {if !$applyCredit} checked{/if}>
+                                    {lang key='cart.applyCreditSkip' amount=$creditBalance}
+                                </label>
+                            </div>
+
+                            {if !$inExpressCheckout}
+                                <div id="paymentGatewaysContainer" class="form-group">
+                                    <p class="small text-muted">{$LANG.orderForm.preferredPaymentMethod}</p>
+
+                                    <div class="text-center">
+                                        {foreach $gateways as $gateway}
+                                            <label class="radio-inline">
+                                                <input type="radio" name="paymentmethod" value="{$gateway.sysname}"
+                                                    data-payment-type="{$gateway.payment_type}"
+                                                    data-show-local="{$gateway.show_local_cards}"
+                                                    data-remote-inputs="{$gateway.uses_remote_inputs}"
+                                                    class="payment-methods{if $gateway.type eq "CC"} is-credit-card{/if}"
+                                                    {if $selectedgateway eq $gateway.sysname} checked{/if} />
+                                                {$gateway.name}
+                                            </label>
+                                        {/foreach}
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-danger text-center gateway-errors w-hidden"></div>
+
+                                <div class="clearfix"></div>
+
+                                <div id="paymentGatewayInput"></div>
+
+                                <div class="cc-input-container{if $selectedgatewaytype neq "CC"} w-hidden{/if}"
+                                    id="creditCardInputFields">
+                                    {if $client}
+                                        <div id="existingCardsContainer" class="existing-cc-grid">
+                                            {include file="orderforms/standard_cart/includes/existing-paymethods.tpl"}
+                                        </div>
+                                    {/if}
+                                    <div class="row cvv-input" id="existingCardInfo">
+                                        <div class="col-lg-3 col-sm-4">
+                                            <div class="form-group prepend-icon">
+                                                <label for="inputCardCVV2" class="field-icon">
+                                                    <i class="fas fa-barcode"></i>
+                                                </label>
+                                                <div class="input-group">
+                                                    <input type="tel" name="cccvv" id="inputCardCVV2" class="field form-control"
+                                                        placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
+                                                    <span class="input-group-btn input-group-append">
+                                                        <button type="button" class="btn btn-default" data-toggle="popover"
+                                                            data-placement="bottom"
+                                                            data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
+                                                            ?
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                                <span
+                                                    class="field-error-msg">{lang key="paymentMethodsManage.cvcNumberNotValid"}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ul>
+                                        <li>
+                                            <label class="radio-inline">
+                                                <input type="radio" name="ccinfo" value="new" id="new"
+                                                    {if !$client || $client->payMethods->count() === 0} checked="checked" {/if} />
+                                                &nbsp;
+                                                {lang key='creditcardenternewcard'}
+                                            </label>
+                                        </li>
+                                    </ul>
+
+                                    <div class="row" id="newCardInfo">
+                                        <div id="cardNumberContainer" class="col-sm-6 new-card-container">
+                                            <div class="form-group prepend-icon">
+                                                <label for="inputCardNumber" class="field-icon">
+                                                    <i class="fas fa-credit-card"></i>
+                                                </label>
+                                                <input type="tel" name="ccnumber" id="inputCardNumber"
+                                                    class="field form-control cc-number-field"
+                                                    placeholder="{$LANG.orderForm.cardNumber}" autocomplete="cc-number"
+                                                    data-message-unsupported="{lang key='paymentMethodsManage.unsupportedCardType'}"
+                                                    data-message-invalid="{lang key='paymentMethodsManage.cardNumberNotValid'}"
+                                                    data-supported-cards="{$supportedCardTypes}" />
+                                                <span class="field-error-msg"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 new-card-container">
+                                            <div class="form-group prepend-icon">
+                                                <label for="inputCardExpiry" class="field-icon">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </label>
+                                                <input type="tel" name="ccexpirydate" id="inputCardExpiry"
+                                                    class="field form-control"
+                                                    placeholder="MM / YY{if $showccissuestart} ({$LANG.creditcardcardexpires}){/if}"
+                                                    autocomplete="cc-exp">
+                                                <span
+                                                    class="field-error-msg">{lang key="paymentMethodsManage.expiryDateNotValid"}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" id="cvv-field-container">
+                                            <div class="form-group prepend-icon">
+                                                <label for="inputCardCVV" class="field-icon">
+                                                    <i class="fas fa-barcode"></i>
+                                                </label>
+                                                <div class="input-group">
+                                                    <input type="tel" name="cccvv" id="inputCardCVV" class="field form-control"
+                                                        placeholder="{$LANG.creditcardcvvnumbershort}" autocomplete="cc-cvc">
+                                                    <span class="input-group-btn input-group-append">
+                                                        <button type="button" class="btn btn-default" data-toggle="popover"
+                                                            data-placement="bottom"
+                                                            data-content="<img src='{$BASE_PATH_IMG}/ccv.gif' width='210' />">
+                                                            ?
+                                                        </button>
+                                                    </span><br>
+                                                </div>
+                                                <span
+                                                    class="field-error-msg">{lang key="paymentMethodsManage.cvcNumberNotValid"}</span>
+                                            </div>
+                                        </div>
+                                        {if $showccissuestart}
+                                            <div class="col-sm-3 col-sm-offset-6 new-card-container offset-sm-6">
+                                                <div class="form-group prepend-icon">
+                                                    <label for="inputCardStart" class="field-icon">
+                                                        <i class="far fa-calendar-check"></i>
+                                                    </label>
+                                                    <input type="tel" name="ccstartdate" id="inputCardStart" class="field form-control"
+                                                        placeholder="MM / YY ({$LANG.creditcardcardstart})" autocomplete="cc-exp">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3 new-card-container">
+                                                <div class="form-group prepend-icon">
+                                                    <label for="inputCardIssue" class="field-icon">
+                                                        <i class="fas fa-asterisk"></i>
+                                                    </label>
+                                                    <input type="tel" name="ccissuenum" id="inputCardIssue" class="field form-control"
+                                                        placeholder="{$LANG.creditcardcardissuenum}">
+                                                </div>
+                                            </div>
+                                        {/if}
+                                    </div>
+                                    <div id="newCardSaveSettings">
+                                        <div class="row form-group new-card-container">
+                                            <div id="inputDescriptionContainer" class="col-md-6">
+                                                <div class="prepend-icon">
+                                                    <label for="inputDescription" class="field-icon">
+                                                        <i class="fas fa-pencil"></i>
+                                                    </label>
+                                                    <input type="text" class="field form-control" id="inputDescription"
+                                                        name="ccdescription" autocomplete="off" value=""
+                                                        placeholder="{$LANG.paymentMethods.descriptionInput} {$LANG.paymentMethodsManage.optional}" />
+                                                </div>
+                                            </div>
+                                            {if $allowClientsToRemoveCards}
+                                                <div id="inputNoStoreContainer" class="col-md-6" style="line-height: 32px;">
+                                                    <input type="hidden" name="nostore" value="1">
+                                                    <input type="checkbox" class="toggle-switch-success no-icheck" data-size="mini"
+                                                        checked="checked" name="nostore" id="inputNoStore" value="0"
+                                                        data-on-text="{lang key='yes'}" data-off-text="{lang key='no'}">
+                                                    <label for="inputNoStore" class="checkbox-inline no-padding">
+                                                        &nbsp;&nbsp;
+                                                        {$LANG.creditCardStore}
+                                                    </label>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {else}
+                            {if $expressCheckoutOutput}
+                                {$expressCheckoutOutput}
+                            {else}
+                                <p align="center">
+                                    {lang key='paymentPreApproved' gateway=$expressCheckoutGateway}
+                                </p>
+                            {/if}
+                        {/if}
+
+                        {if $shownotesfield}
+                            {* <div class="card mb-4">
                         <h3 class="card-title">{$LANG.orderForm.additionalNotes}</h3>
                         <div class="row">
                             <div class="col-sm-12">
@@ -929,55 +1169,103 @@
                             </div>
                         </div>
                     </div> *}
-                {/if}
+                        {/if}
 
-                {if $showMarketingEmailOptIn}
-                    {* <div class="marketing-email-optin">
+                        {if $showMarketingEmailOptIn}
+                            {* <div class="marketing-email-optin">
                         <h4 class="font-size-18">{lang key='emailMarketing.joinOurMailingList'}</h4>
                         <p>{$marketingEmailOptInMessage}</p>
                         <input type="checkbox" name="marketingoptin" value="1" {if $marketingEmailOptIn} checked{/if}
                             class="no-icheck toggle-switch-success" data-size="small" data-on-text="{lang key='yes'}"
                             data-off-text="{lang key='no'}">
                     </div> *}
-                {/if}
+                        {/if}
 
-                <div class="text-center">
-                    {if $accepttos}
-                        <p>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="accepttos" id="accepttos" />
-                                &nbsp;
-                                {$LANG.ordertosagreement}
-                                <a href="{$tosurl}" target="_blank">{$LANG.ordertos}</a>
-                            </label>
-                        </p>
-                    {/if}
-                    {if $captcha}
-                        <div class="text-center margin-bottom">
-                            {include file="$template/includes/captcha.tpl"}
+                        <div class="text-center">
+                            {if $accepttos}
+                                <p>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="accepttos" id="accepttos" />
+                                        &nbsp;
+                                        {$LANG.ordertosagreement}
+                                        <a href="{$tosurl}" target="_blank">{$LANG.ordertos}</a>
+                                    </label>
+                                </p>
+                            {/if}
+                            {if $captcha}
+                                <div class="text-center margin-bottom">
+                                    {include file="$template/includes/captcha.tpl"}
+                                </div>
+                            {/if}
+
+                            <button style="background-color:#DAE300;border:none;color:#343B45;width:100%;" type="submit"
+                                id="btnCompleteOrder"
+                                class="btn btn-primary btn-lg disable-on-click spinner-on-click{if $captcha}{$captcha->getButtonClass($captchaForm)}{/if}"
+                                {if $cartitems==0}disabled="disabled" {/if}>
+                                {if $inExpressCheckout}{$LANG.confirmAndPay}{else}{$LANG.completeorder}{/if}
+                                &nbsp;<i class="fas fa-arrow-circle-right"></i>
+                            </button>
                         </div>
-                    {/if}
+                    </form>
 
-                    <button style="background-color:#DAE300;border:none;color:#343B45;width:100%;" type="submit"
-                        id="btnCompleteOrder"
-                        class="btn btn-primary btn-lg disable-on-click spinner-on-click{if $captcha}{$captcha->getButtonClass($captchaForm)}{/if}"
-                        {if $cartitems==0}disabled="disabled" {/if}>
-                        {if $inExpressCheckout}{$LANG.confirmAndPay}{else}{$LANG.completeorder}{/if}
-                        &nbsp;<i class="fas fa-arrow-circle-right"></i>
-                    </button>
-                </div>
-                </form>
-
-                {if $servedOverSsl}
-                    <!-- div class="alert alert-warning checkout-security-msg">
+                    {if $servedOverSsl}
+                        <!-- div class="alert alert-warning checkout-security-msg">
                     <i class="fas fa-lock"></i>
                     {$LANG.ordersecure} (<strong>{$ipaddress}</strong>) {$LANG.ordersecure2}
                     <div class="clearfix"></div>
                 </div -->
-                {/if}
+                    {/if}
+                </div>
             </div>
         </div>
-        </div>
+        {if $isWhatsappField}
+            <script>
+                document.getElementById('inputCountry').addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // Impede a interação com o select
+                });
+            </script>
+        {/if}
+
+        <script>
+            document.querySelector("#btnCompleteOrder").addEventListener("click", function() {
+                var fullName = document.getElementById('fullName').value.trim();
+                console.log("etese");
+                // Divida o nome completo em palavras
+                var nameParts = fullName.split(' ');
+
+                // O primeiro nome será a primeira palavra
+                var firstName = nameParts[0];
+
+                // O sobrenome será o resto das palavras
+                var lastName = nameParts.slice(1).join(' ');
+
+                // Preencha os campos "Primeiro Nome" e "Sobrenome"
+                document.getElementById('inputFirstName').value = firstName;
+                document.getElementById('inputLastName').value = lastName;
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const countryInput = document.getElementById('inputCountry');
+                const optionalField = document.querySelector('#lkn-optional');
+
+                function toggleOptionalField() {
+                    if (countryInput.value.trim() === 'BR') {
+                        optionalField.style.display = 'block'; // Mostra o campo opcional
+                    } else {
+                        optionalField.style.display = 'none'; // Esconde o campo opcional
+                    }
+                }
+
+                // Inicializa a verificação ao carregar a página
+                toggleOptionalField();
+
+                // Adiciona um ouvinte de eventos para o campo de entrada
+                countryInput.addEventListener('change', toggleOptionalField);
+            });
+        </script>
+
+
 
         <script type="text/javascript" src="{$BASE_PATH_JS}/jquery.payment.js"></script>
         <script>
