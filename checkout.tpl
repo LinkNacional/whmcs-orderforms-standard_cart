@@ -15,6 +15,7 @@
 </script>
 {if $isWhatsappField}
     <script type="text/javascript" src="{assetPath file='findCep.js'}"></script>
+    <script type="text/javascript" src="{assetPath file='increment.js'}"></script>
     <script type="text/javascript" src="{assetPath file='mask.js'}"></script>
 {/if}
 
@@ -323,17 +324,45 @@
                                     <input type="text" name="companyname" id="inputCompanyName" class="field form-control" placeholder="{$LANG.orderForm.companyName} ({$LANG.orderForm.optional})" value="{$clientsdetails.companyname}">
                                 </div>
                             </div -->
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputAddress" class="field-icon" id="inputAddressLabel">
+                                            <i class="fas fa-map-signs"></i> {$LANG.orderForm.streetAddress}
+                                        </label>
+                                        <input type="text" id="inputAddress" class="field form-control"
+                                            placeholder="{$LANG.orderForm.streetAddress}" value="">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div>
+                                        <label for="inputHouseNumber" class="field-icon" id="inputHouseNumberLabel">
+                                            <i class="fas fa-map-signs"></i> {$LANG.number}
+                                        </label>
+                                        <input type="number" name="stateNumber" id="inputHouseNumber"
+                                            class="field form-control" placeholder="{$LANG.number}" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" style="display: none;">
                                     <div>
                                         <label for="inputAddress1" class="field-icon">
                                             <i class="far fa-building"></i> {$LANG.orderForm.streetAddress}
                                         </label>
-                                        <input type="text" name="address1" id="inputAddress1" class="field form-control"
+                                        <input type="hidden" name="address1" id="inputAddress1" class="field form-control"
                                             placeholder="{$LANG.orderForm.streetAddress}"
                                             value="{$clientsdetails.address1}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
+                                    <div>
+                                        <label for="inputNeighborhood" class="field-icon">
+                                            <i class="fas fa-map-marker-alt"></i> {$LANG.neighborhood}
+                                        </label>
+                                        <input type="text" id="inputNeighborhood" class="field form-control"
+                                            placeholder="{$LANG.neighborhood}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" style="display: none;">
                                     <div>
                                         <label for="inputAddress2" class="field-icon">
                                             <i class="fas fa-map-marker-alt"></i> {$LANG.orderForm.streetAddress2}
@@ -386,8 +415,8 @@
                                     <div>
                                         <label for="inputCPF" class="field-icon" id="inputCPF">CPF</label>
                                         <input type="text" name="inputCPF" id="inputCPF" class="field form-control"
-                                            placeholder="123.456.789-10" oninput="this.value = maskCPF(this.value)" max="11"
-                                            min="11">
+                                            placeholder="123.456.789-10" onchange="this.value = maskCPF(this.value)"
+                                            max="11" min="11">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -407,7 +436,7 @@
                                         <label for="inputCNPJ" class="field-icon">CNPJ:</label>
                                         <input type="text" id="inputCNPJ" class="field form-control"
                                             placeholder="12.345.678/0001-95" name="inputCNPJ"
-                                            oninput="this.value = maskCNPJ(this.value)">
+                                            onchange="this.value = maskCNPJ(this.value)">
                                     </div>
                                 </div>
                             </div>
@@ -455,10 +484,19 @@
 
                             {if $customfields}
                                 <!-- div class="sub-heading">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="field-container">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="row">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="field-container">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="row">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -519,10 +557,19 @@
 
 
                                     {foreach $customfields as $customfield}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -583,9 +630,18 @@
 
 
                                         {if $customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="field-help-text">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {$customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="field-help-text">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    {$customfield.description}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -646,8 +702,17 @@
 
 
                                         {/if}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -708,8 +773,8 @@
 
 
                                     {/foreach}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div -->
                                 {/if}
 
                             </div>
@@ -1271,6 +1336,7 @@
                 countryInput.addEventListener('change', toggleOptionalField);
             });
         </script>
+
 
 
 

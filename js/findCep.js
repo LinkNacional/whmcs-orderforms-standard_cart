@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputCountry = document.getElementById('inputCountry')
     const stateInput = document.getElementById('stateinput')
     const stateSelect = document.getElementById('stateselect')
-    const inputAddress = document.getElementById('inputAddress1')
+    const inputAddress = document.getElementById('inputAddress')
 
     if (inputCity) inputCity.value = place[cityField] || ''
     if (inputCountry) inputCountry.value = country
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateFieldsFromCep(cep) {
     cep = cep.replace(/\s+/g, '').replace('-', '')
 
-    const inputAddress = document.getElementById('inputAddress1')
+    const inputAddress = document.getElementById('inputAddress')
     const inputCity = document.getElementById('inputCity')
     const inputState = document.getElementById('stateselect')
     const inputCountry = document.getElementById('inputCountry')
