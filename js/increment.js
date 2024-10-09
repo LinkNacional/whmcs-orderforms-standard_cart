@@ -11,7 +11,5 @@ document.addEventListener("DOMContentLoaded", function () {
             address.value = `${inputAddress.value}, ${houseNumber.value} - ${neighborhood.value}`;
         });
     }
-
-
 });
 

@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (addressField && inputAddress) {
       inputAddress.value = place[addressField] || ''
     }
+
+
   }
 
   // Verifica o CEP de acordo com o país e faz a requisição da API
@@ -112,9 +114,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // Mudar o valor como se fosse um clique do usuário
           select.value = countryCode.toUpperCase()
-
+          const event = new Event('change', { bubbles: true });
+          inputCountry.dispatchEvent(event);
         }
       })
     })
   }
+
+
 })
