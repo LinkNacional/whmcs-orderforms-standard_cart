@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Função para realizar requisição a uma API com tratamento de erro
   function fetchCepData(url, onSuccess, onError) {
     fetch(url)
       .then(response => response.json())
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
       })
   }
 
-  // Atualiza os campos de endereço
   function updateAddressFields(data, country, cityField, stateField, addressField = '') {
     const place = data?.places?.[0] || {}
 
@@ -31,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   }
 
-  // Verifica o CEP de acordo com o país e faz a requisição da API
   function updateFieldsFromCep(cep) {
     cep = cep.replace(/\s+/g, '').replace('-', '')
 
@@ -61,17 +58,17 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       )
-    } else if (/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(cep) || /^[A-Z]{1,2}\d[A-Z\d]?$/.test(cep)) { // Reino Unido
+    } else if (/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(cep) || /^[A-Z]{1,2}\d[A-Z\d]?$/.test(cep)) { 
       fetchCepData(
         `https://api.zippopotam.us/GB/${cep}`,
         data => updateAddressFields(data, 'GB', 'place name', 'state')
       )
-    } else if (/^\d{5}(-\d{4})?$/.test(cep)) { // EUA
+    } else if (/^\d{5}(-\d{4})?$/.test(cep)) { 
       fetchCepData(
         `https://api.zippopotam.us/US/${cep}`,
         data => updateAddressFields(data, 'US', 'place name', 'state', 'street')
       )
-    } else if (/^\d{7}$/.test(cep) || /^\d{4}-\d{3}$/.test(cep)) { // Portugal
+    } else if (/^\d{7}$/.test(cep) || /^\d{4}-\d{3}$/.test(cep)) { 
       if (/^\d{7}$/.test(cep)) cep = cep.slice(0, 4) + '-' + cep.slice(4)
       fetchCepData(`https://json.geoapi.pt/cp/${cep}`, function (data) {
         if (data) {
@@ -80,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
           inputCountry.value = 'PT'
           document.getElementById('stateinput').value = data.Distrito
 
-          // Ajusta a exibição do estado
           document.getElementById('stateinput').style.display = 'block'
 
           document.getElementById('stateselect').style.display = 'none'
@@ -93,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Verifica se o campo CEP existe antes de adicionar o evento
   const inputPostcode = document.getElementById('inputPostcode')
   if (inputPostcode) {
     inputPostcode.addEventListener('change', function () {
@@ -102,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
     })
   }
 
-  // Verifica se a lista de países existe antes de adicionar o evento
   const countryList = document.querySelectorAll('.country-list .country')
   if (countryList.length > 0) {
     countryList.forEach(function (country) {

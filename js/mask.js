@@ -38,12 +38,10 @@ function maskCNPJ(value) {
 
 
 function maskNIF(nif) {
-    // Remove caracteres não numéricos
     nif = nif.replace(/\D/g, '');
 
-    // Verifica se o NIF tem exatamente 9 dígitos
     if (nif.length === 9) {
-        return nif; // Retorna o NIF formatado
+        return nif; 
     } else {
         throw new Error('O NIF deve ter 9 dígitos.');
     }
