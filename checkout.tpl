@@ -1188,7 +1188,7 @@
                     {if !$inExpressCheckout}
                         <div id="paymentGatewaysContainer" class="form-group">
                             <div class="form-group bg-light p-4 rounded shadow text-center">
-                                <p class="h5 font-weight-bold text-dark">Complete o pedido para concluir o processo.</p>
+                                <p class="h5 font-weight-bold text-dark">{$LANG.avCompleteOrder}</p>
                             </div>
                             <div class="text-center" style="display: none;">
                                 {foreach $gateways as $gateway}
