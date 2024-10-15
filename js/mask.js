@@ -37,12 +37,3 @@ function maskCNPJ(value) {
 }
 
 
-function maskNIF(nif) {
-    nif = nif.replace(/\D/g, '');
-
-    if (nif.length === 9) {
-        return nif; 
-    } else {
-        throw new Error('O NIF deve ter 9 dígitos.');
-    }
-}

@@ -142,7 +142,7 @@
         font-size: 10px;
         color: #939393;
         font-style: italic;
-        padding-top: 16px;
+        padding: 16px;
         text-align: center !important;
     }
 
