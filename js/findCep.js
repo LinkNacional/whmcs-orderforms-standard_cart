@@ -58,62 +58,67 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       )
-    } else if (/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(cep) || /^[A-Z]{1,2}\d[A-Z\d]?$/.test(cep)) { 
+    } else if (/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(cep) || /^[A-Z]{1,2}\d[A-Z\d]?$/.test(cep)) {
       fetchCepData(
         `https://api.zippopotam.us/GB/${cep}`,
         data => updateAddressFields(data, 'GB', 'place name', 'state')
       )
-    } else if (/^\d{5}(-\d{4})?$/.test(cep)) { 
+    } else if (/^\d{5}(-\d{4})?$/.test(cep)) {
       fetchCepData(
         `https://api.zippopotam.us/US/${cep}`,
         data => updateAddressFields(data, 'US', 'place name', 'state', 'street')
       )
     } else if (/^\d{7}$/.test(cep) || /^\d{4}-\d{3}$/.test(cep)) { 
-      if (/^\d{7}$/.test(cep)) cep = cep.slice(0, 4) + '-' + cep.slice(4)
+      if (/^\d{7}$/.test(cep)) cep = cep.slice(0, 4) + '-' + cep.slice(4);
+      
+      // Usando a API GeoAPI para Portugal
       fetchCepData(`https://json.geoapi.pt/cp/${cep}`, function (data) {
         if (data) {
-          inputAddress.value = data.ruas[0]
-          inputCity.value = data.Localidade
-          inputCountry.value = 'PT'
-          document.getElementById('stateinput').value = data.Distrito
-
-          document.getElementById('stateinput').style.display = 'block'
-
-          document.getElementById('stateselect').style.display = 'none'
+          console.log(data);
+          
+          // Preenchendo os campos com as informações obtidas
+          inputAddress.value = data.ruas[0] || ''; // Nome da rua
+          inputCity.value = data.Localidade || ''; // Nome da cidade
+          inputCountry.value = 'PT'; // País (Portugal)
+  
+          document.getElementById('stateinput').value = data.Distrito || ''; // Estado/Distrito
+  
+          // Mostrar/Esconder os campos adequadamente
+          document.getElementById('stateinput').style.display = 'block';
+          document.getElementById('stateselect').style.display = 'none';
         } else {
-          console.error(`Erro: Código postal de Portugal não encontrado. CEP: ${cep}`)
+          console.error(`Erro: Código postal de Portugal não encontrado. CEP: ${cep}`);
         }
+      });
+  }
+  
+  }
+
+    const inputPostcode = document.getElementById('inputPostcode')
+    if (inputPostcode) {
+      inputPostcode.addEventListener('change', function () {
+        const cep = this.value
+        updateFieldsFromCep(cep)
       })
-    } else {
-      console.error('CEP/Código Postal inválido. Certifique-se de inserir um CEP válido.')
     }
-  }
 
-  const inputPostcode = document.getElementById('inputPostcode')
-  if (inputPostcode) {
-    inputPostcode.addEventListener('change', function () {
-      const cep = this.value
-      updateFieldsFromCep(cep)
-    })
-  }
+    const countryList = document.querySelectorAll('.country-list .country')
+    if (countryList.length > 0) {
+      countryList.forEach(function (country) {
+        country.addEventListener('click', function () {
+          const countryCode = this.getAttribute('data-country-code')
+          const inputCountry = document.getElementById('inputCountry')
+          if (inputCountry) {
+            var select = document.getElementById('inputCountry');
 
-  const countryList = document.querySelectorAll('.country-list .country')
-  if (countryList.length > 0) {
-    countryList.forEach(function (country) {
-      country.addEventListener('click', function () {
-        const countryCode = this.getAttribute('data-country-code')
-        const inputCountry = document.getElementById('inputCountry')
-        if (inputCountry) {
-          var select = document.getElementById('inputCountry');
-
-          // Mudar o valor como se fosse um clique do usuário
-          select.value = countryCode.toUpperCase()
-          const event = new Event('change', { bubbles: true });
-          inputCountry.dispatchEvent(event);
-        }
+            // Mudar o valor como se fosse um clique do usuário
+            select.value = countryCode.toUpperCase()
+            const event = new Event('change', { bubbles: true });
+            inputCountry.dispatchEvent(event);
+          }
+        })
       })
-    })
-  }
+    }
 
 
-})
+  })
