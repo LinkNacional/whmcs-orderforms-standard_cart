@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const cep = this.value
       updateFieldsFromCep(cep)
     })
+
+    updateFieldsFromCep(inputPostcode.value)
   }
 
   const countryList = document.querySelectorAll('.country-list .country')
