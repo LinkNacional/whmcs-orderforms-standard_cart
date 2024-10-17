@@ -361,7 +361,7 @@
     word-wrap: break-word;
 }
 #order-standard_cart .domain-checker-available {
-    color: #5cb85c;
+    color: #343B45;
 }
 #order-standard_cart .domain-checker-unavailable,
 #order-standard_cart .domain-checker-invalid {
@@ -911,20 +911,48 @@ div.domainresults table tr td {
     margin: 0;
     padding: 80px 0;
     background-repeat: no-repeat;
+    background-color: #121519;
     background-position: 110% -5px;
     background-image:url('../img/globe.png');
 }
 
+.btn.btn-primary.btn-add-to-cart.checkout, .btn.btn-primary.btn-add-to-cart{
+    margin-top: 20px;
+    border-radius: 90px;
+    width: 80%;
+    padding: 13px;
+}
+
 @media (max-width: 992px) {
+    .header-lined, p{
+        padding: 5px;
+    }
     .domain-checker-bg {
         padding: 40px 0;
+        background-color: #fff;
     }
+    #order-standard_cart .cart-body {
+        padding: 0;
+    }
+    .panel-footer.card-footer.more-suggestions.w-hidden{
+        text-align: center;
+        border-radius: 100px;
+    }
+    .already-registered > div {
+        display: inline-flex;
+    }
+    #btnNewUserSignup, #btnAlreadyRegistered {
+        padding: 5px !important;
+        width: 30%;
+        margin: 15px !important;
+    }
+    
 }
 
 .domain-checker-container .input-group-box {
     margin: 0 auto;
     padding: 10px;
-    width: 100%;
+    width: 95%;
     background-color: #fff;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;

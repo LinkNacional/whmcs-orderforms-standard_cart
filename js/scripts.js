@@ -6,506 +6,505 @@
  * (c) 2013 Damir Sultanov, http://fronteed.com
  * MIT Licensed
  */
+(function ($) {
 
-(function($) {
+    // Cached vars
+    var _iCheck = 'iCheck',
+        _iCheckHelper = _iCheck + '-helper',
+        _checkbox = 'checkbox',
+        _radio = 'radio',
+        _checked = 'checked',
+        _unchecked = 'un' + _checked,
+        _disabled = 'disabled',
+        _determinate = 'determinate',
+        _indeterminate = 'in' + _determinate,
+        _update = 'update',
+        _type = 'type',
+        _click = 'click',
+        _touch = 'touchbegin.i touchend.i',
+        _add = 'addClass',
+        _remove = 'removeClass',
+        _callback = 'trigger',
+        _label = 'label',
+        _cursor = 'cursor',
+        _mobile = /ip(hone|od|ad)|android|blackberry|windows phone|opera mini|silk/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-  // Cached vars
-  var _iCheck = 'iCheck',
-    _iCheckHelper = _iCheck + '-helper',
-    _checkbox = 'checkbox',
-    _radio = 'radio',
-    _checked = 'checked',
-    _unchecked = 'un' + _checked,
-    _disabled = 'disabled',
-    _determinate = 'determinate',
-    _indeterminate = 'in' + _determinate,
-    _update = 'update',
-    _type = 'type',
-    _click = 'click',
-    _touch = 'touchbegin.i touchend.i',
-    _add = 'addClass',
-    _remove = 'removeClass',
-    _callback = 'trigger',
-    _label = 'label',
-    _cursor = 'cursor',
-    _mobile = /ip(hone|od|ad)|android|blackberry|windows phone|opera mini|silk/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    // Plugin init
+    $.fn[_iCheck] = function (options, fire) {
 
-  // Plugin init
-  $.fn[_iCheck] = function(options, fire) {
+        // Walker
+        var handle = 'input[type="' + _checkbox + '"], input[type="' + _radio + '"]',
+            stack = $(),
+            walker = function (object) {
+                object.each(function () {
+                    var self = $(this);
 
-    // Walker
-    var handle = 'input[type="' + _checkbox + '"], input[type="' + _radio + '"]',
-      stack = $(),
-      walker = function(object) {
-        object.each(function() {
-          var self = $(this);
+                    if (self.is(handle)) {
+                        stack = stack.add(self);
+                    } else {
+                        stack = stack.add(self.find(handle));
+                    }
+                });
+            };
 
-          if (self.is(handle)) {
-            stack = stack.add(self);
-          } else {
-            stack = stack.add(self.find(handle));
-          }
-        });
-      };
+        // Check if we should operate with some method
+        if (/^(check|uncheck|toggle|indeterminate|determinate|disable|enable|update|destroy)$/i.test(options)) {
 
-    // Check if we should operate with some method
-    if (/^(check|uncheck|toggle|indeterminate|determinate|disable|enable|update|destroy)$/i.test(options)) {
+            // Normalize method's name
+            options = options.toLowerCase();
 
-      // Normalize method's name
-      options = options.toLowerCase();
+            // Find checkboxes and radio buttons
+            walker(this);
 
-      // Find checkboxes and radio buttons
-      walker(this);
+            return stack.each(function () {
+                var self = $(this);
 
-      return stack.each(function() {
-        var self = $(this);
-
-        if (options == 'destroy') {
-          tidy(self, 'ifDestroyed');
-        } else {
-          operate(self, true, options);
-        }
-
-        // Fire method's callback
-        if ($.isFunction(fire)) {
-          fire();
-        }
-      });
-
-    // Customization
-    } else if (typeof options == 'object' || !options) {
-
-      // Check if any options were passed
-      var settings = $.extend({
-          checkedClass: _checked,
-          disabledClass: _disabled,
-          indeterminateClass: _indeterminate,
-          labelHover: true
-        }, options),
-
-        selector = settings.handle,
-        hoverClass = settings.hoverClass || 'hover',
-        focusClass = settings.focusClass || 'focus',
-        activeClass = settings.activeClass || 'active',
-        labelHover = !!settings.labelHover,
-        labelHoverClass = settings.labelHoverClass || 'hover',
-
-        // Setup clickable area
-        area = ('' + settings.increaseArea).replace('%', '') | 0;
-
-      // Selector limit
-      if (selector == _checkbox || selector == _radio) {
-        handle = 'input[type="' + selector + '"]';
-      }
-
-      // Clickable area limit
-      if (area < -50) {
-        area = -50;
-      }
-
-      // Walk around the selector
-      walker(this);
-
-      return stack.each(function() {
-        var self = $(this);
-
-        // If already customized
-        tidy(self);
-
-        var node = this,
-          id = node.id,
-
-          // Layer styles
-          offset = -area + '%',
-          size = 100 + (area * 2) + '%',
-          layer = {
-            position: 'absolute',
-            top: offset,
-            left: offset,
-            display: 'block',
-            width: size,
-            height: size,
-            margin: 0,
-            padding: 0,
-            background: '#fff',
-            border: 0,
-            opacity: 0
-          },
-
-          // Choose how to hide input
-          hide = _mobile ? {
-            position: 'absolute',
-            visibility: 'hidden'
-          } : area ? layer : {
-            position: 'absolute',
-            opacity: 0
-          },
-
-          // Get proper class
-          className = node[_type] == _checkbox ? settings.checkboxClass || 'i' + _checkbox : settings.radioClass || 'i' + _radio,
-
-          // Find assigned labels
-          label = $(_label + '[for="' + id + '"]').add(self.closest(_label)),
-
-          // Check ARIA option
-          aria = !!settings.aria,
-
-          // Set ARIA placeholder
-          ariaID = _iCheck + '-' + Math.random().toString(36).substr(2,6),
-
-          // Parent & helper
-          parent = '<div class="' + className + '" ' + (aria ? 'role="' + node[_type] + '" ' : ''),
-          helper;
-
-        // Set ARIA "labelledby"
-        if (aria) {
-          label.each(function() {
-            parent += 'aria-labelledby="';
-
-            if (this.id) {
-              parent += this.id;
-            } else {
-              this.id = ariaID;
-              parent += ariaID;
-            }
-
-            parent += '"';
-          });
-        }
-
-        // Wrap input
-        parent = self.wrap(parent + '/>')[_callback]('ifCreated').parent().append(settings.insert);
-
-        // Layer addition
-        helper = $('<ins class="' + _iCheckHelper + '"/>').css(layer).appendTo(parent);
-
-        // Finalize customization
-        self.data(_iCheck, {o: settings, s: self.attr('style')}).css(hide);
-        !!settings.inheritClass && parent[_add](node.className || '');
-        !!settings.inheritID && id && parent.attr('id', _iCheck + '-' + id);
-        parent.css('position') == 'static' && parent.css('position', 'relative');
-        operate(self, true, _update);
-
-        // Label events
-        if (label.length) {
-          label.on(_click + '.i mouseover.i mouseout.i ' + _touch, function(event) {
-            var type = event[_type],
-              item = $(this);
-
-            // Do nothing if input is disabled
-            if (!node[_disabled]) {
-
-              // Click
-              if (type == _click) {
-                if ($(event.target).is('a')) {
-                  return;
-                }
-                operate(self, false, true);
-
-              // Hover state
-              } else if (labelHover) {
-
-                // mouseout|touchend
-                if (/ut|nd/.test(type)) {
-                  parent[_remove](hoverClass);
-                  item[_remove](labelHoverClass);
+                if (options == 'destroy') {
+                    tidy(self, 'ifDestroyed');
                 } else {
-                  parent[_add](hoverClass);
-                  item[_add](labelHoverClass);
+                    operate(self, true, options);
                 }
-              }
 
-              if (_mobile) {
-                event.stopPropagation();
-              } else {
-                return false;
-              }
-            }
-          });
-        }
+                // Fire method's callback
+                if ($.isFunction(fire)) {
+                    fire();
+                }
+            });
 
-        // Input events
-        self.on(_click + '.i focus.i blur.i keyup.i keydown.i keypress.i', function(event) {
-          var type = event[_type],
-            key = event.keyCode;
+            // Customization
+        } else if (typeof options == 'object' || !options) {
 
-          // Click
-          if (type == _click) {
-            return false;
+            // Check if any options were passed
+            var settings = $.extend({
+                checkedClass: _checked,
+                disabledClass: _disabled,
+                indeterminateClass: _indeterminate,
+                labelHover: true
+            }, options),
 
-          // Keydown
-          } else if (type == 'keydown' && key == 32) {
-            if (!(node[_type] == _radio && node[_checked])) {
-              if (node[_checked]) {
-                off(self, _checked);
-              } else {
-                on(self, _checked);
-              }
-            }
+                selector = settings.handle,
+                hoverClass = settings.hoverClass || 'hover',
+                focusClass = settings.focusClass || 'focus',
+                activeClass = settings.activeClass || 'active',
+                labelHover = !!settings.labelHover,
+                labelHoverClass = settings.labelHoverClass || 'hover',
 
-            return false;
+                // Setup clickable area
+                area = ('' + settings.increaseArea).replace('%', '') | 0;
 
-          // Keyup
-          } else if (type == 'keyup' && node[_type] == _radio) {
-            !node[_checked] && on(self, _checked);
-
-          // Focus/blur
-          } else if (/us|ur/.test(type)) {
-            parent[type == 'blur' ? _remove : _add](focusClass);
-          }
-        });
-
-        // Helper events
-        helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function(event) {
-          var type = event[_type],
-
-            // mousedown|mouseup
-            toggle = /wn|up/.test(type) ? activeClass : hoverClass;
-
-          // Do nothing if input is disabled
-          if (!node[_disabled]) {
-
-            // Click
-            if (type == _click) {
-              operate(self, false, true);
-
-            // Active and hover states
-            } else {
-
-              // State is on
-              if (/wn|er|in/.test(type)) {
-
-                // mousedown|mouseover|touchbegin
-                parent[_add](toggle);
-
-              // State is off
-              } else {
-                parent[_remove](toggle + ' ' + activeClass);
-              }
-
-              // Label hover
-              if (label.length && labelHover && toggle == hoverClass) {
-
-                // mouseout|touchend
-                label[/ut|nd/.test(type) ? _remove : _add](labelHoverClass);
-              }
+            // Selector limit
+            if (selector == _checkbox || selector == _radio) {
+                handle = 'input[type="' + selector + '"]';
             }
 
-            if (_mobile) {
-              event.stopPropagation();
-            } else {
-              return false;
+            // Clickable area limit
+            if (area < -50) {
+                area = -50;
             }
-          }
-        });
-      });
-    } else {
-      return this;
-    }
-  };
 
-  // Do something with inputs
-  function operate(input, direct, method) {
-    var node = input[0],
-      state = /er/.test(method) ? _indeterminate : /bl/.test(method) ? _disabled : _checked,
-      active = method == _update ? {
-        checked: node[_checked],
-        disabled: node[_disabled],
-        indeterminate: input.attr(_indeterminate) == 'true' || input.attr(_determinate) == 'false'
-      } : node[state];
+            // Walk around the selector
+            walker(this);
 
-    // Check, disable or indeterminate
-    if (/^(ch|di|in)/.test(method) && !active) {
-      on(input, state);
+            return stack.each(function () {
+                var self = $(this);
 
-    // Uncheck, enable or determinate
-    } else if (/^(un|en|de)/.test(method) && active) {
-      off(input, state);
+                // If already customized
+                tidy(self);
 
-    // Update
-    } else if (method == _update) {
+                var node = this,
+                    id = node.id,
 
-      // Handle states
-      for (var each in active) {
-        if (active[each]) {
-          on(input, each, true);
+                    // Layer styles
+                    offset = -area + '%',
+                    size = 100 + (area * 2) + '%',
+                    layer = {
+                        position: 'absolute',
+                        top: offset,
+                        left: offset,
+                        display: 'block',
+                        width: size,
+                        height: size,
+                        margin: 0,
+                        padding: 0,
+                        background: '#fff',
+                        border: 0,
+                        opacity: 0
+                    },
+
+                    // Choose how to hide input
+                    hide = _mobile ? {
+                        position: 'absolute',
+                        visibility: 'hidden'
+                    } : area ? layer : {
+                        position: 'absolute',
+                        opacity: 0
+                    },
+
+                    // Get proper class
+                    className = node[_type] == _checkbox ? settings.checkboxClass || 'i' + _checkbox : settings.radioClass || 'i' + _radio,
+
+                    // Find assigned labels
+                    label = $(_label + '[for="' + id + '"]').add(self.closest(_label)),
+
+                    // Check ARIA option
+                    aria = !!settings.aria,
+
+                    // Set ARIA placeholder
+                    ariaID = _iCheck + '-' + Math.random().toString(36).substr(2, 6),
+
+                    // Parent & helper
+                    parent = '<div class="' + className + '" ' + (aria ? 'role="' + node[_type] + '" ' : ''),
+                    helper;
+
+                // Set ARIA "labelledby"
+                if (aria) {
+                    label.each(function () {
+                        parent += 'aria-labelledby="';
+
+                        if (this.id) {
+                            parent += this.id;
+                        } else {
+                            this.id = ariaID;
+                            parent += ariaID;
+                        }
+
+                        parent += '"';
+                    });
+                }
+
+                // Wrap input
+                parent = self.wrap(parent + '/>')[_callback]('ifCreated').parent().append(settings.insert);
+
+                // Layer addition
+                helper = $('<ins class="' + _iCheckHelper + '"/>').css(layer).appendTo(parent);
+
+                // Finalize customization
+                self.data(_iCheck, { o: settings, s: self.attr('style') }).css(hide);
+                !!settings.inheritClass && parent[_add](node.className || '');
+                !!settings.inheritID && id && parent.attr('id', _iCheck + '-' + id);
+                parent.css('position') == 'static' && parent.css('position', 'relative');
+                operate(self, true, _update);
+
+                // Label events
+                if (label.length) {
+                    label.on(_click + '.i mouseover.i mouseout.i ' + _touch, function (event) {
+                        var type = event[_type],
+                            item = $(this);
+
+                        // Do nothing if input is disabled
+                        if (!node[_disabled]) {
+
+                            // Click
+                            if (type == _click) {
+                                if ($(event.target).is('a')) {
+                                    return;
+                                }
+                                operate(self, false, true);
+
+                                // Hover state
+                            } else if (labelHover) {
+
+                                // mouseout|touchend
+                                if (/ut|nd/.test(type)) {
+                                    parent[_remove](hoverClass);
+                                    item[_remove](labelHoverClass);
+                                } else {
+                                    parent[_add](hoverClass);
+                                    item[_add](labelHoverClass);
+                                }
+                            }
+
+                            if (_mobile) {
+                                event.stopPropagation();
+                            } else {
+                                return false;
+                            }
+                        }
+                    });
+                }
+
+                // Input events
+                self.on(_click + '.i focus.i blur.i keyup.i keydown.i keypress.i', function (event) {
+                    var type = event[_type],
+                        key = event.keyCode;
+
+                    // Click
+                    if (type == _click) {
+                        return false;
+
+                        // Keydown
+                    } else if (type == 'keydown' && key == 32) {
+                        if (!(node[_type] == _radio && node[_checked])) {
+                            if (node[_checked]) {
+                                off(self, _checked);
+                            } else {
+                                on(self, _checked);
+                            }
+                        }
+
+                        return false;
+
+                        // Keyup
+                    } else if (type == 'keyup' && node[_type] == _radio) {
+                        !node[_checked] && on(self, _checked);
+
+                        // Focus/blur
+                    } else if (/us|ur/.test(type)) {
+                        parent[type == 'blur' ? _remove : _add](focusClass);
+                    }
+                });
+
+                // Helper events
+                helper.on(_click + ' mousedown mouseup mouseover mouseout ' + _touch, function (event) {
+                    var type = event[_type],
+
+                        // mousedown|mouseup
+                        toggle = /wn|up/.test(type) ? activeClass : hoverClass;
+
+                    // Do nothing if input is disabled
+                    if (!node[_disabled]) {
+
+                        // Click
+                        if (type == _click) {
+                            operate(self, false, true);
+
+                            // Active and hover states
+                        } else {
+
+                            // State is on
+                            if (/wn|er|in/.test(type)) {
+
+                                // mousedown|mouseover|touchbegin
+                                parent[_add](toggle);
+
+                                // State is off
+                            } else {
+                                parent[_remove](toggle + ' ' + activeClass);
+                            }
+
+                            // Label hover
+                            if (label.length && labelHover && toggle == hoverClass) {
+
+                                // mouseout|touchend
+                                label[/ut|nd/.test(type) ? _remove : _add](labelHoverClass);
+                            }
+                        }
+
+                        if (_mobile) {
+                            event.stopPropagation();
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+            });
         } else {
-          off(input, each, true);
+            return this;
         }
-      }
+    };
 
-    } else if (!direct || method == 'toggle') {
+    // Do something with inputs
+    function operate(input, direct, method) {
+        var node = input[0],
+            state = /er/.test(method) ? _indeterminate : /bl/.test(method) ? _disabled : _checked,
+            active = method == _update ? {
+                checked: node[_checked],
+                disabled: node[_disabled],
+                indeterminate: input.attr(_indeterminate) == 'true' || input.attr(_determinate) == 'false'
+            } : node[state];
 
-      // Helper or label was clicked
-      if (!direct) {
-        input[_callback]('ifClicked');
-      }
+        // Check, disable or indeterminate
+        if (/^(ch|di|in)/.test(method) && !active) {
+            on(input, state);
 
-      // Toggle checked state
-      if (active) {
-        if (node[_type] !== _radio) {
-          off(input, state);
+            // Uncheck, enable or determinate
+        } else if (/^(un|en|de)/.test(method) && active) {
+            off(input, state);
+
+            // Update
+        } else if (method == _update) {
+
+            // Handle states
+            for (var each in active) {
+                if (active[each]) {
+                    on(input, each, true);
+                } else {
+                    off(input, each, true);
+                }
+            }
+
+        } else if (!direct || method == 'toggle') {
+
+            // Helper or label was clicked
+            if (!direct) {
+                input[_callback]('ifClicked');
+            }
+
+            // Toggle checked state
+            if (active) {
+                if (node[_type] !== _radio) {
+                    off(input, state);
+                }
+            } else {
+                on(input, state);
+            }
         }
-      } else {
-        on(input, state);
-      }
     }
-  }
 
-  // Add checked, disabled or indeterminate state
-  function on(input, state, keep) {
-    var node = input[0],
-      parent = input.parent(),
-      checked = state == _checked,
-      indeterminate = state == _indeterminate,
-      disabled = state == _disabled,
-      callback = indeterminate ? _determinate : checked ? _unchecked : 'enabled',
-      regular = option(input, callback + capitalize(node[_type])),
-      specific = option(input, state + capitalize(node[_type]));
+    // Add checked, disabled or indeterminate state
+    function on(input, state, keep) {
+        var node = input[0],
+            parent = input.parent(),
+            checked = state == _checked,
+            indeterminate = state == _indeterminate,
+            disabled = state == _disabled,
+            callback = indeterminate ? _determinate : checked ? _unchecked : 'enabled',
+            regular = option(input, callback + capitalize(node[_type])),
+            specific = option(input, state + capitalize(node[_type]));
 
-    // Prevent unnecessary actions
-    if (node[state] !== true) {
+        // Prevent unnecessary actions
+        if (node[state] !== true) {
 
-      // Toggle assigned radio buttons
-      if (!keep && state == _checked && node[_type] == _radio && node.name) {
-        var form = input.closest('form'),
-          inputs = 'input[name="' + node.name + '"]';
+            // Toggle assigned radio buttons
+            if (!keep && state == _checked && node[_type] == _radio && node.name) {
+                var form = input.closest('form'),
+                    inputs = 'input[name="' + node.name + '"]';
 
-        inputs = form.length ? form.find(inputs) : $(inputs);
+                inputs = form.length ? form.find(inputs) : $(inputs);
 
-        inputs.each(function() {
-          if (this !== node && $(this).data(_iCheck)) {
-            off($(this), state);
-          }
-        });
-      }
+                inputs.each(function () {
+                    if (this !== node && $(this).data(_iCheck)) {
+                        off($(this), state);
+                    }
+                });
+            }
 
-      // Indeterminate state
-      if (indeterminate) {
+            // Indeterminate state
+            if (indeterminate) {
 
-        // Add indeterminate state
-        node[state] = true;
+                // Add indeterminate state
+                node[state] = true;
 
-        // Remove checked state
-        if (node[_checked]) {
-          off(input, _checked, 'force');
+                // Remove checked state
+                if (node[_checked]) {
+                    off(input, _checked, 'force');
+                }
+
+                // Checked or disabled state
+            } else {
+
+                // Add checked or disabled state
+                if (!keep) {
+                    node[state] = true;
+                }
+
+                // Remove indeterminate state
+                if (checked && node[_indeterminate]) {
+                    off(input, _indeterminate, false);
+                }
+            }
+
+            // Trigger callbacks
+            callbacks(input, checked, state, keep);
         }
 
-      // Checked or disabled state
-      } else {
+        // Add proper cursor
+        if (node[_disabled] && !!option(input, _cursor, true)) {
+            parent.find('.' + _iCheckHelper).css(_cursor, 'default');
+        }
 
-        // Add checked or disabled state
+        // Add state class
+        parent[_add](specific || option(input, state) || '');
+
+        // Set ARIA attribute
+        if (!!parent.attr('role') && !indeterminate) {
+            parent.attr('aria-' + (disabled ? _disabled : _checked), 'true');
+        }
+
+        // Remove regular state class
+        parent[_remove](regular || option(input, callback) || '');
+    }
+
+    // Remove checked, disabled or indeterminate state
+    function off(input, state, keep) {
+        var node = input[0],
+            parent = input.parent(),
+            checked = state == _checked,
+            indeterminate = state == _indeterminate,
+            disabled = state == _disabled,
+            callback = indeterminate ? _determinate : checked ? _unchecked : 'enabled',
+            regular = option(input, callback + capitalize(node[_type])),
+            specific = option(input, state + capitalize(node[_type]));
+
+        // Prevent unnecessary actions
+        if (node[state] !== false) {
+
+            // Toggle state
+            if (indeterminate || !keep || keep == 'force') {
+                node[state] = false;
+            }
+
+            // Trigger callbacks
+            callbacks(input, checked, callback, keep);
+        }
+
+        // Add proper cursor
+        if (!node[_disabled] && !!option(input, _cursor, true)) {
+            parent.find('.' + _iCheckHelper).css(_cursor, 'pointer');
+        }
+
+        // Remove state class
+        parent[_remove](specific || option(input, state) || '');
+
+        // Set ARIA attribute
+        if (!!parent.attr('role') && !indeterminate) {
+            parent.attr('aria-' + (disabled ? _disabled : _checked), 'false');
+        }
+
+        // Add regular state class
+        parent[_add](regular || option(input, callback) || '');
+    }
+
+    // Remove all traces
+    function tidy(input, callback) {
+        if (input.data(_iCheck)) {
+
+            // Remove everything except input
+            input.parent().html(input.attr('style', input.data(_iCheck).s || ''));
+
+            // Callback
+            if (callback) {
+                input[_callback](callback);
+            }
+
+            // Unbind events
+            input.off('.i').unwrap();
+            $(_label + '[for="' + input[0].id + '"]').add(input.closest(_label)).off('.i');
+        }
+    }
+
+    // Get some option
+    function option(input, state, regular) {
+        if (input.data(_iCheck)) {
+            return input.data(_iCheck).o[state + (regular ? '' : 'Class')];
+        }
+    }
+
+    // Capitalize some string
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    // Executable handlers
+    function callbacks(input, checked, callback, keep) {
         if (!keep) {
-          node[state] = true;
+            if (checked) {
+                input[_callback]('ifToggled');
+            }
+
+            input[_callback]('change')[_callback]('ifChanged')[_callback]('if' + capitalize(callback));
         }
-
-        // Remove indeterminate state
-        if (checked && node[_indeterminate]) {
-          off(input, _indeterminate, false);
-        }
-      }
-
-      // Trigger callbacks
-      callbacks(input, checked, state, keep);
     }
-
-    // Add proper cursor
-    if (node[_disabled] && !!option(input, _cursor, true)) {
-      parent.find('.' + _iCheckHelper).css(_cursor, 'default');
-    }
-
-    // Add state class
-    parent[_add](specific || option(input, state) || '');
-
-    // Set ARIA attribute
-    if (!!parent.attr('role') && !indeterminate) {
-      parent.attr('aria-' + (disabled ? _disabled : _checked), 'true');
-    }
-
-    // Remove regular state class
-    parent[_remove](regular || option(input, callback) || '');
-  }
-
-  // Remove checked, disabled or indeterminate state
-  function off(input, state, keep) {
-    var node = input[0],
-      parent = input.parent(),
-      checked = state == _checked,
-      indeterminate = state == _indeterminate,
-      disabled = state == _disabled,
-      callback = indeterminate ? _determinate : checked ? _unchecked : 'enabled',
-      regular = option(input, callback + capitalize(node[_type])),
-      specific = option(input, state + capitalize(node[_type]));
-
-    // Prevent unnecessary actions
-    if (node[state] !== false) {
-
-      // Toggle state
-      if (indeterminate || !keep || keep == 'force') {
-        node[state] = false;
-      }
-
-      // Trigger callbacks
-      callbacks(input, checked, callback, keep);
-    }
-
-    // Add proper cursor
-    if (!node[_disabled] && !!option(input, _cursor, true)) {
-      parent.find('.' + _iCheckHelper).css(_cursor, 'pointer');
-    }
-
-    // Remove state class
-    parent[_remove](specific || option(input, state) || '');
-
-    // Set ARIA attribute
-    if (!!parent.attr('role') && !indeterminate) {
-      parent.attr('aria-' + (disabled ? _disabled : _checked), 'false');
-    }
-
-    // Add regular state class
-    parent[_add](regular || option(input, callback) || '');
-  }
-
-  // Remove all traces
-  function tidy(input, callback) {
-    if (input.data(_iCheck)) {
-
-      // Remove everything except input
-      input.parent().html(input.attr('style', input.data(_iCheck).s || ''));
-
-      // Callback
-      if (callback) {
-        input[_callback](callback);
-      }
-
-      // Unbind events
-      input.off('.i').unwrap();
-      $(_label + '[for="' + input[0].id + '"]').add(input.closest(_label)).off('.i');
-    }
-  }
-
-  // Get some option
-  function option(input, state, regular) {
-    if (input.data(_iCheck)) {
-      return input.data(_iCheck).o[state + (regular ? '' : 'Class')];
-    }
-  }
-
-  // Capitalize some string
-  function capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  // Executable handlers
-  function callbacks(input, checked, callback, keep) {
-    if (!keep) {
-      if (checked) {
-        input[_callback]('ifToggled');
-      }
-
-      input[_callback]('change')[_callback]('ifChanged')[_callback]('if' + capitalize(callback));
-    }
-  }
 })(window.jQuery || window.Zepto);
 
 /**
@@ -546,7 +545,11 @@
     }
 ));
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
+
+    $('.logo-img').parent('a').removeAttr('href');
+    $('[data-target="#mainNavbar"]').remove();
+
     jQuery(document).on('click', '.disable-on-click', function () {
         jQuery(this).addClass('disabled');
 
@@ -558,9 +561,9 @@ jQuery(document).ready(function() {
                 .addClass('fas fa-spinner fa-spin');
         }
     })
-    .on('click', '#openTicketSubmit.disabled', function () {
-        return false;
-    });
+        .on('click', '#openTicketSubmit.disabled', function () {
+            return false;
+        });
 });
 
 function scrollToGatewayInputError() {
@@ -610,239 +613,235 @@ function elementOutOfViewPort(element) {
  * @license http://www.whmcs.com/license/ WHMCS Eula
  */
 
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('authn')) {
         WHMCS.loadModule('authn', module);
     }
 })({
-provider: function () {
-    var callbackFired = false;
+    provider: function () {
+        var callbackFired = false;
 
-    /**
-     * @return {jQuery}
-     */
-    this.feedbackContainer = function () {
-        return jQuery(".providerLinkingFeedback");
-    };
+        /**
+         * @return {jQuery}
+         */
+        this.feedbackContainer = function () {
+            return jQuery(".providerLinkingFeedback");
+        };
 
-    /**
-     * @returns {jQuery}
-     */
-    this.btnContainer = function () {
-        return jQuery(".providerPreLinking");
-    };
+        /**
+         * @returns {jQuery}
+         */
+        this.btnContainer = function () {
+            return jQuery(".providerPreLinking");
+        };
 
-    this.feedbackMessage = function (context) {
-        if (typeof context === 'undefined') {
-            context = 'complete_sign_in';
-        }
-        var msgContainer = jQuery('p.providerLinkingMsg-preLink-' + context);
-        if (msgContainer.length) {
-            return msgContainer.first().html();
-        }
-
-        return '';
-    };
-
-    this.showProgressMessage = function(callback) {
-        this.feedbackContainer().fadeIn('fast', function () {
-            if (typeof callback === 'function' && !callbackFired) {
-                callbackFired = true;
-                callback();
+        this.feedbackMessage = function (context) {
+            if (typeof context === 'undefined') {
+                context = 'complete_sign_in';
             }
-        });
-    };
+            var msgContainer = jQuery('p.providerLinkingMsg-preLink-' + context);
+            if (msgContainer.length) {
+                return msgContainer.first().html();
+            }
 
-    this.preLinkInit = function (callback) {
-        var icon = '<i class="fas fa-fw fa-spinner fa-spin"></i> ';
+            return '';
+        };
 
-        this.feedbackContainer()
-            .removeClass('alert-danger alert-success')
-            .addClass('alert alert-info')
-            .html(icon + this.feedbackMessage())
-            .hide();
+        this.showProgressMessage = function (callback) {
+            this.feedbackContainer().fadeIn('fast', function () {
+                if (typeof callback === 'function' && !callbackFired) {
+                    callbackFired = true;
+                    callback();
+                }
+            });
+        };
 
-        var btnContainer = this.btnContainer();
-        if (btnContainer.length) {
-            if (btnContainer.data('hideOnPrelink')) {
-                var self = this;
-                btnContainer.fadeOut('false', function ()
-                {
-                    self.showProgressMessage(callback)
-                });
-            } else if (btnContainer.data('disableOnPrelink')) {
-                btnContainer.find('.btn').addClass('disabled');
-                this.showProgressMessage(callback);
+        this.preLinkInit = function (callback) {
+            var icon = '<i class="fas fa-fw fa-spinner fa-spin"></i> ';
+
+            this.feedbackContainer()
+                .removeClass('alert-danger alert-success')
+                .addClass('alert alert-info')
+                .html(icon + this.feedbackMessage())
+                .hide();
+
+            var btnContainer = this.btnContainer();
+            if (btnContainer.length) {
+                if (btnContainer.data('hideOnPrelink')) {
+                    var self = this;
+                    btnContainer.fadeOut('false', function () {
+                        self.showProgressMessage(callback)
+                    });
+                } else if (btnContainer.data('disableOnPrelink')) {
+                    btnContainer.find('.btn').addClass('disabled');
+                    this.showProgressMessage(callback);
+                } else {
+                    this.showProgressMessage(callback);
+                }
             } else {
                 this.showProgressMessage(callback);
             }
-        } else {
-            this.showProgressMessage(callback);
-        }
-    };
+        };
 
-    this.displayError = function (provider, errorCondition, providerErrorText){
-        jQuery('#providerLinkingMessages .provider-name').html(provider);
+        this.displayError = function (provider, errorCondition, providerErrorText) {
+            jQuery('#providerLinkingMessages .provider-name').html(provider);
 
-        var feedbackMsg = this.feedbackMessage('connect_error');
-        if (errorCondition) {
-            var errorMsg = this.feedbackMessage(errorCondition);
-            if (errorMsg) {
-                feedbackMsg = errorMsg
+            var feedbackMsg = this.feedbackMessage('connect_error');
+            if (errorCondition) {
+                var errorMsg = this.feedbackMessage(errorCondition);
+                if (errorMsg) {
+                    feedbackMsg = errorMsg
+                }
             }
-        }
 
-        if (providerErrorText && $('.btn-logged-in-admin').length > 0) {
-            feedbackMsg += ' Error: ' + providerErrorText;
-        }
+            if (providerErrorText && $('.btn-logged-in-admin').length > 0) {
+                feedbackMsg += ' Error: ' + providerErrorText;
+            }
 
-        this.feedbackContainer().removeClass('alert-info alert-success')
-            .addClass('alert alert-danger')
-            .html(feedbackMsg).slideDown();
-    };
+            this.feedbackContainer().removeClass('alert-info alert-success')
+                .addClass('alert alert-danger')
+                .html(feedbackMsg).slideDown();
+        };
 
-    this.displaySuccess = function (data, context, provider) {
-        var icon = provider.icon;
-        var htmlTarget = context.htmlTarget;
-        var targetLogin = context.targetLogin;
-        var targetRegister = context.targetRegister;
-        var displayName = provider.name;
-        var feedbackMsg = '';
+        this.displaySuccess = function (data, context, provider) {
+            var icon = provider.icon;
+            var htmlTarget = context.htmlTarget;
+            var targetLogin = context.targetLogin;
+            var targetRegister = context.targetRegister;
+            var displayName = provider.name;
+            var feedbackMsg = '';
 
-        switch (data.result) {
-            case "logged_in":
-            case "2fa_needed":
-                feedbackMsg = this.feedbackMessage('2fa_needed');
-                this.feedbackContainer().removeClass('alert-danger alert-warning alert-success')
-                    .addClass('alert alert-info')
-                    .html(feedbackMsg);
+            switch (data.result) {
+                case "logged_in":
+                case "2fa_needed":
+                    feedbackMsg = this.feedbackMessage('2fa_needed');
+                    this.feedbackContainer().removeClass('alert-danger alert-warning alert-success')
+                        .addClass('alert alert-info')
+                        .html(feedbackMsg);
 
-                window.location = data.redirect_url
-                    ? decodeURIComponent(data.redirect_url)
-                    : decodeURIComponent(context.redirectUrl);
+                    window.location = data.redirect_url
+                        ? decodeURIComponent(data.redirect_url)
+                        : decodeURIComponent(context.redirectUrl);
 
-                break;
+                    break;
 
-            case "linking_complete":
-                var accountInfo = '';
-                if (data.remote_account.email) {
-                    accountInfo = data.remote_account.email;
-                } else {
-                    accountInfo = data.remote_account.firstname + " " + data.remote_account.lastname;
-                }
-
-                accountInfo = accountInfo.trim();
-
-                feedbackMsg = this.feedbackMessage('linking_complete').trim().replace(':displayName', displayName);
-                if (accountInfo) {
-                    feedbackMsg = feedbackMsg.replace(/\.$/, ' (' + accountInfo + ').');
-                }
-
-                this.feedbackContainer().removeClass('alert-danger alert-warning alert-info')
-                    .addClass('alert alert-success')
-                    .html(icon + feedbackMsg);
-                break;
-
-            case "login_to_link":
-                if (htmlTarget === targetLogin) {
-                    feedbackMsg = this.feedbackMessage('login_to_link-signin-required');
-                    this.feedbackContainer().removeClass('alert-danger alert-success alert-info')
-                        .addClass('alert alert-warning')
-                        .html(icon + feedbackMsg);
-                } else {
-                    var emailField = jQuery("input[name=email]");
-                    var firstNameField = jQuery("input[name=firstname]");
-                    var lastNameField = jQuery("input[name=lastname]");
-
-                    if (emailField.val() === "") {
-                        emailField.val(data.remote_account.email);
-                    }
-
-                    if (firstNameField.val() === "") {
-                        firstNameField.val(data.remote_account.firstname);
-                    }
-
-                    if (lastNameField.val() === "") {
-                        lastNameField.val(data.remote_account.lastname);
-                    }
-
-                    if (htmlTarget === targetRegister) {
-                        if (typeof WHMCS.client.registration === 'object') {
-                            WHMCS.client.registration.prefillPassword();
-                        }
-                        feedbackMsg = this.feedbackMessage('login_to_link-registration-required');
-                        this.feedbackContainer().fadeOut('slow', function () {
-                            $(this).removeClass('alert-danger alert-success alert-info')
-                                .addClass('alert alert-warning')
-                                .html(icon + feedbackMsg).fadeIn('fast');
-                        });
-
+                case "linking_complete":
+                    var accountInfo = '';
+                    if (data.remote_account.email) {
+                        accountInfo = data.remote_account.email;
                     } else {
-                        // this is checkout
-                        if (typeof WHMCS.client.registration === 'object') {
-                            WHMCS.client.registration.prefillPassword();
+                        accountInfo = data.remote_account.firstname + " " + data.remote_account.lastname;
+                    }
+
+                    accountInfo = accountInfo.trim();
+
+                    feedbackMsg = this.feedbackMessage('linking_complete').trim().replace(':displayName', displayName);
+                    if (accountInfo) {
+                        feedbackMsg = feedbackMsg.replace(/\.$/, ' (' + accountInfo + ').');
+                    }
+
+                    this.feedbackContainer().removeClass('alert-danger alert-warning alert-info')
+                        .addClass('alert alert-success')
+                        .html(icon + feedbackMsg);
+                    break;
+
+                case "login_to_link":
+                    if (htmlTarget === targetLogin) {
+                        feedbackMsg = this.feedbackMessage('login_to_link-signin-required');
+                        this.feedbackContainer().removeClass('alert-danger alert-success alert-info')
+                            .addClass('alert alert-warning')
+                            .html(icon + feedbackMsg);
+                    } else {
+                        var emailField = jQuery("input[name=email]");
+                        var firstNameField = jQuery("input[name=firstname]");
+
+                        if (emailField.val() === "") {
+                            emailField.val(data.remote_account.email);
                         }
 
-                        var self = this;
-                        this.feedbackContainer().each(function (i, el) {
-                            var container = $(el);
-                            var linkContext = container.siblings('div .providerPreLinking').data('linkContext');
+                        if (firstNameField.val() === "") {
+                            firstNameField.val(data.remote_account.firstname);
+                        }
 
-                            container.fadeOut('slow', function () {
-                                if (linkContext === 'checkout-new') {
-                                    feedbackMsg = self.feedbackMessage('checkout-new');
-                                } else {
-                                    feedbackMsg = self.feedbackMessage('login_to_link-signin-required');
-                                }
-                                container.removeClass('alert-danger alert-success alert-info')
+
+                        if (htmlTarget === targetRegister) {
+                            if (typeof WHMCS.client.registration === 'object') {
+                                WHMCS.client.registration.prefillPassword();
+                            }
+                            feedbackMsg = this.feedbackMessage('login_to_link-registration-required');
+                            this.feedbackContainer().fadeOut('slow', function () {
+                                $(this).removeClass('alert-danger alert-success alert-info')
                                     .addClass('alert alert-warning')
                                     .html(icon + feedbackMsg).fadeIn('fast');
                             });
-                        });
+
+                        } else {
+                            // this is checkout
+                            if (typeof WHMCS.client.registration === 'object') {
+                                WHMCS.client.registration.prefillPassword();
+                            }
+
+                            var self = this;
+                            this.feedbackContainer().each(function (i, el) {
+                                var container = $(el);
+                                var linkContext = container.siblings('div .providerPreLinking').data('linkContext');
+
+                                container.fadeOut('slow', function () {
+                                    if (linkContext === 'checkout-new') {
+                                        feedbackMsg = self.feedbackMessage('checkout-new');
+                                    } else {
+                                        feedbackMsg = self.feedbackMessage('login_to_link-signin-required');
+                                    }
+                                    container.removeClass('alert-danger alert-success alert-info')
+                                        .addClass('alert alert-warning')
+                                        .html(icon + feedbackMsg).fadeIn('fast');
+                                });
+                            });
+                        }
                     }
-                }
 
-                break;
+                    break;
 
-            case "other_user_exists":
-                feedbackMsg = this.feedbackMessage('other_user_exists');
-                this.feedbackContainer().removeClass('alert-info alert-success')
-                    .addClass('alert alert-danger')
-                    .html(icon + feedbackMsg).slideDown();
-                break;
+                case "other_user_exists":
+                    feedbackMsg = this.feedbackMessage('other_user_exists');
+                    this.feedbackContainer().removeClass('alert-info alert-success')
+                        .addClass('alert alert-danger')
+                        .html(icon + feedbackMsg).slideDown();
+                    break;
 
-            case "already_linked":
-                feedbackMsg = this.feedbackMessage('already_linked');
-                this.feedbackContainer().removeClass('alert-info alert-success')
-                    .addClass('alert alert-danger')
-                    .html(icon + feedbackMsg).slideDown();
-                break;
+                case "already_linked":
+                    feedbackMsg = this.feedbackMessage('already_linked');
+                    this.feedbackContainer().removeClass('alert-info alert-success')
+                        .addClass('alert alert-danger')
+                        .html(icon + feedbackMsg).slideDown();
+                    break;
 
-            default:
-                feedbackMsg = this.feedbackMessage('default');
-                this.feedbackContainer().removeClass('alert-info alert-success')
-                    .addClass('alert alert-danger')
-                    .html(icon + feedbackMsg).slideDown();
-                break;
-        }
-    };
-
-    this.signIn = function (config, context, provider, providerDone, providerError) {
-        jQuery.ajax(config).done(function(data) {
-            providerDone();
-            WHMCS.authn.provider.displaySuccess(data, context, provider);
-            var table = jQuery('#tableLinkedAccounts');
-            if (table.length) {
-                WHMCS.ui.dataTable.getTableById('tableLinkedAccounts').ajax.reload();
+                default:
+                    feedbackMsg = this.feedbackMessage('default');
+                    this.feedbackContainer().removeClass('alert-info alert-success')
+                        .addClass('alert alert-danger')
+                        .html(icon + feedbackMsg).slideDown();
+                    break;
             }
-        }).error(function() {
-            providerError();
-            WHMCS.authn.provider.displayError();
-        });
-    };
+        };
 
-    return this;
-}});
+        this.signIn = function (config, context, provider, providerDone, providerError) {
+            jQuery.ajax(config).done(function (data) {
+                providerDone();
+                WHMCS.authn.provider.displaySuccess(data, context, provider);
+                var table = jQuery('#tableLinkedAccounts');
+                if (table.length) {
+                    WHMCS.ui.dataTable.getTableById('tableLinkedAccounts').ajax.reload();
+                }
+            }).error(function () {
+                providerError();
+                WHMCS.authn.provider.displayError();
+            });
+        };
+
+        return this;
+    }
+});
 
 /**
  * WHMCS client module
@@ -850,48 +849,49 @@ provider: function () {
  * @copyright Copyright (c) WHMCS Limited 2005-2017
  * @license http://www.whmcs.com/license/ WHMCS Eula
  */
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('client')) {
         WHMCS.loadModule('client', module);
     }
 })({
-registration: function () {
-    this.prefillPassword = function (params) {
-        params = params || {};
-        if (typeof params.hideContainer === 'undefined') {
-            var id = (jQuery('#inputSecurityQId').attr('id')) ? '#containerPassword' : '#containerNewUserSecurity';
-            params.hideContainer = jQuery(id);
-            params.hideInputs = true;
-        } else if (typeof params.hideContainer === 'string' && params.hideContainer.length) {
-            params.hideContainer = jQuery(params.hideContainer);
-        }
+    registration: function () {
+        this.prefillPassword = function (params) {
+            params = params || {};
+            if (typeof params.hideContainer === 'undefined') {
+                var id = (jQuery('#inputSecurityQId').attr('id')) ? '#containerPassword' : '#containerNewUserSecurity';
+                params.hideContainer = jQuery(id);
+                params.hideInputs = true;
+            } else if (typeof params.hideContainer === 'string' && params.hideContainer.length) {
+                params.hideContainer = jQuery(params.hideContainer);
+            }
 
-        if (typeof params.form === 'undefined') {
-            params.form = {
-                password: [
-                    {id: 'inputNewPassword1'},
-                    {id: 'inputNewPassword2'}
-                ]
+            if (typeof params.form === 'undefined') {
+                params.form = {
+                    password: [
+                        { id: 'inputNewPassword1' },
+                        { id: 'inputNewPassword2' }
+                    ]
+                };
+            }
+
+            var prefillFunc = function () {
+                var $randomPasswd = WHMCS.utils.simpleRNG();
+                for (var i = 0, len = params.form.password.length; i < len; i++) {
+                    jQuery('#' + params.form.password[i].id)
+                        .val($randomPasswd).trigger('keyup');
+                }
             };
-        }
 
-        var prefillFunc = function () {
-            var $randomPasswd = WHMCS.utils.simpleRNG();
-            for (var i = 0, len = params.form.password.length; i < len; i++) {
-                jQuery('#' + params.form.password[i].id)
-                    .val($randomPasswd).trigger('keyup');
+            if (params.hideInputs) {
+                params.hideContainer.slideUp('fast', prefillFunc);
+            } else {
+                prefillFunc();
             }
         };
 
-        if (params.hideInputs) {
-            params.hideContainer.slideUp('fast', prefillFunc);
-        } else {
-            prefillFunc();
-        }
-    };
-
-    return this;
-}});
+        return this;
+    }
+});
 
 /**
  * WHMCS HTTP module
@@ -899,197 +899,191 @@ registration: function () {
  * @copyright Copyright (c) WHMCS Limited 2005-2018
  * @license http://www.whmcs.com/license/ WHMCS Eula
  */
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('http')) {
         WHMCS.loadModule('http', module);
     }
 })({
-jqClient: function () {
-    _getSettings = function (url, data, success, dataType)
-    {
-        if (typeof url === 'object') {
-            /*
-                Settings may be the only argument
-             */
-            return url;
-        }
+    jqClient: function () {
+        _getSettings = function (url, data, success, dataType) {
+            if (typeof url === 'object') {
+                /*
+                    Settings may be the only argument
+                 */
+                return url;
+            }
 
-        if (typeof data === 'function') {
-            /*
-                If 'data' is omitted, 'success' will come in its place
-             */
-            success = data;
-            data = null;
-        }
+            if (typeof data === 'function') {
+                /*
+                    If 'data' is omitted, 'success' will come in its place
+                 */
+                success = data;
+                data = null;
+            }
 
-        return {
-            url: url,
-            data: data,
-            success: success,
-            dataType: dataType
+            return {
+                url: url,
+                data: data,
+                success: success,
+                dataType: dataType
+            };
         };
-    };
 
-    /**
-     * @param url
-     * @param data
-     * @param success
-     * @param dataType
-     * @returns {*}
-     */
-    this.get = function (url, data, success, dataType)
-    {
-        return WHMCS.http.client.request(
-            jQuery.extend(
-                _getSettings(url, data, success, dataType),
-                {
-                    type: 'GET'
-                }
-            )
-        );
-    };
-
-    /**
-     * @param url
-     * @param data
-     * @param success
-     * @param dataType
-     * @returns {*}
-     */
-    this.post = function (url, data, success, dataType)
-    {
-        return WHMCS.http.client.request(
-            jQuery.extend(
-                _getSettings(url, data, success, dataType),
-                {
-                    type: 'POST'
-                }
-            )
-        );
-    };
-
-    /**
-     * @param options
-     * @returns {*}
-     */
-    this.jsonGet = function (options) {
-        options = options || {};
-        this.get(options.url, options.data, function(response) {
-            if (response.warning) {
-                console.log('[WHMCS] Warning: ' + response.warning);
-                if (typeof options.warning === 'function') {
-                    options.warning(response.warning);
-                }
-            } else if (response.error) {
-                console.log('[WHMCS] Error: ' + response.error);
-                if (typeof options.error === 'function') {
-                    options.error(response.error);
-                }
-            } else {
-                if (typeof options.success === 'function') {
-                    options.success(response);
-                }
-            }
-        }, 'json').error(function(xhr, errorMsg){
-            console.log('[WHMCS] Error: ' + errorMsg);
-            if (typeof options.fail === 'function') {
-                options.fail(errorMsg);
-            }
-        }).always(function() {
-            if (typeof options.always === 'function') {
-                options.always();
-            }
-        });
-    };
-
-    /**
-     * @param options
-     * @returns {*}
-     */
-    this.jsonPost = function (options) {
-        options = options || {};
-        this.post(options.url, options.data, function(response) {
-            if (response.warning) {
-                console.log('[WHMCS] Warning: ' + response.warning);
-                if (typeof options.warning === 'function') {
-                    options.warning(response.warning);
-                }
-            } else if (response.error) {
-                console.log('[WHMCS] Error: ' + response.error);
-                if (typeof options.error === 'function') {
-                    options.error(response.error);
-                }
-            } else {
-                if (typeof options.success === 'function') {
-                    options.success(response);
-                }
-            }
-        }, 'json').fail(function(xhr, errorMsg){
-            console.log('[WHMCS] Fail: ' + errorMsg);
-            if (typeof options.fail === 'function') {
-                options.fail(errorMsg, xhr);
-            }
-        }).always(function() {
-            if (typeof options.always === 'function') {
-                options.always();
-            }
-        });
-    };
-
-    return this;
-},
-
-client: function () {
-    var methods = ['get', 'post', 'put', 'delete'];
-    var client = this;
-
-    _beforeRequest = function (settings)
-    {
-        /*
-            Enforcing dataType was found to break many invocations expecting HTML back.
-            If/when those are refactored, this may be uncommented to enforce a safer
-            data transit.
+        /**
+         * @param url
+         * @param data
+         * @param success
+         * @param dataType
+         * @returns {*}
          */
-        /*if (typeof settings.dataType === 'undefined') {
-            settings.dataType = 'json';
-        }*/
+        this.get = function (url, data, success, dataType) {
+            return WHMCS.http.client.request(
+                jQuery.extend(
+                    _getSettings(url, data, success, dataType),
+                    {
+                        type: 'GET'
+                    }
+                )
+            );
+        };
 
-        if (typeof settings.type === 'undefined') {
-            // default request type is GET
-            settings.type = 'GET';
-        }
+        /**
+         * @param url
+         * @param data
+         * @param success
+         * @param dataType
+         * @returns {*}
+         */
+        this.post = function (url, data, success, dataType) {
+            return WHMCS.http.client.request(
+                jQuery.extend(
+                    _getSettings(url, data, success, dataType),
+                    {
+                        type: 'POST'
+                    }
+                )
+            );
+        };
+
+        /**
+         * @param options
+         * @returns {*}
+         */
+        this.jsonGet = function (options) {
+            options = options || {};
+            this.get(options.url, options.data, function (response) {
+                if (response.warning) {
+                    console.log('[WHMCS] Warning: ' + response.warning);
+                    if (typeof options.warning === 'function') {
+                        options.warning(response.warning);
+                    }
+                } else if (response.error) {
+                    console.log('[WHMCS] Error: ' + response.error);
+                    if (typeof options.error === 'function') {
+                        options.error(response.error);
+                    }
+                } else {
+                    if (typeof options.success === 'function') {
+                        options.success(response);
+                    }
+                }
+            }, 'json').error(function (xhr, errorMsg) {
+                console.log('[WHMCS] Error: ' + errorMsg);
+                if (typeof options.fail === 'function') {
+                    options.fail(errorMsg);
+                }
+            }).always(function () {
+                if (typeof options.always === 'function') {
+                    options.always();
+                }
+            });
+        };
+
+        /**
+         * @param options
+         * @returns {*}
+         */
+        this.jsonPost = function (options) {
+            options = options || {};
+            this.post(options.url, options.data, function (response) {
+                if (response.warning) {
+                    console.log('[WHMCS] Warning: ' + response.warning);
+                    if (typeof options.warning === 'function') {
+                        options.warning(response.warning);
+                    }
+                } else if (response.error) {
+                    console.log('[WHMCS] Error: ' + response.error);
+                    if (typeof options.error === 'function') {
+                        options.error(response.error);
+                    }
+                } else {
+                    if (typeof options.success === 'function') {
+                        options.success(response);
+                    }
+                }
+            }, 'json').fail(function (xhr, errorMsg) {
+                console.log('[WHMCS] Fail: ' + errorMsg);
+                if (typeof options.fail === 'function') {
+                    options.fail(errorMsg, xhr);
+                }
+            }).always(function () {
+                if (typeof options.always === 'function') {
+                    options.always();
+                }
+            });
+        };
+
+        return this;
+    },
+
+    client: function () {
+        var methods = ['get', 'post', 'put', 'delete'];
+        var client = this;
+
+        _beforeRequest = function (settings) {
+            /*
+                Enforcing dataType was found to break many invocations expecting HTML back.
+                If/when those are refactored, this may be uncommented to enforce a safer
+                data transit.
+             */
+            /*if (typeof settings.dataType === 'undefined') {
+                settings.dataType = 'json';
+            }*/
+
+            if (typeof settings.type === 'undefined') {
+                // default request type is GET
+                settings.type = 'GET';
+            }
+
+            /*
+                Add other preprocessing here if required
+             */
+
+            return settings;
+        };
+
+        this.request = function (settings) {
+            settings = _beforeRequest(settings || {});
+            return jQuery.ajax(settings);
+        };
 
         /*
-            Add other preprocessing here if required
+            Create shortcut methods for methods[] array above
          */
+        jQuery.each(methods, function (index, method) {
+            client[method] = (function (method, client) {
+                return function (settings) {
+                    settings = settings || {};
 
-        return settings;
-    };
+                    settings.type = method.toUpperCase();
 
-    this.request = function (settings)
-    {
-        settings = _beforeRequest(settings || {});
-        return jQuery.ajax(settings);
-    };
+                    return client.request(settings);
+                }
+            })(method, client);
+        });
 
-    /*
-        Create shortcut methods for methods[] array above
-     */
-    jQuery.each(methods, function(index, method) {
-        client[method] = (function(method, client) {
-            return function (settings)
-            {
-                settings = settings || {};
-
-                settings.type = method.toUpperCase();
-
-                return client.request(settings);
-            }
-        })(method, client);
-    });
-
-    return this;
-}
+        return this;
+    }
 
 });
 
@@ -1099,447 +1093,444 @@ client: function () {
  * @copyright Copyright (c) WHMCS Limited 2005-2017
  * @license http://www.whmcs.com/license/ WHMCS Eula
  */
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('ui')) {
         WHMCS.loadModule('ui', module);
     }
 })({
-/**
- * Confirmation PopUp
- */
-confirmation: function () {
-
     /**
-     * @type {Array} Registered confirmation root selectors
+     * Confirmation PopUp
      */
-    var toggles = [];
+    confirmation: function () {
 
-    /**
-     * Register/Re-Register all confirmation elements with jQuery
-     * By default all elements of data toggle "confirmation" will be registered
-     *
-     * @param {(string|undefined)} rootSelector
-     * @return {Array} array of registered toggles
-     */
-    this.register = function (rootSelector) {
-        if (typeof rootSelector === 'undefined') {
-            rootSelector = '[data-toggle=confirmation]';
-        }
-        if (toggles.indexOf(rootSelector) < 0) {
-            toggles.push(rootSelector);
-        }
+        /**
+         * @type {Array} Registered confirmation root selectors
+         */
+        var toggles = [];
 
-        jQuery(rootSelector).confirmation({
-            rootSelector: rootSelector
-        });
-
-        return toggles;
-    };
-
-    return this;
-},
-
-/**
- * Data Driven Table
- */
-dataTable: function () {
-
-    /**
-     * @type {{}}
-     */
-    this.tables = {};
-
-    /**
-     * Register all tables on page with the class "data-driven"
-     */
-    this.register = function () {
-        var self = this;
-        jQuery('table.data-driven').each(function (i, table) {
-            self.getTableById(table.id, undefined);
-        });
-    };
-
-    /**
-     * Get a table by id; create table object on fly as necessary
-     *
-     * @param {string} id
-     * @param {({}|undefined)} options
-     * @returns {DataTable}
-     */
-    this.getTableById = function (id, options) {
-        var self = this;
-        var el = jQuery('#' + id);
-        if (typeof self.tables[id] === 'undefined') {
-            if (typeof options === 'undefined') {
-                options = {
-                    dom: '<"listtable"ift>pl',
-                    paging: false,
-                    lengthChange: false,
-                    searching: false,
-                    ordering: true,
-                    info: false,
-                    autoWidth: true,
-                    columns: [],
-                    lengthMenu: [10, 25, 50, 100, 500, 1000],
-                    language: {
-                        emptyTable: (el.data('langEmptyTable')) ? el.data('langEmptyTable') : "No records found"
-                    }
-                };
+        /**
+         * Register/Re-Register all confirmation elements with jQuery
+         * By default all elements of data toggle "confirmation" will be registered
+         *
+         * @param {(string|undefined)} rootSelector
+         * @return {Array} array of registered toggles
+         */
+        this.register = function (rootSelector) {
+            if (typeof rootSelector === 'undefined') {
+                rootSelector = '[data-toggle=confirmation]';
             }
-            jQuery.each(el.data(), function (key, value) {
-                if (typeof value === 'undefined') {
-                    return;
-                }
-                if (key === 'ajaxUrl') {
-                    options.ajax = {
-                        url: value
+            if (toggles.indexOf(rootSelector) < 0) {
+                toggles.push(rootSelector);
+            }
+
+            jQuery(rootSelector).confirmation({
+                rootSelector: rootSelector
+            });
+
+            return toggles;
+        };
+
+        return this;
+    },
+
+    /**
+     * Data Driven Table
+     */
+    dataTable: function () {
+
+        /**
+         * @type {{}}
+         */
+        this.tables = {};
+
+        /**
+         * Register all tables on page with the class "data-driven"
+         */
+        this.register = function () {
+            var self = this;
+            jQuery('table.data-driven').each(function (i, table) {
+                self.getTableById(table.id, undefined);
+            });
+        };
+
+        /**
+         * Get a table by id; create table object on fly as necessary
+         *
+         * @param {string} id
+         * @param {({}|undefined)} options
+         * @returns {DataTable}
+         */
+        this.getTableById = function (id, options) {
+            var self = this;
+            var el = jQuery('#' + id);
+            if (typeof self.tables[id] === 'undefined') {
+                if (typeof options === 'undefined') {
+                    options = {
+                        dom: '<"listtable"ift>pl',
+                        paging: false,
+                        lengthChange: false,
+                        searching: false,
+                        ordering: true,
+                        info: false,
+                        autoWidth: true,
+                        columns: [],
+                        lengthMenu: [10, 25, 50, 100, 500, 1000],
+                        language: {
+                            emptyTable: (el.data('langEmptyTable')) ? el.data('langEmptyTable') : "No records found"
+                        }
                     };
-                    return;
                 }
-                if (key === 'lengthChange') {
-                    options.lengthChange = value;
-                    return;
-                }
-                if (key === 'pageLength') {
-                    options.pageLength = value;
-                    return;
-                }
-                if (key === 'langEmptyTable') {
-                    if (typeof options.language === "undefined") {
-                        options.language = {};
+                jQuery.each(el.data(), function (key, value) {
+                    if (typeof value === 'undefined') {
+                        return;
                     }
-                    options.language.emptyTable = value;
-                    return
-                }
-                if (key === 'langZeroRecords') {
-                    if (typeof options.language === "undefined") {
-                        options.language = {};
+                    if (key === 'ajaxUrl') {
+                        options.ajax = {
+                            url: value
+                        };
+                        return;
                     }
-                    options.language.zeroRecords = value;
-                    return
-                }
-                options.key = value;
-            });
-            jQuery.each(el.find('th'), function() {
-                if (typeof options.columns === "undefined") {
-                    options.columns = [];
-                }
-                options.columns.push({data:jQuery(this).data('name')});
-            });
-            self.tables[id] = self.initTable(el, options);
-        } else if (typeof options !== 'undefined') {
-            var oldTable = self.tables[id];
-            var initOpts = oldTable.init();
-            var newOpts = jQuery.extend( initOpts, options);
-            oldTable.destroy();
-            self.tables[id] = self.initTable(el, newOpts);
-        }
-
-        return self.tables[id];
-    };
-
-    this.initTable = function (el, options) {
-        var table = el.DataTable(options);
-        var self = this;
-        if (el.data('on-draw')) {
-            table.on('draw.dt', function (e, settings) {
-                var namedCallback = el.data('on-draw');
-                if (typeof window[namedCallback] === 'function') {
-                    window[namedCallback](e, settings);
-                }
-            });
-        } else if (el.data('on-draw-rebind-confirmation')) {
-            table.on('draw.dt', function (e) {
-                self.rebindConfirmation(e);
-            });
-        }
-
-        return table;
-    };
-
-    this.rebindConfirmation = function (e) {
-        var self = this;
-        var tableId = e.target.id;
-        var toggles = WHMCS.ui.confirmation.register();
-        for(var i = 0, len = toggles.length; i < len; i++ ) {
-            jQuery(toggles[i]).on(
-                'confirmed.bs.confirmation',
-                function (e)
-                {
-                    e.preventDefault();
-                    WHMCS.http.jqClient.post(
-                        jQuery(e.target).data('target-url'),
-                        {
-                            'token': csrfToken
+                    if (key === 'lengthChange') {
+                        options.lengthChange = value;
+                        return;
+                    }
+                    if (key === 'pageLength') {
+                        options.pageLength = value;
+                        return;
+                    }
+                    if (key === 'langEmptyTable') {
+                        if (typeof options.language === "undefined") {
+                            options.language = {};
                         }
-                    ).done(function (data)
-                    {
-                        if (data.status === 'success' || data.status === 'okay') {
-                            self.getTableById(tableId, undefined).ajax.reload();
+                        options.language.emptyTable = value;
+                        return
+                    }
+                    if (key === 'langZeroRecords') {
+                        if (typeof options.language === "undefined") {
+                            options.language = {};
                         }
+                        options.language.zeroRecords = value;
+                        return
+                    }
+                    options.key = value;
+                });
+                jQuery.each(el.find('th'), function () {
+                    if (typeof options.columns === "undefined") {
+                        options.columns = [];
+                    }
+                    options.columns.push({ data: jQuery(this).data('name') });
+                });
+                self.tables[id] = self.initTable(el, options);
+            } else if (typeof options !== 'undefined') {
+                var oldTable = self.tables[id];
+                var initOpts = oldTable.init();
+                var newOpts = jQuery.extend(initOpts, options);
+                oldTable.destroy();
+                self.tables[id] = self.initTable(el, newOpts);
+            }
+
+            return self.tables[id];
+        };
+
+        this.initTable = function (el, options) {
+            var table = el.DataTable(options);
+            var self = this;
+            if (el.data('on-draw')) {
+                table.on('draw.dt', function (e, settings) {
+                    var namedCallback = el.data('on-draw');
+                    if (typeof window[namedCallback] === 'function') {
+                        window[namedCallback](e, settings);
+                    }
+                });
+            } else if (el.data('on-draw-rebind-confirmation')) {
+                table.on('draw.dt', function (e) {
+                    self.rebindConfirmation(e);
+                });
+            }
+
+            return table;
+        };
+
+        this.rebindConfirmation = function (e) {
+            var self = this;
+            var tableId = e.target.id;
+            var toggles = WHMCS.ui.confirmation.register();
+            for (var i = 0, len = toggles.length; i < len; i++) {
+                jQuery(toggles[i]).on(
+                    'confirmed.bs.confirmation',
+                    function (e) {
+                        e.preventDefault();
+                        WHMCS.http.jqClient.post(
+                            jQuery(e.target).data('target-url'),
+                            {
+                                'token': csrfToken
+                            }
+                        ).done(function (data) {
+                            if (data.status === 'success' || data.status === 'okay') {
+                                self.getTableById(tableId, undefined).ajax.reload();
+                            }
+                        });
+
+                    }
+                );
+            }
+        };
+
+        return this;
+    },
+
+    clipboard: function () {
+        this.copy = function (e) {
+            e.preventDefault();
+
+            var trigger = $(e.currentTarget);
+            var contentElement = $(trigger).data('clipboard-target');
+            var container = $(contentElement).parent();
+
+            try {
+                var tempElement = $('<textarea>')
+                    .css('position', 'fixed')
+                    .css('opacity', '0')
+                    .css('width', '1px')
+                    .css('height', '1px')
+                    .val($(contentElement).val());
+
+                container.append(tempElement);
+                tempElement.focus().select();
+                document.execCommand('copy');
+            } finally {
+                tempElement.remove();
+            }
+
+            trigger.tooltip({
+                trigger: 'click',
+                placement: 'bottom'
+            });
+            WHMCS.ui.toolTip.setTip(trigger, 'Copied!');
+            WHMCS.ui.toolTip.hideTip(trigger);
+        };
+
+        return this;
+    },
+
+    /**
+     * ToolTip and Clipboard behaviors
+     */
+    toolTip: function () {
+        this.setTip = function (btn, message) {
+            var tip = btn.data('bs.tooltip');
+            if (tip.hoverState !== 'in') {
+                tip.hoverState = 'in';
+            }
+            btn.attr('data-original-title', message);
+            tip.show();
+
+            return tip;
+        };
+
+        this.hideTip = function (btn, timeout) {
+            if (!timeout) {
+                timeout = 2000;
+            }
+            return setTimeout(function () {
+                btn.data('bs.tooltip').hide()
+            }, timeout);
+        }
+    },
+
+    jsonForm: function () {
+        this.managedElements = 'input,textarea,select';
+
+        this.initFields = function (form) {
+            var self = this;
+            $(form).find(self.managedElements).each(function () {
+                var field = this;
+
+                $(field).on('keypress change', function () {
+                    if (self.fieldHasError(field)) {
+                        self.clearFieldError(field);
+                    }
+                });
+            });
+        };
+
+        this.init = function (form) {
+            var self = this;
+
+            self.initFields(form);
+
+            $(form).on('submit', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                self.clearErrors(form);
+
+                var formModal = $(form).parents('.modal[role="dialog"]').first();
+
+                if ($(formModal).length) {
+                    $(formModal).on('show.bs.modal hidden.bs.modal', function () {
+                        self.clearErrors(form);
                     });
 
+                    /*
+                     * Make this optional if the form is used for editing
+                     */
+                    $(formModal).on('show.bs.modal', function () {
+                        $(form)[0].reset();
+                    });
                 }
-            );
-        }
-    };
 
-    return this;
-},
-
-clipboard: function() {
-    this.copy = function(e) {
-        e.preventDefault();
-
-        var trigger = $(e.currentTarget);
-        var contentElement = $(trigger).data('clipboard-target');
-        var container = $(contentElement).parent();
-
-        try {
-            var tempElement = $('<textarea>')
-                .css('position', 'fixed')
-                .css('opacity', '0')
-                .css('width', '1px')
-                .css('height', '1px')
-                .val($(contentElement).val());
-
-            container.append(tempElement);
-            tempElement.focus().select();
-            document.execCommand('copy');
-        } finally {
-            tempElement.remove();
-        }
-
-        trigger.tooltip({
-            trigger: 'click',
-            placement: 'bottom'
-        });
-        WHMCS.ui.toolTip.setTip(trigger, 'Copied!');
-        WHMCS.ui.toolTip.hideTip(trigger);
-    };
-
-    return this;
-},
-
-/**
- * ToolTip and Clipboard behaviors
- */
-toolTip: function () {
-    this.setTip = function (btn, message) {
-        var tip = btn.data('bs.tooltip');
-        if (tip.hoverState !== 'in') {
-            tip.hoverState = 'in';
-        }
-        btn.attr('data-original-title', message);
-        tip.show();
-
-        return tip;
-    };
-
-    this.hideTip = function (btn, timeout) {
-        if (!timeout) {
-            timeout = 2000;
-        }
-        return setTimeout(function() {
-            btn.data('bs.tooltip').hide()
-        }, timeout);
-    }
-},
-
-jsonForm: function() {
-    this.managedElements = 'input,textarea,select';
-
-    this.initFields = function (form) {
-        var self = this;
-        $(form).find(self.managedElements).each(function () {
-            var field = this;
-
-            $(field).on('keypress change', function () {
-                if (self.fieldHasError(field)) {
-                    self.clearFieldError(field);
-                }
+                WHMCS.http.client.post({
+                    url: $(form).attr('action'),
+                    data: $(form).serializeArray(),
+                })
+                    .done(function (response) {
+                        self.onSuccess(form, response);
+                    })
+                    .fail(function (jqXHR) {
+                        self.onError(form, jqXHR);
+                    })
+                    .always(function (data) {
+                        self.onRequestComplete(form, data);
+                    });
             });
-        });
-    };
+        };
 
-    this.init = function (form) {
-        var self = this;
+        this.initAll = function () {
+            var self = this;
 
-        self.initFields(form);
+            $('form[data-role="json-form"]').each(function () {
+                var formElement = this;
+                self.init(formElement);
+            });
+        };
 
-        $(form).on('submit', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        this.markFieldErrors = function (form, fields) {
+            var self = this;
+            var errorMessage = null;
+            var field, fieldLookup;
 
-            self.clearErrors(form);
+            for (var fieldName in fields) {
+                if (fields.hasOwnProperty(fieldName)) {
+                    errorMessage = fields[fieldName];
+                }
 
-            var formModal = $(form).parents('.modal[role="dialog"]').first();
+                fieldLookup = self.managedElements.split(',').map(function (element) {
+                    return element + '[name="' + fieldName + '"]';
+                }).join(',');
 
-            if ($(formModal).length) {
-                $(formModal).on('show.bs.modal hidden.bs.modal', function() {
-                    self.clearErrors(form);
-                });
+                field = $(form).find(fieldLookup);
 
-                /*
-                 * Make this optional if the form is used for editing
-                 */
-                $(formModal).on('show.bs.modal', function() {
-                    $(form)[0].reset();
-                });
+                if (errorMessage) {
+                    $(field).parents('.form-group').addClass('has-error');
+                    $(field).attr('title', errorMessage);
+                    $(field).tooltip();
+                }
             }
 
-            WHMCS.http.client.post({
-                url: $(form).attr('action'),
-                data: $(form).serializeArray(),
+            $(form).find('.form-group.has-error input[title]').first().tooltip('show');
+        };
+
+        this.fieldHasError = function (field) {
+            return $(field).parents('.form-group').hasClass('has-error');
+        };
+
+        this.clearFieldError = function (field) {
+            /**
+             * Try dispose first for BS 4, which will raise error
+             * on BS 3 or older, then we use destroy instead
+             */
+            try {
+                $(field).tooltip('dispose');
+            } catch (err) {
+                $(field).tooltip('destroy');
+            }
+            $(field).parents('.form-group').removeClass('has-error');
+        };
+
+        this.onSuccess = function (form, response) {
+            var formOnSuccess = $(form).data('on-success');
+
+            if (typeof formOnSuccess === 'function') {
+                formOnSuccess(response.data);
+            }
+        };
+
+        this.onError = function (form, jqXHR) {
+            if (jqXHR.responseJSON && jqXHR.responseJSON.fields && typeof jqXHR.responseJSON.fields === 'object') {
+                this.markFieldErrors(form, jqXHR.responseJSON.fields);
+            } else {
+                // TODO: replace with client-accessible generic error messaging
+                console.log('Unknown error - please try again later.');
+            }
+
+            var formOnError = $(form).data('on-error');
+
+            if (typeof formOnError === 'function') {
+                formOnError(jqXHR);
+            }
+        };
+
+        this.clearErrors = function (form) {
+            var self = this;
+
+            $(form).find(self.managedElements).each(function () {
+                self.clearFieldError(this);
             })
-                .done(function (response) {
-                    self.onSuccess(form, response);
-                })
-                .fail(function (jqXHR) {
-                    self.onError(form, jqXHR);
-                })
-                .always(function (data) {
-                    self.onRequestComplete(form, data);
+        };
+
+        this.onRequestComplete = function (form, data) {
+            // implement as needed
+        };
+
+        return this;
+    },
+
+    effects: function () {
+        this.errorShake = function (element) {
+            /**
+             * Shake effect without jQuery UI inspired by Hiren Patel | ninty9notout:
+             * @see https://github.com/ninty9notout/jquery-shake/blob/51f3dcf625970c78505bcac831fd9e28fc85d374/jquery.ui.shake.js
+             */
+            options = options || {};
+            var options = $.extend({
+                direction: "left",
+                distance: 8,
+                times: 3,
+                speed: 90
+            }, options);
+
+            return element.each(function () {
+                var el = $(this), props = {
+                    position: el.css("position"),
+                    top: el.css("top"),
+                    bottom: el.css("bottom"),
+                    left: el.css("left"),
+                    right: el.css("right")
+                };
+
+                el.css("position", "relative");
+
+                var ref = (options.direction === "up" || options.direction === "down") ? "top" : "left";
+                var motion = (options.direction === "up" || options.direction === "left") ? "pos" : "neg";
+
+                var animation = {}, animation1 = {}, animation2 = {};
+                animation[ref] = (motion === "pos" ? "-=" : "+=") + options.distance;
+                animation1[ref] = (motion === "pos" ? "+=" : "-=") + options.distance * 2;
+                animation2[ref] = (motion === "pos" ? "-=" : "+=") + options.distance * 2;
+
+                el.animate(animation, options.speed);
+                for (var i = 1; i < options.times; i++) {
+                    el.animate(animation1, options.speed).animate(animation2, options.speed);
+                }
+
+                el.animate(animation1, options.speed).animate(animation, options.speed / 2, function () {
+                    el.css(props);
                 });
-        });
-    };
-
-    this.initAll = function () {
-        var self = this;
-
-        $('form[data-role="json-form"]').each(function() {
-            var formElement = this;
-            self.init(formElement);
-        });
-    };
-
-    this.markFieldErrors = function (form, fields)
-    {
-        var self = this;
-        var errorMessage = null;
-        var field, fieldLookup;
-
-        for (var fieldName in fields) {
-            if (fields.hasOwnProperty(fieldName)) {
-                errorMessage = fields[fieldName];
-            }
-
-            fieldLookup = self.managedElements.split(',').map(function(element) {
-                return element + '[name="' + fieldName + '"]';
-            }).join(',');
-
-            field = $(form).find(fieldLookup);
-
-            if (errorMessage) {
-                $(field).parents('.form-group').addClass('has-error');
-                $(field).attr('title', errorMessage);
-                $(field).tooltip();
-            }
-        }
-
-        $(form).find('.form-group.has-error input[title]').first().tooltip('show');
-    };
-
-    this.fieldHasError = function (field) {
-        return $(field).parents('.form-group').hasClass('has-error');
-    };
-
-    this.clearFieldError = function (field) {
-        /**
-         * Try dispose first for BS 4, which will raise error
-         * on BS 3 or older, then we use destroy instead
-         */
-        try {
-            $(field).tooltip('dispose');
-        } catch (err) {
-            $(field).tooltip('destroy');
-        }
-        $(field).parents('.form-group').removeClass('has-error');
-    };
-
-    this.onSuccess = function (form, response) {
-        var formOnSuccess = $(form).data('on-success');
-
-        if (typeof formOnSuccess === 'function') {
-            formOnSuccess(response.data);
-        }
-    };
-
-    this.onError = function (form, jqXHR) {
-        if (jqXHR.responseJSON && jqXHR.responseJSON.fields && typeof jqXHR.responseJSON.fields === 'object') {
-            this.markFieldErrors(form, jqXHR.responseJSON.fields);
-        } else {
-            // TODO: replace with client-accessible generic error messaging
-            console.log('Unknown error - please try again later.');
-        }
-
-        var formOnError = $(form).data('on-error');
-
-        if (typeof formOnError === 'function') {
-            formOnError(jqXHR);
-        }
-    };
-
-    this.clearErrors = function (form) {
-        var self = this;
-
-        $(form).find(self.managedElements).each(function () {
-            self.clearFieldError(this);
-        })
-    };
-
-    this.onRequestComplete = function (form, data) {
-        // implement as needed
-    };
-
-    return this;
-},
-
-effects: function () {
-    this.errorShake = function (element) {
-        /**
-         * Shake effect without jQuery UI inspired by Hiren Patel | ninty9notout:
-         * @see https://github.com/ninty9notout/jquery-shake/blob/51f3dcf625970c78505bcac831fd9e28fc85d374/jquery.ui.shake.js
-         */
-        options = options || {};
-        var options = $.extend({
-            direction: "left",
-            distance: 8,
-            times: 3,
-            speed: 90
-        }, options);
-
-        return element.each(function () {
-            var el = $(this), props = {
-                position: el.css("position"),
-                top: el.css("top"),
-                bottom: el.css("bottom"),
-                left: el.css("left"),
-                right: el.css("right")
-            };
-
-            el.css("position", "relative");
-
-            var ref = (options.direction === "up" || options.direction === "down") ? "top" : "left";
-            var motion = (options.direction === "up" || options.direction === "left") ? "pos" : "neg";
-
-            var animation = {}, animation1 = {}, animation2 = {};
-            animation[ref] = (motion === "pos" ? "-=" : "+=") + options.distance;
-            animation1[ref] = (motion === "pos" ? "+=" : "-=") + options.distance * 2;
-            animation2[ref] = (motion === "pos" ? "-=" : "+=") + options.distance * 2;
-
-            el.animate(animation, options.speed);
-            for (var i = 1; i < options.times; i++) {
-                el.animate(animation1, options.speed).animate(animation2, options.speed);
-            }
-
-            el.animate(animation1, options.speed).animate(animation, options.speed / 2, function () {
-                el.css(props);
             });
-        });
-    };
+        };
 
-}
+    }
 });
 
 /**
@@ -1548,81 +1539,79 @@ effects: function () {
  * @copyright Copyright (c) WHMCS Limited 2005-2017
  * @license http://www.whmcs.com/license/ WHMCS Eula
  */
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('form')) {
         WHMCS.loadModule('form', module);
     }
 })(
-function () {
-    this.checkAllBound = false;
+    function () {
+        this.checkAllBound = false;
 
-    this.register = function () {
-        if (!this.checkAllBound) {
-            this.bindCheckAll();
-            this.checkAllBound = true;
-        }
-    };
+        this.register = function () {
+            if (!this.checkAllBound) {
+                this.bindCheckAll();
+                this.checkAllBound = true;
+            }
+        };
 
-    this.bindCheckAll = function ()
-    {
-        var huntSelector = '.btn-check-all';
-        jQuery('body').on('click', huntSelector, function (e) {
-            var btn = jQuery(e.target);
-            var targetInputs = jQuery(
-                '#' + btn.data('checkbox-container') + ' input[type="checkbox"]'
-            );
-            if (btn.data('btn-check-toggle')) {
-                // one control that changes
-                var textDeselect = 'Deselect All';
-                var textSelect = 'Select All';
-                if (btn.data('label-text-deselect')) {
-                    textDeselect = btn.data('label-text-deselect');
-                }
-                if (btn.data('label-text-select')) {
-                    textSelect = btn.data('label-text-select');
-                }
+        this.bindCheckAll = function () {
+            var huntSelector = '.btn-check-all';
+            jQuery('body').on('click', huntSelector, function (e) {
+                var btn = jQuery(e.target);
+                var targetInputs = jQuery(
+                    '#' + btn.data('checkbox-container') + ' input[type="checkbox"]'
+                );
+                if (btn.data('btn-check-toggle')) {
+                    // one control that changes
+                    var textDeselect = 'Deselect All';
+                    var textSelect = 'Select All';
+                    if (btn.data('label-text-deselect')) {
+                        textDeselect = btn.data('label-text-deselect');
+                    }
+                    if (btn.data('label-text-select')) {
+                        textSelect = btn.data('label-text-select');
+                    }
 
-                if (btn.hasClass('toggle-active')) {
-                    targetInputs.prop('checked',false);
-                    btn.text(textSelect);
-                    btn.removeClass('toggle-active');
+                    if (btn.hasClass('toggle-active')) {
+                        targetInputs.prop('checked', false);
+                        btn.text(textSelect);
+                        btn.removeClass('toggle-active');
+                    } else {
+                        targetInputs.prop('checked', true);
+                        btn.text(textDeselect);
+                        btn.addClass('toggle-active');
+                    }
                 } else {
-                    targetInputs.prop('checked',true);
-                    btn.text(textDeselect);
-                    btn.addClass('toggle-active');
+                    // two controls that are static
+                    if (btn.data('btn-toggle-on')) {
+                        targetInputs.prop('checked', true);
+                    } else {
+                        targetInputs.prop('checked', false);
+                    }
                 }
+            });
+        };
+
+        this.reloadCaptcha = function (element) {
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
             } else {
-                // two controls that are static
-                if (btn.data('btn-toggle-on')) {
-                    targetInputs.prop('checked',true);
-                } else {
-                    targetInputs.prop('checked',false);
+                if (!element) {
+                    element = jQuery('#inputCaptchaImage');
+                }
+
+                var src = jQuery(element).data('src');
+                jQuery(element).attr('src', src + '?nocache=' + (new Date()).getTime());
+
+                var userInput = jQuery('#inputCaptcha');
+                if (userInput.length) {
+                    userInput.val('');
                 }
             }
-        });
-    };
+        };
 
-    this.reloadCaptcha = function (element)
-    {
-        if (typeof grecaptcha !== 'undefined') {
-            grecaptcha.reset();
-        } else {
-            if (!element) {
-                element = jQuery('#inputCaptchaImage');
-            }
-
-            var src = jQuery(element).data('src');
-            jQuery(element).attr('src', src + '?nocache=' + (new Date()).getTime());
-
-            var userInput = jQuery('#inputCaptcha');
-            if (userInput.length) {
-                userInput.val('');
-            }
-        }
-    };
-
-    return this;
-});
+        return this;
+    });
 
 /**
  * reCaptcha module
@@ -1635,7 +1624,7 @@ var recaptchaLoadComplete = false,
     recaptchaType = 'recaptcha',
     recaptchaValidationComplete = false;
 
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('recaptcha')) {
         WHMCS.loadModule('recaptcha', module);
     }
@@ -1649,7 +1638,7 @@ var recaptchaLoadComplete = false,
             var postLoad = [],
                 recaptchaForms = jQuery(".btn-recaptcha").parents('form'),
                 isInvisible = false;
-            recaptchaForms.each(function (i, el){
+            recaptchaForms.each(function (i, el) {
                 if (typeof recaptchaSiteKey === 'undefined') {
                     console.log('Recaptcha site key not defined');
                     return;
@@ -1720,19 +1709,19 @@ var recaptchaLoadComplete = false,
                     });
                 } else {
                     postLoad.push(function () {
-                        recaptchaContent.slideDown('fast', function() {
+                        recaptchaContent.slideDown('fast', function () {
                             // just in case there's a delay in DOM; rare
                             recaptchaContent.find(':first').addClass('center-block');
                         });
                     });
-                    postLoad.push(function() {
+                    postLoad.push(function () {
                         recaptchaContent.find(':first').addClass('center-block');
                     });
                 }
             });
 
-            window.recaptchaLoadCallback = function() {
-                jQuery('.g-recaptcha').each(function(i, el) {
+            window.recaptchaLoadCallback = function () {
+                jQuery('.g-recaptcha').each(function (i, el) {
                     var element = jQuery(el),
                         frm = element.closest('form'),
                         btn = frm.find('.btn-recaptcha'),
@@ -1753,7 +1742,7 @@ var recaptchaLoadComplete = false,
             if (recaptchaForms.length) {
                 var gUrl = "https://www.google.com/recaptcha/api.js?onload=recaptchaLoadCallback&render=explicit";
                 jQuery.getScript(gUrl, function () {
-                    for(var i = postLoad.length - 1; i >= 0 ; i--){
+                    for (var i = postLoad.length - 1; i >= 0; i--) {
                         postLoad[i]();
                     }
                 });
@@ -1770,173 +1759,206 @@ var recaptchaLoadComplete = false,
  * @copyright Copyright (c) WHMCS Limited 2005-2017
  * @license http://www.whmcs.com/license/ WHMCS Eula
  */
-(function(module) {
+(function (module) {
     if (!WHMCS.hasModule('utils')) {
         WHMCS.loadModule('utils', module);
     }
 })(
-function () {
-    /**
-     * Not crypto strong; server-side must discard for
-     * something with more entropy; the value is sufficient
-     * for strong client-side validation check
-     */
-    this.simpleRNG = function () {
-        var chars = './$_-#!,^*()|';
-        var r = 0;
-        for (var i = 0; r < 3; i++) {
-            r += Math.floor((Math.random() * 10) / 2);
-        }
-        r = Math.floor(r);
-        var s = '';
-        for (var x = 0; x < r; x++) {
-            v = (Math.random() + 1).toString(24).split('.')[1];
-            if ((Math.random()) > 0.5) {
-                s += btoa(v).substr(0,4)
-            } else {
-                s += v
+    function () {
+        /**
+         * Not crypto strong; server-side must discard for
+         * something with more entropy; the value is sufficient
+         * for strong client-side validation check
+         */
+        this.simpleRNG = function () {
+            var chars = './$_-#!,^*()|';
+            var r = 0;
+            for (var i = 0; r < 3; i++) {
+                r += Math.floor((Math.random() * 10) / 2);
+            }
+            r = Math.floor(r);
+            var s = '';
+            for (var x = 0; x < r; x++) {
+                v = (Math.random() + 1).toString(24).split('.')[1];
+                if ((Math.random()) > 0.5) {
+                    s += btoa(v).substr(0, 4)
+                } else {
+                    s += v
+                }
+
+                if ((Math.random()) > 0.5) {
+                    s += chars.substr(
+                        Math.floor(Math.random() * 13),
+                        1
+                    );
+                }
             }
 
-            if ((Math.random()) > 0.5) {
-                s += chars.substr(
-                    Math.floor(Math.random() * 13),
-                    1
-                );
+            return s;
+        };
+
+        this.getRouteUrl = function (path) {
+            return whmcsBaseUrl + "/index.php?rp=" + path;
+        };
+
+        this.validateBaseUrl = function () {
+            if (typeof window.whmcsBaseUrl === 'undefined') {
+                console.log('Warning: The WHMCS Base URL definition is missing '
+                    + 'from your active template. Please refer to '
+                    + 'https://docs.whmcs.com/WHMCS_Base_URL_Template_Variable '
+                    + 'for more information and details of how to resolve this '
+                    + 'warning.');
+                window.whmcsBaseUrl = this.autoDetermineBaseUrl();
+                window.whmcsBaseUrlAutoSet = true;
+            } else if (window.whmcsBaseUrl === ''
+                && typeof window.whmcsBaseUrlAutoSet !== 'undefined'
+                && window.whmcsBaseUrlAutoSet === true
+            ) {
+                window.whmcsBaseUrl = this.autoDetermineBaseUrl();
             }
+        };
+
+        this.autoDetermineBaseUrl = function () {
+            var windowLocation = window.location.href;
+            var phpExtensionLocation = -1;
         }
 
-        return s;
-    };
+        this.getRouteUrl = function (path) {
+            return whmcsBaseUrl + "/index.php?rp=" + path;
+        };
 
-    this.getRouteUrl = function (path) {
-        return whmcsBaseUrl + "/index.php?rp=" + path;
-    };
+        this.validateBaseUrl = function () {
+            if (typeof window.whmcsBaseUrl === 'undefined') {
+                console.log('Warning: The WHMCS Base URL definition is missing '
+                    + 'from your active template. Please refer to '
+                    + 'https://go.whmcs.com/1961/base-url '
+                    + 'for more information and details of how to resolve this '
+                    + 'warning.');
+                window.whmcsBaseUrl = this.autoDetermineBaseUrl();
+                window.whmcsBaseUrlAutoSet = true;
+            } else if (window.whmcsBaseUrl === ''
+                && typeof window.whmcsBaseUrlAutoSet !== 'undefined'
+                && window.whmcsBaseUrlAutoSet === true
+            ) {
+                window.whmcsBaseUrl = this.autoDetermineBaseUrl();
+            }
+        };
 
-    this.validateBaseUrl = function() {
-        if (typeof window.whmcsBaseUrl === 'undefined') {
-            console.log('Warning: The WHMCS Base URL definition is missing '
-                + 'from your active template. Please refer to '
-                + 'https://go.whmcs.com/1961/base-url '
-                + 'for more information and details of how to resolve this '
-                + 'warning.');
-            window.whmcsBaseUrl = this.autoDetermineBaseUrl();
-            window.whmcsBaseUrlAutoSet = true;
-        } else if (window.whmcsBaseUrl === ''
-            && typeof window.whmcsBaseUrlAutoSet !== 'undefined'
-            && window.whmcsBaseUrlAutoSet === true
-        ) {
-            window.whmcsBaseUrl = this.autoDetermineBaseUrl();
-        }
-    };
+        this.autoDetermineBaseUrl = function () {
+            var windowLocation = window.location.href;
+            var phpExtensionLocation = -1;
 
-    this.autoDetermineBaseUrl = function() {
-        var windowLocation = window.location.href;
-        var phpExtensionLocation = -1;
-
-        if (typeof windowLocation !== 'undefined') {
-            phpExtensionLocation = windowLocation.indexOf('.php');
-        }
-
-        if (phpExtensionLocation === -1) {
-            windowLocation = jQuery('#Primary_Navbar-Home a').attr('href');
             if (typeof windowLocation !== 'undefined') {
                 phpExtensionLocation = windowLocation.indexOf('.php');
             }
-        }
 
-        if (phpExtensionLocation !== -1) {
-            windowLocation = windowLocation.substring(0, phpExtensionLocation);
-            var lastTrailingSlash = windowLocation.lastIndexOf('/');
-            if (lastTrailingSlash !== false) {
-                return windowLocation.substring(0, lastTrailingSlash);
-            }
-        }
-
-        return '';
-    };
-
-    this.normaliseStringValue = function(status) {
-        return status ? status.toLowerCase().replace(/\s/g, '-') : '';
-    };
-
-    this.generatePassword = function(len) {
-        var charset = this.getPasswordCharacterSet();
-        var result = "";
-        for (var i = 0; len > i; i++)
-            result += charset[this.randomInt(charset.length)];
-        return result;
-    };
-    this.getPasswordCharacterSet = function() {
-        var rawCharset = '0123456789'
-            + 'abcdefghijklmnopqrstuvwxyz'
-            + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-            + '!#$%()*+,-.:;=@_|{ldelim}{rdelim}~';
-
-        // Parse UTF-16, remove duplicates, convert to array of strings
-        var charset = [];
-        for (var i = 0; rawCharset.length > i; i++) {
-            var c = rawCharset.charCodeAt(i);
-            if (0xD800 > c || c >= 0xE000) {  // Regular UTF-16 character
-                var s = rawCharset.charAt(i);
-                if (charset.indexOf(s) == -1)
-                    charset.push(s);
-                continue;
-            }
-            if (0xDC00 > c ? rawCharset.length > i + 1 : false) {  // High surrogate
-                var d = rawCharset.charCodeAt(i + 1);
-                if (d >= 0xDC00 ? 0xE000 > d : false) {  // Low surrogate
-                    var s = rawCharset.substring(i, i + 2);
-                    i++;
-                    if (charset.indexOf(s) == -1)
-                        charset.push(s);
-                    continue;
+            if (phpExtensionLocation === -1) {
+                windowLocation = jQuery('#Primary_Navbar-Home a').attr('href');
+                if (typeof windowLocation !== 'undefined') {
+                    phpExtensionLocation = windowLocation.indexOf('.php');
                 }
-            }
-            throw "Invalid UTF-16";
+
+                if (phpExtensionLocation === -1) {
+                    windowLocation = jQuery('#Primary_Navbar-Home a').attr('href');
+                    if (typeof windowLocation !== 'undefined') {
+                        phpExtensionLocation = windowLocation.indexOf('.php');
+                    }
+                }
+
+                if (phpExtensionLocation !== -1) {
+                    windowLocation = windowLocation.substring(0, phpExtensionLocation);
+                    var lastTrailingSlash = windowLocation.lastIndexOf('/');
+                    if (lastTrailingSlash !== false) {
+                        return windowLocation.substring(0, lastTrailingSlash);
+                    }
+                }
+
+                return '';
+            };
+
+            this.normaliseStringValue = function (status) {
+                return status ? status.toLowerCase().replace(/\s/g, '-') : '';
+            };
+
+            this.generatePassword = function (len) {
+                var charset = this.getPasswordCharacterSet();
+                var result = "";
+                for (var i = 0; len > i; i++)
+                    result += charset[this.randomInt(charset.length)];
+                return result;
+            };
+            this.getPasswordCharacterSet = function () {
+                var rawCharset = '0123456789'
+                    + 'abcdefghijklmnopqrstuvwxyz'
+                    + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+                    + '!#$%()*+,-.:;=@_|{ldelim}{rdelim}~';
+
+                // Parse UTF-16, remove duplicates, convert to array of strings
+                var charset = [];
+                for (var i = 0; rawCharset.length > i; i++) {
+                    var c = rawCharset.charCodeAt(i);
+                    if (0xD800 > c || c >= 0xE000) {  // Regular UTF-16 character
+                        var s = rawCharset.charAt(i);
+                        if (charset.indexOf(s) == -1)
+                            charset.push(s);
+                        continue;
+                    }
+                    if (0xDC00 > c ? rawCharset.length > i + 1 : false) {  // High surrogate
+                        var d = rawCharset.charCodeAt(i + 1);
+                        if (d >= 0xDC00 ? 0xE000 > d : false) {  // Low surrogate
+                            var s = rawCharset.substring(i, i + 2);
+                            i++;
+                            if (charset.indexOf(s) == -1)
+                                charset.push(s);
+                            continue;
+                        }
+                    }
+                    throw "Invalid UTF-16";
+                }
+                return charset;
+            };
+            this.randomInt = function (n) {
+                var x = this.randomIntMathRandom(n);
+                x = (x + this.randomIntBrowserCrypto(n)) % n;
+                return x;
+            };
+            this.randomIntMathRandom = function (n) {
+                var x = Math.floor(Math.random() * n);
+                if (0 > x || x >= n)
+                    throw "Arithmetic exception";
+                return x;
+            };
+            this.randomIntBrowserCrypto = function (n) {
+                var cryptoObject = null;
+
+                if ("crypto" in window)
+                    cryptoObject = crypto;
+                else if ("msCrypto" in window)
+                    cryptoObject = msCrypto;
+                else
+                    return 0;
+
+                if (!("getRandomValues" in cryptoObject) || !("Uint32Array" in window) || typeof Uint32Array != "function")
+                    cryptoObject = null;
+
+                if (cryptoObject == null)
+                    return 0;
+
+                // Generate an unbiased sample
+                var x = new Uint32Array(1);
+                do cryptoObject.getRandomValues(x);
+                while (x[0] - x[0] % n > 4294967296 - n);
+                return x[0] % n;
+            };
+
+            return this;
         }
-        return charset;
-    };
-    this.randomInt = function(n) {
-        var x = this.randomIntMathRandom(n);
-        x = (x + this.randomIntBrowserCrypto(n)) % n;
-        return x;
-    };
-    this.randomIntMathRandom = function(n) {
-        var x = Math.floor(Math.random() * n);
-        if (0 > x || x >= n)
-            throw "Arithmetic exception";
-        return x;
-    };
-    this.randomIntBrowserCrypto = function(n) {
-        var cryptoObject = null;
-
-        if ("crypto" in window)
-            cryptoObject = crypto;
-        else if ("msCrypto" in window)
-            cryptoObject = msCrypto;
-        else
-            return 0;
-
-        if (!("getRandomValues" in cryptoObject) || !("Uint32Array" in window) || typeof Uint32Array != "function")
-            cryptoObject = null;
-
-        if (cryptoObject == null)
-            return 0;
-
-        // Generate an unbiased sample
-        var x = new Uint32Array(1);
-        do cryptoObject.getRandomValues(x);
-        while (x[0] - x[0] % n > 4294967296 - n);
-        return x[0] % n;
-    };
-
-    return this;
-});
+    });
 
 WHMCS.utils.validateBaseUrl();
 
-jQuery(document).ready(function() {
-    jQuery('#main-body').on('click', '.product-recommendations .product-recommendation .header', function(e) {
+jQuery(document).ready(function () {
+    jQuery('#main-body').on('click', '.product-recommendations .product-recommendation .header', function (e) {
         if (jQuery(e.target).is('.btn, .btn span, .btn .fa')) {
             return;
         }
@@ -1946,12 +1968,12 @@ jQuery(document).ready(function() {
         }
         jQuery(this).parent().find('.rotate').toggleClass('down');
         jQuery(this).parent().find('.body').slideToggle('fast');
-    }).on('click', '.product-recommendations .product-recommendation .btn-add', function() {
+    }).on('click', '.product-recommendations .product-recommendation .btn-add', function () {
         jQuery(this).attr('disabled', 'disabled')
             .find('span.arrow i')
             .removeClass('fa-chevron-right')
             .addClass('fa-spinner fa-spin');
-    }).on('click', '.order-button, .order-btn, .btn-order-now', function(e) {
+    }).on('click', '.order-button, .order-btn, .btn-order-now', function (e) {
         if (jQuery(this).data('hasRecommendations') == 1) {
             e.preventDefault();
             var href = jQuery(this).attr('href');
@@ -1960,7 +1982,7 @@ jQuery(document).ready(function() {
                 href,
                 'addproductajax=1',
                 true
-            ).done(function() {
+            ).done(function () {
                 window.location = href;
             });
         }
@@ -1977,7 +1999,7 @@ function getRecommendationColors(hex, percentage) {
     var primary = tinycolor(hex),
         secondary,
         text = tinycolor('fff'),
-        brightness = Math.round(Math.min(primary.getBrightness()/255) * 100),
+        brightness = Math.round(Math.min(primary.getBrightness() / 255) * 100),
         baseBrightnessPercent = 25;
     if (brightness < baseBrightnessPercent) {
         primary.lighten(baseBrightnessPercent - brightness);
@@ -1994,7 +2016,7 @@ function getRecommendationColors(hex, percentage) {
 function setRecommendationColors() {
     var colors,
         defaultColor = '#9abb3a';
-    jQuery('.product-recommendations .product-recommendation').each(function() {
+    jQuery('.product-recommendations .product-recommendation').each(function () {
         var element = jQuery(this),
             primaryColor = element.data('color');
         if (!(primaryColor.length > 0) || (primaryColor.match(/^#[0-9A-Fa-f]{3,6}$/gi) == undefined)) {
@@ -2005,8 +2027,8 @@ function setRecommendationColors() {
         jQuery('.btn-add', element).css('background-color', colors[0]);
         jQuery('.expander', element).css('color', colors[0]);
         jQuery('.price', element).css('color', colors[1]);
-        jQuery('.text', element).css({'color': colors[2]});
-        jQuery('.arrow', element).css({'background-color': colors[1], 'color': colors[2]});
+        jQuery('.text', element).css({ 'color': colors[2] });
+        jQuery('.arrow', element).css({ 'background-color': colors[1], 'color': colors[2] });
     });
 }
 
@@ -2022,9 +2044,9 @@ function displayRecommendations(postUrl, postData, postForce) {
         WHMCS.http.jqClient.jsonPost({
             url: postUrl,
             data: postData,
-            success: function(data) {
+            success: function (data) {
                 if (data.success && data.href) {
-                    modal.on('hide.bs.modal', function() {
+                    modal.on('hide.bs.modal', function () {
                         window.location = data.href;
                         return false;
                     });
@@ -2044,7 +2066,7 @@ function displayRecommendations(postUrl, postData, postForce) {
                     deferredObject.resolve(false);
                 }
             },
-            error: function() {
+            error: function () {
                 deferredObject.resolve(false);
             }
         });
@@ -2055,8 +2077,7 @@ function displayRecommendations(postUrl, postData, postForce) {
 }
 
 if (typeof localTrans === 'undefined') {
-    localTrans = function (phraseId, fallback)
-    {
+    localTrans = function (phraseId, fallback) {
         if (typeof _localLang !== 'undefined') {
             if (typeof _localLang[phraseId] !== 'undefined') {
                 if (_localLang[phraseId].length > 0) {
@@ -2074,7 +2095,7 @@ var domainLookupCallCount,
     furtherSuggestions,
     hideCvcOnCheckoutForExistingCard = 0;
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
 
     jQuery('#order-standard_cart').find('input').not('.no-icheck').iCheck({
         inheritID: true,
@@ -2083,7 +2104,7 @@ jQuery(document).ready(function(){
         increaseArea: '20%'
     });
 
-    jQuery('.mc-promo .header').click(function(e) {
+    jQuery('.mc-promo .header').click(function (e) {
         e.preventDefault();
         if (jQuery(e.target).is('.btn, .btn span,.btn .fa')) {
             return;
@@ -2110,12 +2131,12 @@ jQuery(document).ready(function(){
         var offset = jQuery("#scrollingPanelContainer").parent('.row').offset();
         var maxTopOffset = jQuery("#scrollingPanelContainer").parent('.row').outerHeight() - 35;
         var topPadding = 15;
-        jQuery(window).resize(function() {
+        jQuery(window).resize(function () {
             offset = jQuery("#scrollingPanelContainer").parent('.row').offset();
             maxTopOffset = jQuery("#scrollingPanelContainer").parent('.row').outerHeight() - 35;
             repositionScrollingSidebar();
         });
-        jQuery(window).scroll(function() {
+        jQuery(window).scroll(function () {
             repositionScrollingSidebar();
         });
         repositionScrollingSidebar();
@@ -2126,7 +2147,7 @@ jQuery(document).ready(function(){
             $orderSummaryEl.stop().css('margin-top', '0');
             return false;
         }
-        var heightOfOrderSummary =  $orderSummaryEl.outerHeight();
+        var heightOfOrderSummary = $orderSummaryEl.outerHeight();
         var offsetTop = 0;
         var productListing = jQuery("#scrollingPanelContainer").prev('div.secondary-cart-body');
         if (typeof offset !== "undefined") {
@@ -2168,7 +2189,7 @@ jQuery(document).ready(function(){
         }
     }
 
-    jQuery("#frmConfigureProduct").submit(function(e) {
+    jQuery("#frmConfigureProduct").submit(function (e) {
         e.preventDefault();
 
         var button = jQuery('#btnCompleteProductConfig'),
@@ -2181,11 +2202,11 @@ jQuery(document).ready(function(){
             postUrl,
             'addproductajax=1&' + postData,
             false
-        ).done(function() {
+        ).done(function () {
             WHMCS.http.jqClient.post(
                 postUrl,
                 'ajax=1&' + postData,
-                function(data) {
+                function (data) {
                     if (data) {
                         jQuery("#btnCompleteProductConfig").html(btnOriginalText);
                         jQuery("#containerProductValidationErrorsList").html(data);
@@ -2202,17 +2223,17 @@ jQuery(document).ready(function(){
         });
     });
 
-    jQuery("#productConfigurableOptions").on('ifChecked', 'input', function() {
+    jQuery("#productConfigurableOptions").on('ifChecked', 'input', function () {
         recalctotals();
     });
-    jQuery("#productConfigurableOptions").on('ifUnchecked', 'input', function() {
+    jQuery("#productConfigurableOptions").on('ifUnchecked', 'input', function () {
         recalctotals();
     });
-    jQuery("#productConfigurableOptions").on('change', 'select', function() {
+    jQuery("#productConfigurableOptions").on('change', 'select', function () {
         recalctotals();
     });
 
-    jQuery(".addon-products").on('click', '.panel-addon', function(e) {
+    jQuery(".addon-products").on('click', '.panel-addon', function (e) {
         e.preventDefault();
         var $activeAddon = jQuery(this);
         if ($activeAddon.hasClass('panel-addon-selected')) {
@@ -2221,22 +2242,22 @@ jQuery(document).ready(function(){
             $activeAddon.find('input[type="checkbox"]').iCheck('check');
         }
     });
-    jQuery(".addon-products").on('ifChecked', '.panel-addon input', function(event) {
+    jQuery(".addon-products").on('ifChecked', '.panel-addon input', function (event) {
         var $activeAddon = jQuery(this).parents('.panel-addon');
         $activeAddon.addClass('panel-addon-selected');
         $activeAddon.find('input[type="checkbox"]').iCheck('check');
-        $activeAddon.find('.panel-add').html('<i class="fas fa-shopping-cart"></i> '+localTrans('addedToCartRemove', 'Added to Cart (Remove)'));
+        $activeAddon.find('.panel-add').html('<i class="fas fa-shopping-cart"></i> ' + localTrans('addedToCartRemove', 'Added to Cart (Remove)'));
         recalctotals();
     });
-    jQuery(".addon-products").on('ifUnchecked', '.panel-addon input', function(event) {
+    jQuery(".addon-products").on('ifUnchecked', '.panel-addon input', function (event) {
         var $activeAddon = jQuery(this).parents('.panel-addon');
         $activeAddon.removeClass('panel-addon-selected');
         $activeAddon.find('input[type="checkbox"]').iCheck('uncheck');
-        $activeAddon.find('.panel-add').html('<i class="fas fa-plus"></i> '+localTrans('addToCart', 'Add to Cart'));
+        $activeAddon.find('.panel-add').html('<i class="fas fa-plus"></i> ' + localTrans('addToCart', 'Add to Cart'));
         recalctotals();
     });
 
-    jQuery("#frmConfigureProduct").on('ifChecked', '.addon-selector', function(event) {
+    jQuery("#frmConfigureProduct").on('ifChecked', '.addon-selector', function (event) {
         recalctotals();
     });
 
@@ -2247,11 +2268,11 @@ jQuery(document).ready(function(){
         jQuery(firstInput).parents('.option').addClass('option-selected');
     }
     jQuery("#domain" + jQuery(".domain-selection-options input:checked").val()).show();
-    jQuery(".domain-selection-options input").on('ifChecked', function(event){
+    jQuery(".domain-selection-options input").on('ifChecked', function (event) {
         jQuery(".domain-selection-options .option").removeClass('option-selected');
         jQuery(this).parents('.option').addClass('option-selected');
         jQuery(".domain-input-group").hide();
-        jQuery("#domain" + jQuery(this).val()).show();
+        jQuery("#domain" + jQuery(this).val()).css({ 'display': 'flex' });
     });
 
     jQuery('#frmProductDomain').submit(function (e) {
@@ -2265,9 +2286,7 @@ jQuery(document).ready(function(){
             domainoption = jQuery(".domain-selection-options input:checked").val(),
             sldInput = jQuery("#" + domainoption + "sld"),
             sld = sldInput.val(),
-            tld = '',
             pid = jQuery('#frmProductDomainPid').val(),
-            tldInput = '',
             idnLanguage = jQuery('#idnLanguageSelector');
 
         jQuery('.field-error-msg').hide();
@@ -2276,24 +2295,18 @@ jQuery(document).ready(function(){
             idnLanguage.slideUp();
             idnLanguage.find('select').val('');
         }
-
         if (domainoption == 'incart') {
             sldInput = jQuery("#" + domainoption + "sld option:selected");
-            sld = sldInput.text();
-        } else if (domainoption == 'subdomain') {
-            tldInput = jQuery("#" + domainoption + "tld option:selected");
-            tld = tldInput.text();
-        } else {
-            tldInput = jQuery("#" + domainoption + "tld");
-            tld = tldInput.val();
-            if (sld && !tld) {
-                tldInput.tooltip('show');
-                tldInput.focus();
-                return false;
+            sld = sldInput.text(); // Captura o valor de texto do option selecionado
+
+            // Verifique se o SLD contém um ponto para dividir em SLD e TLD
+            let tld = "";
+            if (sld.includes(".")) {
+                let parts = sld.split(".");
+                sld = parts[0]; // SLD é a parte antes do ponto
+                tld = parts.slice(1).join("."); // TLD é o resto após o primeiro ponto
             }
-            if (tld.substr(0, 1) != '.') {
-                tld = '.' + tld;
-            }
+
         }
         if (!sld) {
             sldInput.tooltip('show');
@@ -2302,16 +2315,14 @@ jQuery(document).ready(function(){
         }
 
         sldInput.tooltip('hide');
-        if (tldInput.length) {
-            tldInput.tooltip('hide');
-        }
+        console.log("SLD: ", sld);
+        console.log("Domain Option: " + domainoption);
 
         jQuery('input[name="domainoption"]').iCheck('disable');
         domainLookupCallCount = 0;
-        btnSearchObj.attr('disabled', 'disabled').addClass('disabled');
 
         jQuery('.domain-lookup-result').hide();
-        jQuery('#primaryLookupResult div').filter(function() {
+        jQuery('#primaryLookupResult div').filter(function () {
             return $(this).closest('#idnLanguageSelector').length === 0;
         }).hide();
         jQuery('#primaryLookupResult').find('.register-price-label').show().end()
@@ -2352,25 +2363,24 @@ jQuery(document).ready(function(){
             spotlightTlds.fadeIn('fast');
             jQuery('#resultDomainOption').val(domainoption);
             var lookup = WHMCS.http.jqClient.post(
-                    WHMCS.utils.getRouteUrl('/domain/check'),
-                    {
-                        token: csrfToken,
-                        type: 'domain',
-                        domain: sld + tld,
-                        sld: sld,
-                        tld: tld,
-                        source: 'cartAddDomain'
-                    },
-                    'json'
-                ),
+                WHMCS.utils.getRouteUrl('/domain/check'),
+                {
+                    token: csrfToken,
+                    type: 'domain',
+                    domain: sld,
+                    sld: sld,
+
+                    source: 'cartAddDomain'
+                },
+                'json'
+            ),
                 spotlight = WHMCS.http.jqClient.post(
                     WHMCS.utils.getRouteUrl('/domain/check'),
                     {
                         token: csrfToken,
                         type: 'spotlight',
-                        domain: sld + tld,
+                        domain: sld,
                         sld: sld,
-                        tld: tld,
                         source: 'cartAddDomain'
                     },
                     'json'
@@ -2380,9 +2390,8 @@ jQuery(document).ready(function(){
                     {
                         token: csrfToken,
                         type: 'suggestions',
-                        domain: sld + tld,
+                        domain: sld,
                         sld: sld,
-                        tld: tld,
                         source: 'cartAddDomain'
                     },
                     'json'
@@ -2390,13 +2399,13 @@ jQuery(document).ready(function(){
 
             // primary lookup handler
             lookup.done(function (data) {
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var pricing = null,
                         result = jQuery('#primaryLookupResult'),
                         available = result.find('.domain-available'),
                         availablePrice = result.find('.domain-price'),
                         unavailable = result.find('.domain-unavailable'),
-                        invalid= result.find('.domain-invalid'),
+                        invalid = result.find('.domain-invalid'),
                         contactSupport = result.find('.domain-contact-support'),
                         resultDomain = jQuery('#resultDomain'),
                         resultDomainPricing = jQuery('#resultDomainPricingTerm'),
@@ -2410,15 +2419,13 @@ jQuery(document).ready(function(){
                             if (domain.domainName !== domain.idnDomainName && idnLanguage.not(':visible')) {
                                 idnLanguage.slideDown();
                             }
-                            if (domain.preferredTLDNotAvailable) {
-                                unavailableTld.show().find('strong').html(domain.originalUnavailableTld);
-                            }
+
                             contactSupport.hide();
                             available.show().find('strong').html(domain.domainName);
                             availablePrice.show().find('span.price').html(pricing[Object.keys(pricing)[0]].register).end()
                                 .find('button').attr('data-domain', domain.domainName);
                             resultDomain.val(domain.domainName);
-                            resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName +']');
+                            resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName + ']');
 
                             btnDomainContinue.removeAttr('disabled');
                         } else {
@@ -2445,7 +2452,7 @@ jQuery(document).ready(function(){
                             } else {
                                 error.text('');
                                 errors = domain.error.split(reg);
-                                for(var i=0; i < errors.length; i++) {
+                                for (var i = 0; i < errors.length; i++) {
                                     var errorMsg = errors[i];
                                     if (errorMsg.length) {
                                         if (error.text()) {
@@ -2465,17 +2472,17 @@ jQuery(document).ready(function(){
                         }
                     }
                 });
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(3, btnSearchObj);
             });
 
             // spotlight lookup handler
-            spotlight.done(function(data) {
+            spotlight.done(function (data) {
                 if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
                     jQuery('.domain-lookup-spotlight-loader').hide();
                     return;
                 }
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var tld = domain.tldNoDots,
                         pricing = domain.pricing,
                         result = jQuery('#spotlight' + tld + ' .domain-lookup-result');
@@ -2513,14 +2520,14 @@ jQuery(document).ready(function(){
                     }
                     result.show();
                 });
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(3, btnSearchObj);
             });
 
             // suggestions lookup handler
             suggestion.done(function (data) {
                 if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
-                    jQuery('.suggested-domains').fadeOut('fast', function() {
+                    jQuery('.suggested-domains').fadeOut('fast', function () {
                         jQuery(this).hide();
                     });
                     return;
@@ -2528,7 +2535,7 @@ jQuery(document).ready(function(){
                     jQuery('.suggested-domains').show();
                 }
                 var suggestionCount = 1;
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var tld = domain.tld,
                         pricing = domain.pricing;
                     suggestions.find('div:first').clone(true, true).appendTo(suggestions);
@@ -2569,7 +2576,7 @@ jQuery(document).ready(function(){
                 });
                 jQuery('.domain-lookup-suggestions-loader').hide();
                 jQuery('#domainSuggestions').show();
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(3, btnSearchObj);
             });
         } else if (domainoption == 'transfer') {
@@ -2579,51 +2586,79 @@ jQuery(document).ready(function(){
                 {
                     token: csrfToken,
                     type: 'transfer',
-                    domain: sld + tld,
+                    domain: sld,
                     sld: sld,
-                    tld: tld,
                     source: 'cartAddDomain'
                 },
                 'json'
             );
 
             transfer.done(function (data) {
-                if (typeof data != 'object' || data.result.length == 0) {
-                    jQuery('.domain-lookup-primary-loader').hide();
-                    return;
-                }
+                jQuery('.domain-lookup-primary-loader').hide();
                 var result = jQuery('#primaryLookupResult'),
                     transfereligible = result.find('.transfer-eligible'),
                     transferPrice = result.find('.domain-price'),
                     transfernoteligible = result.find('.transfer-not-eligible'),
                     resultDomain = jQuery('#resultDomain'),
-                    resultDomainPricing = jQuery('#resultDomainPricingTerm');
-                if (Object.keys(data.result).length === 0) {
-                    jQuery('.domain-lookup-primary-loader').hide();
+                    resultDomainPricing = jQuery('#resultDomainPricingTerm'),
+                    btnDomainContinue = jQuery('#btnDomainContinue');
+                transferInvalid = result.find(".domain-invalid");
+
+                // Ocultar o botão de continuar inicialmente
+                btnDomainContinue.hide().attr('disabled', 'disabled');
+
+                if (typeof data != 'object' || data.result.length == 0) {
                     result.show();
                     transfernoteligible.show();
+                    return;
                 }
-                jQuery.each(data.result, function(index, domain) {
-                    var pricing = domain.pricing;
-                    jQuery('.domain-lookup-primary-loader').hide();
+
+                if (Object.keys(data.result).length === 0) {
                     result.show();
+                    transfernoteligible.show();
+                    return;
+                }
+
+                jQuery.each(data.result, function (index, domain) {
+                    var pricing = domain.pricing;
+                    result.show();
+
                     if (domain.isRegistered) {
-                        transfereligible.show();
-                        transferPrice.show().find('.register-price-label').hide().end()
-                            .find('.transfer-price-label').show().end()
-                            .find('span.price').html(pricing[Object.keys(pricing)[0]].transfer).end()
-                            .find('button').attr('data-domain', domain.domainName);
-                        resultDomain.val(domain.domainName);
-                        resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName +']');
-                        btnDomainContinue.removeAttr('disabled');
+                        if (typeof pricing === 'object' && Object.keys(pricing).length > 0) {
+                            var pricingKey = Object.keys(pricing)[0];
+
+                            if (pricingKey && pricing[pricingKey] && pricing[pricingKey].transfer !== undefined) {
+                                transfereligible.show();
+                                transferPrice.show()
+                                    .find('.register-price-label').hide().end()
+                                    .find('.transfer-price-label').show().end()
+                                    .find('span.price').html(pricing[pricingKey].transfer).end()
+                                    .find('button').attr('data-domain', domain.domainName);
+
+                                resultDomain.val(domain.domainName);
+                                resultDomainPricing.val(pricingKey)
+                                    .attr('name', 'domainsregperiod[' + domain.domainName + ']');
+
+                                // Mostrar o botão de continuar e remover o atributo disabled
+                                btnDomainContinue.show().removeAttr('disabled');
+                            } else {
+                                console.log('Preço de transferência não disponível ou indefinido para o domínio:', domain.domainName);
+                                transfernoteligible.show();
+                            }
+                        } else {
+                            console.log('Dados de preços inválidos ou ausentes para o domínio:', domain.domainName);
+                            transferInvalid.show();
+                        }
                     } else {
+                        console.log('Domínio não registrado.');
                         transfernoteligible.show();
                     }
                 });
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });
-        } else if (domainoption == 'owndomain' || domainoption == 'subdomain' || domainoption == 'incart') {
+        }
+        else if (domainoption == 'owndomain' || domainoption == 'subdomain' || domainoption == 'incart') {
 
             var otherDomain = WHMCS.http.jqClient.post(
                 WHMCS.utils.getRouteUrl('/domain/check'),
@@ -2631,26 +2666,24 @@ jQuery(document).ready(function(){
                     token: csrfToken,
                     type: domainoption,
                     pid: pid,
-                    domain: sld + tld,
-                    sld: sld,
-                    tld: tld,
+                    domain: sld,
                     source: 'cartAddDomain'
                 },
                 'json'
             );
 
-            otherDomain.done(function(data) {
+            otherDomain.done(function (data) {
                 if (typeof data != 'object' || data.result.length == 0) {
                     jQuery('.domain-lookup-subdomain-loader').hide();
                     return;
                 }
-                jQuery.each(data.result, function(index, result) {
+                jQuery.each(data.result, function (index, result) {
                     if (result.status === true) {
                         displayRecommendations(
                             whmcsBaseUrl + '/cart.php',
                             'addproductajax=1&a=confproduct&i=' + result.num,
                             false
-                        ).done(function() {
+                        ).done(function () {
                             window.location = whmcsBaseUrl + '/cart.php?a=confproduct&i=' + result.num;
                         });
                     } else {
@@ -2665,15 +2698,55 @@ jQuery(document).ready(function(){
                     }
                 });
 
-            }).always(function(){
+            }).always(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });
         }
-
+        sldInput = null
+        sld = null
         btnDomainContinue.show();
     });
+    function showElementAsFlex(selector) {
+        if ($(selector).length) { // Verifica se o elemento existe
+            $(selector).get(0).style.setProperty('display', 'flex', 'important');
+        }
+    }
 
-    jQuery('#frmProductDomainSelections').on('submit', function(e) {
+    // Verifica se existem elementos com a classe .domain-input-group
+    if ($('.domain-input-group').length) {
+        $('.domain-input-group').hide();
+        showElementAsFlex('.domain-input-group:first');
+    }
+
+    // Verifica se existe o botão dentro de #domainregister
+    if ($('#domainregister button').length) {
+        $('#domainregister button').on('click', function () {
+            $('.domain-input-group').hide();
+            showElementAsFlex('#domainregister');
+        });
+    }
+
+    // Verifica se existe o botão dentro de #domainowndomain
+    if ($('#domainowndomain button').length) {
+        $('#domainowndomain button').on('click', function () {
+            $('.domain-input-group').hide();
+            showElementAsFlex('#domainowndomain');
+        });
+    }
+
+    // Verifica se existe o botão dentro de #domaintransfer
+    if ($('#domaintransfer button').length) {
+        $('#domaintransfer button').on('click', function () {
+            $('.domain-input-group').hide();
+            showElementAsFlex('#domaintransfer');
+        });
+    }
+
+
+
+
+
+    jQuery('#frmProductDomainSelections').on('submit', function (e) {
         var idnLanguage = jQuery('#idnLanguageSelector'),
             idnLanguageInput = idnLanguage.find('select'),
             form = jQuery(this);
@@ -2689,17 +2762,31 @@ jQuery(document).ready(function(){
             form.attr('action'),
             'addproductajax=1&' + form.serialize(),
             false
-        ).done(function() {
+        ).done(function () {
             form.unbind().submit();
             form.submit();
         });
     });
 
-    jQuery("#btnAlreadyRegistered").click(function() {
-        jQuery("#containerNewUserSignup").slideUp('', function() {
-            jQuery("#containerExistingUserSignin").slideDown('', function() {
+
+    jQuery("#containerNewUserSignup").hide();
+    jQuery("#containerExistingUserSignin").hide();
+    jQuery("#containerNewUserSecurity").hide();
+    jQuery(".card.mb-4").hide(); // Esconde todos os elementos com a classe .card.mb-4
+    jQuery("#btnCompleteOrder").hide(); // Esconde o botão "Completar Pedido"
+    if ($('.account.active').length) {
+        // Muda o estilo do botão para display block
+        $('#btnCompleteOrder').css('display', 'block');
+    }
+    jQuery('.marketing-email-optin').hide(); // Esconde a seção de opt-in de marketing
+
+    // Evento para o botão "Already Registered"
+    jQuery("#btnAlreadyRegistered").click(function () {
+        jQuery("#frmCheckout").show(); // Mostra o formulário de checkout
+        jQuery("#containerNewUserSignup").slideUp('', function () {
+            jQuery("#containerExistingUserSignin").slideDown('', function () {
                 jQuery("#inputCustType").val('existing');
-                jQuery("#btnAlreadyRegistered").fadeOut('', function() {
+                jQuery("#btnAlreadyRegistered").fadeOut('', function () {
                     jQuery("#btnNewUserSignup").fadeIn();
                 });
             });
@@ -2709,16 +2796,20 @@ jQuery(document).ready(function(){
             jQuery("#stateselect").removeAttr('required').addClass('requiredAttributeRemoved');
         }
         jQuery('.marketing-email-optin').slideUp();
+        jQuery(".card.mb-4").slideDown(); // Esconde os elementos .card.mb-4
+        jQuery("#btnCompleteOrder").fadeIn(); // Mostra o botão "Completar Pedido"
     });
 
-    jQuery("#btnNewUserSignup").click(function() {
-        jQuery("#containerExistingUserSignin").slideUp('', function() {
-            jQuery("#containerNewUserSignup").slideDown('', function() {
+    // Adicione um console log para verificar se o botão está clicando
+    jQuery("#btnNewUserSignup").click(function () {
+        jQuery("#frmCheckout").show(); // Mostra o formulário de checkout
+        jQuery("#containerExistingUserSignin").slideUp('', function () {
+            jQuery("#containerNewUserSignup").slideDown('', function () {
                 jQuery("#inputCustType").val('new');
                 if (jQuery("#passwdFeedback").html().length == 0) {
                     jQuery("#containerNewUserSecurity").show();
                 }
-                jQuery("#btnNewUserSignup").fadeOut('', function() {
+                jQuery("#btnNewUserSignup").fadeOut('', function () {
                     jQuery("#btnAlreadyRegistered").fadeIn();
                 });
             });
@@ -2727,9 +2818,13 @@ jQuery(document).ready(function(){
         if (jQuery("#stateselect").hasClass('requiredAttributeRemoved')) {
             jQuery("#stateselect").attr('required', 'required').removeClass('requiredAttributeRemoved');
         }
+        jQuery(".card.mb-4").slideDown(); // Mostra os elementos .card.mb-4
+        jQuery("#btnCompleteOrder").fadeIn(); // Mostra o botão "Completar Pedido"
     });
 
-    jQuery("#btnExistingLogin").click(function() {
+
+    // Evento para o botão "Existing Login"
+    jQuery("#btnExistingLogin").click(function () {
         var inputLoginEmail = jQuery('#inputLoginEmail').val(),
             inputLoginPassword = jQuery('#inputLoginPassword').val(),
             existingLoginMessage = jQuery('#existingLoginMessage'),
@@ -2767,7 +2862,9 @@ jQuery(document).ready(function(){
         });
     });
 
-    jQuery('.account-select').on('ifChecked', function(event) {
+
+
+    jQuery('.account-select').on('ifChecked', function (event) {
         var userSignupContainer = jQuery('#containerNewUserSignup'),
             stateSelect = jQuery("#stateselect"),
             thisValue = jQuery(this).val(),
@@ -2825,7 +2922,7 @@ jQuery(document).ready(function(){
                 account_id: thisValue,
                 token: csrfToken
             },
-            success: function(data) {
+            success: function (data) {
                 var creditDiv = jQuery('#applyCreditContainer');
                 jQuery('#totalCartPrice').text(data.total);
                 creditDiv.find('p').first().text(data.availableCreditBalance);
@@ -2867,7 +2964,7 @@ jQuery(document).ready(function(){
                     selectPreferredCard();
                 }
             },
-            always: function() {
+            always: function () {
                 btnCompleteOrder.removeClass('disabled');
                 if (btnCompleteOrder.hasClass('spinner-on-click')) {
                     var icon = btnCompleteOrder.find('i.fas,i.far,i.fal,i.fab');
@@ -2891,7 +2988,7 @@ jQuery(document).ready(function(){
         newCardOption = jQuery('#new'),
         creditCardInputFields = jQuery('#creditCardInputFields');
 
-    jQuery(document).on('ifChecked', '.existing-card', function(event) {
+    jQuery(document).on('ifChecked', '.existing-card', function (event) {
         newCardSaveSettings.slideUp().find('input').attr('disabled', 'disabled');
         if (jQuery('.payment-methods:checked').data('remote-inputs') === 1) {
             return;
@@ -2904,7 +3001,7 @@ jQuery(document).ready(function(){
             existingCardInfo.slideUp().find('input').attr('disabled', 'disabled');
         }
     });
-    newCardOption.on('ifChecked', function(event) {
+    newCardOption.on('ifChecked', function (event) {
         newCardSaveSettings.slideDown().find('input').removeAttr('disabled');
         if (jQuery('.payment-methods:checked').data('remote-inputs') === 1) {
             return;
@@ -2922,118 +3019,118 @@ jQuery(document).ready(function(){
         WHMCS.payment.event.gatewayInit(whmcsPaymentModuleMetadata, element.val());
         WHMCS.payment.event.gatewayOptionInit(whmcsPaymentModuleMetadata, element.val(), element);
     })
-    .on('ifChecked', function(event) {
-        WHMCS.payment.event.gatewayUnselected(whmcsPaymentModuleMetadata);
-        WHMCS.payment.display.errorClear();
-        var element = jQuery(this);
-        var afterDefaultOnSelectOptions = {
-            complete: function () {
-                WHMCS.payment.event.gatewaySelected(whmcsPaymentModuleMetadata, element.val(), element);
-            }
-        };
-
-        var existingCards = jQuery(document).find('.existing-card');
-        if (!existingCards.length) {
-            existingCardInfo.slideUp()
-                .find('input')
-                .attr('disabled', 'disabled');
-        }
-
-        if (jQuery(this).hasClass('is-credit-card')) {
-            var gatewayPaymentType = jQuery(this).data('payment-type'),
-                gatewayModule = jQuery(this).val(),
-                showLocal = jQuery(this).data('show-local'),
-                relevantMethods = [];
-            if (gatewayPaymentType === 'RemoteCreditCard') {
-                inputNoStoreContainer.hide().find('input').prop('disabled', 'disabled');
-            } else {
-                if (inputNoStoreContainer.not(':visible')) {
-                    inputNoStoreContainer.slideDown().find('input').removeProp('disabled');
+        .on('ifChecked', function (event) {
+            WHMCS.payment.event.gatewayUnselected(whmcsPaymentModuleMetadata);
+            WHMCS.payment.display.errorClear();
+            var element = jQuery(this);
+            var afterDefaultOnSelectOptions = {
+                complete: function () {
+                    WHMCS.payment.event.gatewaySelected(whmcsPaymentModuleMetadata, element.val(), element);
                 }
+            };
+
+            var existingCards = jQuery(document).find('.existing-card');
+            if (!existingCards.length) {
+                existingCardInfo.slideUp()
+                    .find('input')
+                    .attr('disabled', 'disabled');
             }
 
-            existingCards.each(function(index) {
-                var paymentType = jQuery(this).data('payment-type'),
-                    paymentModule = jQuery(this).data('payment-gateway'),
-                    payMethodId = jQuery(this).val();
-
-                var paymentTypeMatch = (paymentType === gatewayPaymentType);
-
-                var paymentModuleMatch = false;
+            if (jQuery(this).hasClass('is-credit-card')) {
+                var gatewayPaymentType = jQuery(this).data('payment-type'),
+                    gatewayModule = jQuery(this).val(),
+                    showLocal = jQuery(this).data('show-local'),
+                    relevantMethods = [];
                 if (gatewayPaymentType === 'RemoteCreditCard') {
-                    // only show remote credit cards that belong to the selected gateway
-                    paymentModuleMatch = (paymentModule === gatewayModule);
-                } else if (gatewayPaymentType === 'CreditCard') {
-                    // any local credit card can be used with any credit card gateway
-                    paymentModuleMatch = true;
-                }
-
-                if (showLocal && paymentType === 'CreditCard') {
-                    paymentTypeMatch = true;
-                    paymentModuleMatch = true;
-                }
-
-                var payMethodElements = jQuery('[data-paymethod-id="' + payMethodId + '"]');
-
-                if (paymentTypeMatch && paymentModuleMatch) {
-                    jQuery(payMethodElements).show();
-                    relevantMethods.push(this);
+                    inputNoStoreContainer.hide().find('input').prop('disabled', 'disabled');
                 } else {
-                    jQuery(payMethodElements).hide();
+                    if (inputNoStoreContainer.not(':visible')) {
+                        inputNoStoreContainer.slideDown().find('input').removeProp('disabled');
+                    }
                 }
-            });
 
-            var enabledRelevantMethods = relevantMethods.filter(function (item) {
-                return ! jQuery(item).attr('disabled');
-            });
+                existingCards.each(function (index) {
+                    var paymentType = jQuery(this).data('payment-type'),
+                        paymentModule = jQuery(this).data('payment-gateway'),
+                        payMethodId = jQuery(this).val();
 
-            if (enabledRelevantMethods.length > 0) {
-                var defaultId = null;
-                jQuery.each(enabledRelevantMethods, function(index, value) {
-                    var jQueryElement = jQuery(value),
-                        order = parseInt(jQueryElement.data('order-preference'), 10);
-                    if ((defaultId === null) || (order < defaultId)) {
-                        defaultId = jQueryElement.val();
-                        if (order === 0) {
+                    var paymentTypeMatch = (paymentType === gatewayPaymentType);
+
+                    var paymentModuleMatch = false;
+                    if (gatewayPaymentType === 'RemoteCreditCard') {
+                        // only show remote credit cards that belong to the selected gateway
+                        paymentModuleMatch = (paymentModule === gatewayModule);
+                    } else if (gatewayPaymentType === 'CreditCard') {
+                        // any local credit card can be used with any credit card gateway
+                        paymentModuleMatch = true;
+                    }
+
+                    if (showLocal && paymentType === 'CreditCard') {
+                        paymentTypeMatch = true;
+                        paymentModuleMatch = true;
+                    }
+
+                    var payMethodElements = jQuery('[data-paymethod-id="' + payMethodId + '"]');
+
+                    if (paymentTypeMatch && paymentModuleMatch) {
+                        jQuery(payMethodElements).show();
+                        relevantMethods.push(this);
+                    } else {
+                        jQuery(payMethodElements).hide();
+                    }
+                });
+
+                var enabledRelevantMethods = relevantMethods.filter(function (item) {
+                    return !jQuery(item).attr('disabled');
+                });
+
+                if (enabledRelevantMethods.length > 0) {
+                    var defaultId = null;
+                    jQuery.each(enabledRelevantMethods, function (index, value) {
+                        var jQueryElement = jQuery(value),
+                            order = parseInt(jQueryElement.data('order-preference'), 10);
+                        if ((defaultId === null) || (order < defaultId)) {
+                            defaultId = jQueryElement.val();
+                            if (order === 0) {
+                                return false;
+                            }
+                        }
+                    });
+                    if (defaultId === null) {
+                        defaultId = 'new';
+                    }
+
+                    jQuery.each(enabledRelevantMethods, function (index, value) {
+                        var jQueryElement = jQuery(value);
+                        if (jQueryElement.val() === defaultId) {
+                            jQueryElement.iCheck('check');
                             return false;
                         }
-                    }
-                });
-                if (defaultId === null) {
-                    defaultId = 'new';
-                }
+                    });
 
-                jQuery.each(enabledRelevantMethods, function(index, value) {
-                    var jQueryElement = jQuery(value);
-                    if (jQueryElement.val() === defaultId) {
-                        jQueryElement.iCheck('check');
-                        return false;
+                    existingCardContainer.show();
+                    if (hideCvcOnCheckoutForExistingCard !== '1') {
+                        existingCardInfo.show().find('input').removeAttr('disabled');
+                    } else {
+                        existingCardInfo.hide().find('input').attr('disabled', 'disabled');
                     }
-                });
-
-                existingCardContainer.show();
-                if (hideCvcOnCheckoutForExistingCard !== '1') {
-                    existingCardInfo.show().find('input').removeAttr('disabled');
                 } else {
+                    jQuery(newCardOption).iCheck('check');
+                    existingCardContainer.hide();
                     existingCardInfo.hide().find('input').attr('disabled', 'disabled');
                 }
-            } else {
-                jQuery(newCardOption).iCheck('check');
-                existingCardContainer.hide();
-                existingCardInfo.hide().find('input').attr('disabled', 'disabled');
-            }
 
-            if (!creditCardInputFields.is(":visible")) {
-                creditCardInputFields.slideDown(afterDefaultOnSelectOptions);
+                if (!creditCardInputFields.is(":visible")) {
+                    creditCardInputFields.slideDown(afterDefaultOnSelectOptions);
+                } else {
+                    afterDefaultOnSelectOptions.complete();
+                }
             } else {
-                afterDefaultOnSelectOptions.complete();
+                creditCardInputFields.slideUp(afterDefaultOnSelectOptions);
             }
-        } else {
-            creditCardInputFields.slideUp(afterDefaultOnSelectOptions);
-        }
-    });
+        });
 
-    jQuery('.cc-input-container .paymethod-info').click(function() {
+    jQuery('.cc-input-container .paymethod-info').click(function () {
         var payMethodId = $(this).data('paymethod-id');
         var input = jQuery('input[name="ccinfo"][value=' + payMethodId + ']:not(:disabled)');
 
@@ -3042,7 +3139,7 @@ jQuery(document).ready(function(){
         }
     });
 
-    jQuery("#inputDomainContact").on('change', function() {
+    jQuery("#inputDomainContact").on('change', function () {
         var thisInput = jQuery(this);
         if (this.value === "addingnew") {
             thisInput.closest('div').addClass('pb-2');
@@ -3057,8 +3154,7 @@ jQuery(document).ready(function(){
     if (typeof registerFormPasswordStrengthFeedback == 'function') {
         jQuery("#inputNewPassword1").keyup(registerFormPasswordStrengthFeedback);
     } else {
-        jQuery("#inputNewPassword1").keyup(function ()
-        {
+        jQuery("#inputNewPassword1").keyup(function () {
             passwordStrength = getPasswordStrength(jQuery(this).val());
             if (passwordStrength >= 75) {
                 textLabel = langPasswordStrong;
@@ -3078,12 +3174,12 @@ jQuery(document).ready(function(){
             ).attr('aria-valuenow', passwordStrength);
             jQuery("#passwordStrengthMeterBar").removeClass(
                 'progress-bar-success progress-bar-warning progress-bar-danger').addClass(
-                'progress-bar-' + cssClass);
+                    'progress-bar-' + cssClass);
         });
     }
 
     jQuery('#inputDomain').on('shown.bs.tooltip', function () {
-        setTimeout(function(input) {
+        setTimeout(function (input) {
             input.tooltip('hide');
         },
             5000,
@@ -3153,17 +3249,17 @@ jQuery(document).ready(function(){
 
         // fade in results
         if (jQuery('#DomainSearchResults').not(":visible")) {
-            jQuery('.domain-pricing').fadeOut('fast', function() {
+            jQuery('.domain-pricing').fadeOut('fast', function () {
                 jQuery('#DomainSearchResults').fadeIn();
             });
 
         }
 
         var lookup = WHMCS.http.jqClient.post(
-                WHMCS.utils.getRouteUrl('/domain/check'),
-                frmDomain.serialize() + '&type=domain',
-                'json'
-            ),
+            WHMCS.utils.getRouteUrl('/domain/check'),
+            frmDomain.serialize() + '&type=domain',
+            'json'
+        ),
             spotlight = WHMCS.http.jqClient.post(
                 WHMCS.utils.getRouteUrl('/domain/check'),
                 frmDomain.serialize() + '&type=spotlight',
@@ -3181,7 +3277,7 @@ jQuery(document).ready(function(){
                 jQuery('.domain-lookup-primary-loader').hide();
                 return;
             }
-            jQuery.each(data.result, function(index, domain) {
+            jQuery.each(data.result, function (index, domain) {
                 var pricing = null,
                     result = jQuery('#primaryLookupResult'),
                     available = result.find('.domain-available'),
@@ -3245,7 +3341,7 @@ jQuery(document).ready(function(){
                         } else {
                             error.text('');
                             errors = domain.error.split(reg);
-                            for(var i=0; i < errors.length; i++) {
+                            for (var i = 0; i < errors.length; i++) {
                                 var errorMsg = errors[i];
                                 if (errorMsg.length) {
                                     if (error.text()) {
@@ -3266,17 +3362,17 @@ jQuery(document).ready(function(){
                 }
 
             });
-        }).always(function() {
+        }).always(function () {
             hasDomainLookupEnded();
         });
 
         // spotlight lookup handler
-        spotlight.done(function(data) {
+        spotlight.done(function (data) {
             if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
                 jQuery('.domain-lookup-spotlight-loader').hide();
                 return;
             }
-            jQuery.each(data.result, function(index, domain) {
+            jQuery.each(data.result, function (index, domain) {
                 var tld = domain.tldNoDots,
                     pricing = domain.pricing,
                     result = jQuery('#spotlight' + tld + ' .domain-lookup-result');
@@ -3317,14 +3413,14 @@ jQuery(document).ready(function(){
                 }
                 result.show();
             });
-        }).always(function() {
+        }).always(function () {
             hasDomainLookupEnded();
         });
 
         // suggestions lookup handler
         suggestion.done(function (data) {
             if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
-                jQuery('.suggested-domains').fadeOut('fast', function() {
+                jQuery('.suggested-domains').fadeOut('fast', function () {
                     jQuery(this).hide();
                 });
                 return;
@@ -3332,7 +3428,7 @@ jQuery(document).ready(function(){
                 jQuery('.suggested-domains').show();
             }
             var suggestionCount = 1;
-            jQuery.each(data.result, function(index, domain) {
+            jQuery.each(data.result, function (index, domain) {
                 var tld = domain.tld,
                     pricing = domain.pricing;
                 suggestions.find('div:first').clone(true, true).appendTo(suggestions);
@@ -3374,12 +3470,12 @@ jQuery(document).ready(function(){
             });
             jQuery('.domain-lookup-suggestions-loader').hide();
             jQuery('#domainSuggestions').show();
-        }).always(function() {
+        }).always(function () {
             hasDomainLookupEnded();
         });
     });
 
-    jQuery('.btn-add-to-cart').on('click', function() {
+    jQuery('.btn-add-to-cart').on('click', function () {
         if (jQuery(this).hasClass('checkout')) {
             window.location = whmcsBaseUrl + '/cart.php?a=confdomains';
             return;
@@ -3403,8 +3499,8 @@ jQuery(document).ready(function(){
 
         var sideOrder =
             ((jQuery(this).parents('.spotlight-tlds').length > 0)
-            ||
-            (jQuery(this).parents('.suggested-domains').length > 0)) ? 1 : 0;
+                ||
+                (jQuery(this).parents('.suggested-domains').length > 0)) ? 1 : 0;
 
         var addToCart = WHMCS.http.jqClient.post(
             whmcsBaseUrl + '/cart.php',
@@ -3426,7 +3522,7 @@ jQuery(document).ready(function(){
                 }
                 if (resultDomain.length && !resultDomain.val()) {
                     resultDomain.val(domain);
-                    resultDomainPricing.val(data.period).attr('name', 'domainsregperiod[' + domain +']');
+                    resultDomainPricing.val(data.period).attr('name', 'domainsregperiod[' + domain + ']');
                     if (btnDomainContinue.length > 0 && btnDomainContinue.is(':disabled')) {
                         btnDomainContinue.removeAttr('disabled');
                     }
@@ -3453,7 +3549,7 @@ jQuery(document).ready(function(){
         }
 
         var frmDomain = jQuery('#frmDomainTransfer'),
-        transferButton = jQuery('#btnTransferDomain'),
+            transferButton = jQuery('#btnTransferDomain'),
             inputDomain = jQuery('#inputTransferDomain'),
             authField = jQuery('#inputAuthCode'),
             domain = inputDomain.val(),
@@ -3507,15 +3603,15 @@ jQuery(document).ready(function(){
                     }
                 } else {
                     jQuery('#transferUnavailable').html(result.unavailable)
-                        .fadeIn('fast', function() {
-                            setTimeout(function(input) {
-                                    input.fadeOut('fast');
-                                },
+                        .fadeIn('fast', function () {
+                            setTimeout(function (input) {
+                                input.fadeOut('fast');
+                            },
                                 3000,
                                 jQuery(this)
                             );
                         }
-                    );
+                        );
                 }
             }
         }).always(function () {
@@ -3528,7 +3624,7 @@ jQuery(document).ready(function(){
 
     });
 
-    jQuery("#btnEmptyCart").click(function() {
+    jQuery("#btnEmptyCart").click(function () {
         jQuery('#modalEmptyCart').modal('show');
     });
 
@@ -3538,7 +3634,7 @@ jQuery(document).ready(function(){
         jQuery("#cctype").val(jQuery('span.type', this).html().trim());
     });
 
-    jQuery(document).on('click', '.domain-contact-support', function(e) {
+    jQuery(document).on('click', '.domain-contact-support', function (e) {
         e.preventDefault();
 
         var child = window.open();
@@ -3551,7 +3647,7 @@ jQuery(document).ready(function(){
     jQuery('#frmDomainChecker input[type=text]:visible').first().focus();
     jQuery('#frmDomainTransfer input[type=text]:visible').first().focus();
 
-    jQuery('.checkout .mc-promo .btn-add').click(function(e) {
+    jQuery('.checkout .mc-promo .btn-add').click(function (e) {
         var self = jQuery(this),
             productKey = self.data('product-key'),
             upSellBox = jQuery('#promo_' + productKey);
@@ -3588,7 +3684,7 @@ jQuery(document).ready(function(){
         );
     });
 
-    jQuery('.viewcart .mc-promo .btn-add').click(function(e) {
+    jQuery('.viewcart .mc-promo .btn-add').click(function (e) {
         var self = jQuery(this);
         self.attr('disabled', 'disabled')
             .find('span.arrow i').removeClass('fa-chevron-right').addClass('fa-spinner fa-spin');
@@ -3618,13 +3714,13 @@ jQuery(document).ready(function(){
         );
     });
 
-    jQuery(document).on('click', '#btnAddUpSellCheckout', function(e) {
+    jQuery(document).on('click', '#btnAddUpSellCheckout', function (e) {
         var upsellModalForm = jQuery('#upsellModalForm');
         WHMCS.http.jqClient.post(
             whmcsBaseUrl + '/cart.php',
             upsellModalForm.serialize(),
             function (data) {
-                if (data.done){
+                if (data.done) {
                     jQuery('#totalCartPrice').text(data.newTotal);
                 }
             },
@@ -3636,14 +3732,14 @@ jQuery(document).ready(function(){
     var useCreditOnCheckout = jQuery('#iCheck-useCreditOnCheckout'),
         skipCreditOnCheckout = jQuery('#iCheck-skipCreditOnCheckout');
 
-    useCreditOnCheckout.on('ifChecked', function() {
+    useCreditOnCheckout.on('ifChecked', function () {
         var radio = jQuery('#useCreditOnCheckout'),
             selectedPaymentMethod = jQuery('input[name="paymentmethod"]:checked'),
             selectedCC = jQuery('input[name="ccinfo"]:checked'),
             isCcSelected = selectedPaymentMethod.hasClass('is-credit-card'),
             firstNonCcGateway = jQuery('input[name="paymentmethod"]')
-            .not(jQuery('input.is-credit-card[name="paymentmethod"]'))
-            .first(),
+                .not(jQuery('input.is-credit-card[name="paymentmethod"]'))
+                .first(),
             container = jQuery('#paymentGatewaysContainer'),
             existingCardInfo = jQuery('#existingCardInfo'),
             ccInputFields = jQuery('#creditCardInputFields'),
@@ -3678,7 +3774,7 @@ jQuery(document).ready(function(){
         }
     });
 
-    skipCreditOnCheckout.on('ifChecked', function() {
+    skipCreditOnCheckout.on('ifChecked', function () {
         var selectedPaymentMethod = jQuery('input[name="paymentmethod"]:checked'),
             selectedCC = jQuery('input[name="ccinfo"]:checked'),
             isCcSelected = selectedPaymentMethod.hasClass('is-credit-card'),
@@ -3708,7 +3804,7 @@ jQuery(document).ready(function(){
     }
 
     jQuery('#domainRenewals, #serviceRenewals').find('span.added').hide().end().find('span.to-add').find('i').hide();
-    jQuery('.btn-add-renewal-to-cart').on('click', function() {
+    jQuery('.btn-add-renewal-to-cart').on('click', function () {
         var self = jQuery(this);
         var selfOuterWidth = self.outerWidth();
         var postUrl;
@@ -3739,7 +3835,7 @@ jQuery(document).ready(function(){
             return;
         }
 
-        self.attr('disabled', 'disabled').each(function() {
+        self.attr('disabled', 'disabled').each(function () {
             self.find('i').fadeIn('fast').end();
         });
 
@@ -3757,7 +3853,7 @@ jQuery(document).ready(function(){
             recalculateRenewalTotals();
         });
     });
-    jQuery(document).on('submit', '#removeRenewalForm', function(e) {
+    jQuery(document).on('submit', '#removeRenewalForm', function (e) {
         e.preventDefault();
 
         var buttonId = '#renewDomain';
@@ -3768,11 +3864,11 @@ jQuery(document).ready(function(){
         WHMCS.http.jqClient.post(
             whmcsBaseUrl + '/cart.php',
             jQuery(this).serialize() + '&ajax=1'
-        ).done(function(data) {
+        ).done(function (data) {
             var domainId = data.i;
             var button = jQuery(buttonId + domainId);
 
-            button.attr('disabled', 'disabled').each(function() {
+            button.attr('disabled', 'disabled').each(function () {
                 jQuery(this).find('span.added').hide().end()
                     .removeClass('checkout').find('span.to-add').show().end().removeAttr('disabled');
                 jQuery(this).css('width', '');
@@ -3783,26 +3879,26 @@ jQuery(document).ready(function(){
         });
     });
 
-    jQuery('.select-renewal-pricing').on('change', function() {
+    jQuery('.select-renewal-pricing').on('change', function () {
         var self = jQuery(this),
             domainId = self.data('domain-id'),
             button = jQuery('#renewDomain' + domainId);
 
-        button.attr('disabled', 'disabled').each(function() {
+        button.attr('disabled', 'disabled').each(function () {
             jQuery(this).css('width', jQuery(this).outerWidth());
             jQuery(this).find('span.added').hide().end()
                 .removeClass('checkout').find('span.to-add').show().end().removeAttr('disabled');
         });
     });
 
-    jQuery('#domainRenewalFilter').on('input', function() {
+    jQuery('#domainRenewalFilter').on('input', function () {
         var inputText = jQuery(this).val().toLowerCase();
-        jQuery('#domainRenewals').find('div.domain-renewal').filter(function() {
+        jQuery('#domainRenewals').find('div.domain-renewal').filter(function () {
             jQuery(this).toggle(jQuery(this).data('domain').toLowerCase().indexOf(inputText) > -1);
         });
     });
 
-    jQuery('#serviceRenewalFilter').on('input', function() {
+    jQuery('#serviceRenewalFilter').on('input', function () {
         var inputText = jQuery(this).val().toLowerCase();
         var hasMatchingInputs = function matchInputs(element, input) {
             var isInputMatched = false;
@@ -3810,7 +3906,7 @@ jQuery(document).ready(function(){
                 jQuery('#hideShowServiceRenewalButton').find('span.to-show').hide().end()
                     .find('span.to-hide').show().end().removeAttr('disabled');
             }
-            jQuery.each(element.data(), function(key, value) {
+            jQuery.each(element.data(), function (key, value) {
                 if (String(value).toLowerCase().indexOf(input) > -1) {
                     isInputMatched = true;
                     return false;
@@ -3820,13 +3916,13 @@ jQuery(document).ready(function(){
             return isInputMatched;
         }
 
-        jQuery('#serviceRenewals').find('.service-renewal').filter(function() {
+        jQuery('#serviceRenewals').find('.service-renewal').filter(function () {
             var serviceRenewals = jQuery(this);
             var addonRenewals = serviceRenewals.find('.addon-renewals');
             var hasMatchingAddonItem = false;
 
             if (addonRenewals.length > 0) {
-                addonRenewals.find('.service-renewal').filter(function() {
+                addonRenewals.find('.service-renewal').filter(function () {
                     hasMatchingAddonItem = hasMatchingInputs(jQuery(this), inputText);
                 });
             }
@@ -3843,7 +3939,7 @@ jQuery(document).ready(function(){
     jQuery(this).find('span.to-hide').hide().end()
         .find('span.to-show').show().end().removeAttr('disabled');
     hideNoneRenewableServices();
-    jQuery('#hideShowServiceRenewalButton').on('click', function() {
+    jQuery('#hideShowServiceRenewalButton').on('click', function () {
         if (jQuery(this).find('span.to-show').is(":hidden")) {
             jQuery(this).find('span.to-hide').hide().end()
                 .find('span.to-show').show().end().removeAttr('disabled');
@@ -3860,7 +3956,7 @@ jQuery(document).ready(function(){
         checkoutForm.on('submit', validateCheckoutCreditCardInput);
         checkoutForm.on('submit.paymentjs', function (event) {
             WHMCS.payment.event.checkoutFormSubmit(
-                {...whmcsPaymentModuleMetadata, ...{event: event}},
+                { ...whmcsPaymentModuleMetadata, ...{ event: event } },
                 WHMCS.payment.event.previouslySelected.module,
                 jQuery(this)
             );
@@ -3873,8 +3969,7 @@ jQuery(document).ready(function(){
     }
 });
 //checkoutForm
-function validateCheckoutCreditCardInput(e)
-{
+function validateCheckoutCreditCardInput(e) {
     var newOrExisting = jQuery('input[name="ccinfo"]:checked').val(),
         submitButton = checkoutForm.find('*[type="submit"]'),
         cardType = null,
@@ -3956,8 +4051,8 @@ function removeItem(type, num, renewalType = null) {
 }
 
 function updateConfigurableOptions(i, billingCycle) {
-    WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'a=cyclechange&ajax=1&i='+i+'&billingcycle='+billingCycle,
-        function(data) {
+    WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'a=cyclechange&ajax=1&i=' + i + '&billingcycle=' + billingCycle,
+        function (data) {
             var co = jQuery('#productConfigurableOptions'),
                 add = jQuery('#productAddonsContainer');
             if (co.length) {
@@ -3985,16 +4080,16 @@ function recalctotals() {
     var thisRequestId = Math.floor((Math.random() * 1000000) + 1);
     window.lastSliderUpdateRequestId = thisRequestId;
 
-    var post = WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'ajax=1&a=confproduct&calctotal=true&'+jQuery("#frmConfigureProduct").serialize());
+    var post = WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'ajax=1&a=confproduct&calctotal=true&' + jQuery("#frmConfigureProduct").serialize());
     post.done(
-        function(data) {
+        function (data) {
             if (thisRequestId == window.lastSliderUpdateRequestId) {
                 jQuery("#producttotal").html(data);
             }
         }
     );
     post.always(
-        function() {
+        function () {
             jQuery("#orderSummaryLoader").delay(500).fadeOut('slow');
         }
     );
@@ -4014,12 +4109,12 @@ function recalculateRenewalTotals() {
     window.lastSliderUpdateRequestId = thisRequestId;
     WHMCS.http.jqClient.get(
         WHMCS.utils.getRouteUrl(routePath)
-    ).done(function(data) {
+    ).done(function (data) {
         if (thisRequestId === window.lastSliderUpdateRequestId) {
             jQuery("#producttotal").html(data.body);
         }
     }).always(
-        function() {
+        function () {
             jQuery("#orderSummaryLoader").delay(500).fadeOut('slow');
         }
     );
@@ -4049,12 +4144,12 @@ function selectDomainPeriodInCart(domainName, price, period, yearsString) {
         }
     );
     update.done(
-        function(data) {
+        function (data) {
             if (data.forceReload) {
                 window.location.reload();
                 return;
             }
-            data.domains.forEach(function(domain) {
+            data.domains.forEach(function (domain) {
                 jQuery("[name='" + domain.domain + "Price']").parent('div').find('.renewal-price').html(
                     domain.prefixedRenewPrice + domain.shortRenewalYearsLanguage
                 );
@@ -4102,14 +4197,13 @@ function selectDomainPeriodInCart(domainName, price, period, yearsString) {
         }
     );
     update.always(
-        function() {
+        function () {
             loader.delay(500).fadeOut('slow');
         }
     );
 }
 
-function loadMoreSuggestions()
-{
+function loadMoreSuggestions() {
     var suggestions = jQuery('#domainSuggestions'),
         suggestionCount;
 
@@ -4124,8 +4218,7 @@ function loadMoreSuggestions()
     }
 }
 
-function validate_captcha(form)
-{
+function validate_captcha(form) {
     var reCaptcha = jQuery('#g-recaptcha-response'),
         reCaptchaContainer = jQuery('#divDynamicRecaptcha'),
         captcha = jQuery('#inputCaptcha');
@@ -4147,7 +4240,7 @@ function validate_captcha(form)
         'json'
     );
 
-    validate.done(function(data) {
+    validate.done(function (data) {
         if (data.error) {
             jQuery('#inputCaptcha').attr('data-original-title', data.error).tooltip('show');
             if (captcha.length) {
@@ -4162,8 +4255,7 @@ function validate_captcha(form)
     });
 }
 
-function selectPreferredCard()
-{
+function selectPreferredCard() {
     var methods = jQuery('input[name="ccinfo"]:visible'),
         select = methods.first(),
         preferred = methods.filter('[data-order-preference=0]');
@@ -4173,8 +4265,7 @@ function selectPreferredCard()
     select.iCheck('check');
 }
 
-function showNoneRenewableServices()
-{
+function showNoneRenewableServices() {
     jQuery('.service-renewal, .addon-renewals').each(function () {
         if (jQuery(this).attr('data-is-renewable') === 'false') {
             jQuery(this).show();
@@ -4182,8 +4273,7 @@ function showNoneRenewableServices()
     });
 }
 
-function hideNoneRenewableServices()
-{
+function hideNoneRenewableServices() {
     jQuery('.service-renewal, .addon-renewals').each(function (i, element) {
         var isRenewable = jQuery(this).attr('data-is-renewable');
         if (isRenewable === 'false') {
@@ -4192,14 +4282,13 @@ function hideNoneRenewableServices()
             } else {
                 jQuery(this).hide();
             }
-        } else if (isRenewable === 'true' ) {
+        } else if (isRenewable === 'true') {
             jQuery(this).show();
         }
     });
 }
 
-function hasRenewableServiceAddon(data)
-{
+function hasRenewableServiceAddon(data) {
     var hasService = false;
     jQuery(data).find('div.service-renewal').each(function (i, element) {
         if (jQuery(element).attr('data-is-renewable') === 'true') {

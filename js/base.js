@@ -1,6 +1,5 @@
 if (typeof localTrans === 'undefined') {
-    localTrans = function (phraseId, fallback)
-    {
+    localTrans = function (phraseId, fallback) {
         if (typeof _localLang !== 'undefined') {
             if (typeof _localLang[phraseId] !== 'undefined') {
                 if (_localLang[phraseId].length > 0) {
@@ -18,7 +17,7 @@ var domainLookupCallCount,
     furtherSuggestions,
     hideCvcOnCheckoutForExistingCard = 0;
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function () {
 
     jQuery('#order-standard_cart').find('input').not('.no-icheck').iCheck({
         inheritID: true,
@@ -27,7 +26,7 @@ jQuery(document).ready(function(){
         increaseArea: '20%'
     });
 
-    jQuery('.mc-promo .header').click(function(e) {
+    jQuery('.mc-promo .header').click(function (e) {
         e.preventDefault();
         if (jQuery(e.target).is('.btn, .btn span,.btn .fa')) {
             return;
@@ -54,12 +53,12 @@ jQuery(document).ready(function(){
         var offset = jQuery("#scrollingPanelContainer").parent('.row').offset();
         var maxTopOffset = jQuery("#scrollingPanelContainer").parent('.row').outerHeight() - 35;
         var topPadding = 15;
-        jQuery(window).resize(function() {
+        jQuery(window).resize(function () {
             offset = jQuery("#scrollingPanelContainer").parent('.row').offset();
             maxTopOffset = jQuery("#scrollingPanelContainer").parent('.row').outerHeight() - 35;
             repositionScrollingSidebar();
         });
-        jQuery(window).scroll(function() {
+        jQuery(window).scroll(function () {
             repositionScrollingSidebar();
         });
         repositionScrollingSidebar();
@@ -70,7 +69,7 @@ jQuery(document).ready(function(){
             $orderSummaryEl.stop().css('margin-top', '0');
             return false;
         }
-        var heightOfOrderSummary =  $orderSummaryEl.outerHeight();
+        var heightOfOrderSummary = $orderSummaryEl.outerHeight();
         var offsetTop = 0;
         var productListing = jQuery("#scrollingPanelContainer").prev('div.secondary-cart-body');
         if (typeof offset !== "undefined") {
@@ -112,7 +111,7 @@ jQuery(document).ready(function(){
         }
     }
 
-    jQuery("#frmConfigureProduct").submit(function(e) {
+    jQuery("#frmConfigureProduct").submit(function (e) {
         e.preventDefault();
 
         var button = jQuery('#btnCompleteProductConfig'),
@@ -125,11 +124,11 @@ jQuery(document).ready(function(){
             postUrl,
             'addproductajax=1&' + postData,
             false
-        ).done(function() {
+        ).done(function () {
             WHMCS.http.jqClient.post(
                 postUrl,
                 'ajax=1&' + postData,
-                function(data) {
+                function (data) {
                     if (data) {
                         jQuery("#btnCompleteProductConfig").html(btnOriginalText);
                         jQuery("#containerProductValidationErrorsList").html(data);
@@ -146,17 +145,17 @@ jQuery(document).ready(function(){
         });
     });
 
-    jQuery("#productConfigurableOptions").on('ifChecked', 'input', function() {
+    jQuery("#productConfigurableOptions").on('ifChecked', 'input', function () {
         recalctotals();
     });
-    jQuery("#productConfigurableOptions").on('ifUnchecked', 'input', function() {
+    jQuery("#productConfigurableOptions").on('ifUnchecked', 'input', function () {
         recalctotals();
     });
-    jQuery("#productConfigurableOptions").on('change', 'select', function() {
+    jQuery("#productConfigurableOptions").on('change', 'select', function () {
         recalctotals();
     });
 
-    jQuery(".addon-products").on('click', '.panel-addon', function(e) {
+    jQuery(".addon-products").on('click', '.panel-addon', function (e) {
         e.preventDefault();
         var $activeAddon = jQuery(this);
         if ($activeAddon.hasClass('panel-addon-selected')) {
@@ -165,22 +164,22 @@ jQuery(document).ready(function(){
             $activeAddon.find('input[type="checkbox"]').iCheck('check');
         }
     });
-    jQuery(".addon-products").on('ifChecked', '.panel-addon input', function(event) {
+    jQuery(".addon-products").on('ifChecked', '.panel-addon input', function (event) {
         var $activeAddon = jQuery(this).parents('.panel-addon');
         $activeAddon.addClass('panel-addon-selected');
         $activeAddon.find('input[type="checkbox"]').iCheck('check');
-        $activeAddon.find('.panel-add').html('<i class="fas fa-shopping-cart"></i> '+localTrans('addedToCartRemove', 'Added to Cart (Remove)'));
+        $activeAddon.find('.panel-add').html('<i class="fas fa-shopping-cart"></i> ' + localTrans('addedToCartRemove', 'Added to Cart (Remove)'));
         recalctotals();
     });
-    jQuery(".addon-products").on('ifUnchecked', '.panel-addon input', function(event) {
+    jQuery(".addon-products").on('ifUnchecked', '.panel-addon input', function (event) {
         var $activeAddon = jQuery(this).parents('.panel-addon');
         $activeAddon.removeClass('panel-addon-selected');
         $activeAddon.find('input[type="checkbox"]').iCheck('uncheck');
-        $activeAddon.find('.panel-add').html('<i class="fas fa-plus"></i> '+localTrans('addToCart', 'Add to Cart'));
+        $activeAddon.find('.panel-add').html('<i class="fas fa-plus"></i> ' + localTrans('addToCart', 'Add to Cart'));
         recalctotals();
     });
 
-    jQuery("#frmConfigureProduct").on('ifChecked', '.addon-selector', function(event) {
+    jQuery("#frmConfigureProduct").on('ifChecked', '.addon-selector', function (event) {
         recalctotals();
     });
 
@@ -191,7 +190,7 @@ jQuery(document).ready(function(){
         jQuery(firstInput).parents('.option').addClass('option-selected');
     }
     jQuery("#domain" + jQuery(".domain-selection-options input:checked").val()).show();
-    jQuery(".domain-selection-options input").on('ifChecked', function(event){
+    jQuery(".domain-selection-options input").on('ifChecked', function (event) {
         jQuery(".domain-selection-options .option").removeClass('option-selected');
         jQuery(this).parents('.option').addClass('option-selected');
         jQuery(".domain-input-group").hide();
@@ -255,7 +254,7 @@ jQuery(document).ready(function(){
         btnSearchObj.attr('disabled', 'disabled').addClass('disabled');
 
         jQuery('.domain-lookup-result').hide();
-        jQuery('#primaryLookupResult div').filter(function() {
+        jQuery('#primaryLookupResult div').filter(function () {
             return $(this).closest('#idnLanguageSelector').length === 0;
         }).hide();
         jQuery('#primaryLookupResult').find('.register-price-label').show().end()
@@ -296,17 +295,17 @@ jQuery(document).ready(function(){
             spotlightTlds.fadeIn('fast');
             jQuery('#resultDomainOption').val(domainoption);
             var lookup = WHMCS.http.jqClient.post(
-                    WHMCS.utils.getRouteUrl('/domain/check'),
-                    {
-                        token: csrfToken,
-                        type: 'domain',
-                        domain: sld + tld,
-                        sld: sld,
-                        tld: tld,
-                        source: 'cartAddDomain'
-                    },
-                    'json'
-                ),
+                WHMCS.utils.getRouteUrl('/domain/check'),
+                {
+                    token: csrfToken,
+                    type: 'domain',
+                    domain: sld + tld,
+                    sld: sld,
+                    tld: tld,
+                    source: 'cartAddDomain'
+                },
+                'json'
+            ),
                 spotlight = WHMCS.http.jqClient.post(
                     WHMCS.utils.getRouteUrl('/domain/check'),
                     {
@@ -334,13 +333,13 @@ jQuery(document).ready(function(){
 
             // primary lookup handler
             lookup.done(function (data) {
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var pricing = null,
                         result = jQuery('#primaryLookupResult'),
                         available = result.find('.domain-available'),
                         availablePrice = result.find('.domain-price'),
                         unavailable = result.find('.domain-unavailable'),
-                        invalid= result.find('.domain-invalid'),
+                        invalid = result.find('.domain-invalid'),
                         contactSupport = result.find('.domain-contact-support'),
                         resultDomain = jQuery('#resultDomain'),
                         resultDomainPricing = jQuery('#resultDomainPricingTerm'),
@@ -362,7 +361,7 @@ jQuery(document).ready(function(){
                             availablePrice.show().find('span.price').html(pricing[Object.keys(pricing)[0]].register).end()
                                 .find('button').attr('data-domain', domain.domainName);
                             resultDomain.val(domain.domainName);
-                            resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName +']');
+                            resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName + ']');
 
                             btnDomainContinue.removeAttr('disabled');
                         } else {
@@ -389,7 +388,7 @@ jQuery(document).ready(function(){
                             } else {
                                 error.text('');
                                 errors = domain.error.split(reg);
-                                for(var i=0; i < errors.length; i++) {
+                                for (var i = 0; i < errors.length; i++) {
                                     var errorMsg = errors[i];
                                     if (errorMsg.length) {
                                         if (error.text()) {
@@ -409,17 +408,17 @@ jQuery(document).ready(function(){
                         }
                     }
                 });
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(3, btnSearchObj);
             });
 
             // spotlight lookup handler
-            spotlight.done(function(data) {
+            spotlight.done(function (data) {
                 if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
                     jQuery('.domain-lookup-spotlight-loader').hide();
                     return;
                 }
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var tld = domain.tldNoDots,
                         pricing = domain.pricing,
                         result = jQuery('#spotlight' + tld + ' .domain-lookup-result');
@@ -457,14 +456,14 @@ jQuery(document).ready(function(){
                     }
                     result.show();
                 });
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(3, btnSearchObj);
             });
 
             // suggestions lookup handler
             suggestion.done(function (data) {
                 if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
-                    jQuery('.suggested-domains').fadeOut('fast', function() {
+                    jQuery('.suggested-domains').fadeOut('fast', function () {
                         jQuery(this).hide();
                     });
                     return;
@@ -472,7 +471,7 @@ jQuery(document).ready(function(){
                     jQuery('.suggested-domains').show();
                 }
                 var suggestionCount = 1;
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var tld = domain.tld,
                         pricing = domain.pricing;
                     suggestions.find('div:first').clone(true, true).appendTo(suggestions);
@@ -513,7 +512,7 @@ jQuery(document).ready(function(){
                 });
                 jQuery('.domain-lookup-suggestions-loader').hide();
                 jQuery('#domainSuggestions').show();
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(3, btnSearchObj);
             });
         } else if (domainoption == 'transfer') {
@@ -547,7 +546,7 @@ jQuery(document).ready(function(){
                     result.show();
                     transfernoteligible.show();
                 }
-                jQuery.each(data.result, function(index, domain) {
+                jQuery.each(data.result, function (index, domain) {
                     var pricing = domain.pricing;
                     jQuery('.domain-lookup-primary-loader').hide();
                     result.show();
@@ -558,13 +557,13 @@ jQuery(document).ready(function(){
                             .find('span.price').html(pricing[Object.keys(pricing)[0]].transfer).end()
                             .find('button').attr('data-domain', domain.domainName);
                         resultDomain.val(domain.domainName);
-                        resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName +']');
+                        resultDomainPricing.val(Object.keys(pricing)[0]).attr('name', 'domainsregperiod[' + domain.domainName + ']');
                         btnDomainContinue.removeAttr('disabled');
                     } else {
                         transfernoteligible.show();
                     }
                 });
-            }).always(function() {
+            }).always(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });
         } else if (domainoption == 'owndomain' || domainoption == 'subdomain' || domainoption == 'incart') {
@@ -583,18 +582,18 @@ jQuery(document).ready(function(){
                 'json'
             );
 
-            otherDomain.done(function(data) {
+            otherDomain.done(function (data) {
                 if (typeof data != 'object' || data.result.length == 0) {
                     jQuery('.domain-lookup-subdomain-loader').hide();
                     return;
                 }
-                jQuery.each(data.result, function(index, result) {
+                jQuery.each(data.result, function (index, result) {
                     if (result.status === true) {
                         displayRecommendations(
                             whmcsBaseUrl + '/cart.php',
                             'addproductajax=1&a=confproduct&i=' + result.num,
                             false
-                        ).done(function() {
+                        ).done(function () {
                             window.location = whmcsBaseUrl + '/cart.php?a=confproduct&i=' + result.num;
                         });
                     } else {
@@ -609,7 +608,7 @@ jQuery(document).ready(function(){
                     }
                 });
 
-            }).always(function(){
+            }).always(function () {
                 hasProductDomainLookupEnded(1, btnSearchObj);
             });
         }
@@ -617,7 +616,7 @@ jQuery(document).ready(function(){
         btnDomainContinue.show();
     });
 
-    jQuery('#frmProductDomainSelections').on('submit', function(e) {
+    jQuery('#frmProductDomainSelections').on('submit', function (e) {
         var idnLanguage = jQuery('#idnLanguageSelector'),
             idnLanguageInput = idnLanguage.find('select'),
             form = jQuery(this);
@@ -633,17 +632,17 @@ jQuery(document).ready(function(){
             form.attr('action'),
             'addproductajax=1&' + form.serialize(),
             false
-        ).done(function() {
+        ).done(function () {
             form.unbind().submit();
             form.submit();
         });
     });
 
-    jQuery("#btnAlreadyRegistered").click(function() {
-        jQuery("#containerNewUserSignup").slideUp('', function() {
-            jQuery("#containerExistingUserSignin").slideDown('', function() {
+    jQuery("#btnAlreadyRegistered").click(function () {
+        jQuery("#containerNewUserSignup").slideUp('', function () {
+            jQuery("#containerExistingUserSignin").slideDown('', function () {
                 jQuery("#inputCustType").val('existing');
-                jQuery("#btnAlreadyRegistered").fadeOut('', function() {
+                jQuery("#btnAlreadyRegistered").fadeOut('', function () {
                     jQuery("#btnNewUserSignup").fadeIn();
                 });
             });
@@ -655,14 +654,14 @@ jQuery(document).ready(function(){
         jQuery('.marketing-email-optin').slideUp();
     });
 
-    jQuery("#btnNewUserSignup").click(function() {
-        jQuery("#containerExistingUserSignin").slideUp('', function() {
-            jQuery("#containerNewUserSignup").slideDown('', function() {
+    jQuery("#btnNewUserSignup").click(function () {
+        jQuery("#containerExistingUserSignin").slideUp('', function () {
+            jQuery("#containerNewUserSignup").slideDown('', function () {
                 jQuery("#inputCustType").val('new');
                 if (jQuery("#passwdFeedback").html().length == 0) {
                     jQuery("#containerNewUserSecurity").show();
                 }
-                jQuery("#btnNewUserSignup").fadeOut('', function() {
+                jQuery("#btnNewUserSignup").fadeOut('', function () {
                     jQuery("#btnAlreadyRegistered").fadeIn();
                 });
             });
@@ -673,7 +672,7 @@ jQuery(document).ready(function(){
         }
     });
 
-    jQuery("#btnExistingLogin").click(function() {
+    jQuery("#btnExistingLogin").click(function () {
         var inputLoginEmail = jQuery('#inputLoginEmail').val(),
             inputLoginPassword = jQuery('#inputLoginPassword').val(),
             existingLoginMessage = jQuery('#existingLoginMessage'),
@@ -711,7 +710,7 @@ jQuery(document).ready(function(){
         });
     });
 
-    jQuery('.account-select').on('ifChecked', function(event) {
+    jQuery('.account-select').on('ifChecked', function (event) {
         var userSignupContainer = jQuery('#containerNewUserSignup'),
             stateSelect = jQuery("#stateselect"),
             thisValue = jQuery(this).val(),
@@ -769,7 +768,7 @@ jQuery(document).ready(function(){
                 account_id: thisValue,
                 token: csrfToken
             },
-            success: function(data) {
+            success: function (data) {
                 var creditDiv = jQuery('#applyCreditContainer');
                 jQuery('#totalCartPrice').text(data.total);
                 creditDiv.find('p').first().text(data.availableCreditBalance);
@@ -811,7 +810,7 @@ jQuery(document).ready(function(){
                     selectPreferredCard();
                 }
             },
-            always: function() {
+            always: function () {
                 btnCompleteOrder.removeClass('disabled');
                 if (btnCompleteOrder.hasClass('spinner-on-click')) {
                     var icon = btnCompleteOrder.find('i.fas,i.far,i.fal,i.fab');
@@ -835,7 +834,7 @@ jQuery(document).ready(function(){
         newCardOption = jQuery('#new'),
         creditCardInputFields = jQuery('#creditCardInputFields');
 
-    jQuery(document).on('ifChecked', '.existing-card', function(event) {
+    jQuery(document).on('ifChecked', '.existing-card', function (event) {
         newCardSaveSettings.slideUp().find('input').attr('disabled', 'disabled');
         if (jQuery('.payment-methods:checked').data('remote-inputs') === 1) {
             return;
@@ -848,7 +847,7 @@ jQuery(document).ready(function(){
             existingCardInfo.slideUp().find('input').attr('disabled', 'disabled');
         }
     });
-    newCardOption.on('ifChecked', function(event) {
+    newCardOption.on('ifChecked', function (event) {
         newCardSaveSettings.slideDown().find('input').removeAttr('disabled');
         if (jQuery('.payment-methods:checked').data('remote-inputs') === 1) {
             return;
@@ -866,118 +865,118 @@ jQuery(document).ready(function(){
         WHMCS.payment.event.gatewayInit(whmcsPaymentModuleMetadata, element.val());
         WHMCS.payment.event.gatewayOptionInit(whmcsPaymentModuleMetadata, element.val(), element);
     })
-    .on('ifChecked', function(event) {
-        WHMCS.payment.event.gatewayUnselected(whmcsPaymentModuleMetadata);
-        WHMCS.payment.display.errorClear();
-        var element = jQuery(this);
-        var afterDefaultOnSelectOptions = {
-            complete: function () {
-                WHMCS.payment.event.gatewaySelected(whmcsPaymentModuleMetadata, element.val(), element);
-            }
-        };
-
-        var existingCards = jQuery(document).find('.existing-card');
-        if (!existingCards.length) {
-            existingCardInfo.slideUp()
-                .find('input')
-                .attr('disabled', 'disabled');
-        }
-
-        if (jQuery(this).hasClass('is-credit-card')) {
-            var gatewayPaymentType = jQuery(this).data('payment-type'),
-                gatewayModule = jQuery(this).val(),
-                showLocal = jQuery(this).data('show-local'),
-                relevantMethods = [];
-            if (gatewayPaymentType === 'RemoteCreditCard') {
-                inputNoStoreContainer.hide().find('input').prop('disabled', 'disabled');
-            } else {
-                if (inputNoStoreContainer.not(':visible')) {
-                    inputNoStoreContainer.slideDown().find('input').removeProp('disabled');
+        .on('ifChecked', function (event) {
+            WHMCS.payment.event.gatewayUnselected(whmcsPaymentModuleMetadata);
+            WHMCS.payment.display.errorClear();
+            var element = jQuery(this);
+            var afterDefaultOnSelectOptions = {
+                complete: function () {
+                    WHMCS.payment.event.gatewaySelected(whmcsPaymentModuleMetadata, element.val(), element);
                 }
+            };
+
+            var existingCards = jQuery(document).find('.existing-card');
+            if (!existingCards.length) {
+                existingCardInfo.slideUp()
+                    .find('input')
+                    .attr('disabled', 'disabled');
             }
 
-            existingCards.each(function(index) {
-                var paymentType = jQuery(this).data('payment-type'),
-                    paymentModule = jQuery(this).data('payment-gateway'),
-                    payMethodId = jQuery(this).val();
-
-                var paymentTypeMatch = (paymentType === gatewayPaymentType);
-
-                var paymentModuleMatch = false;
+            if (jQuery(this).hasClass('is-credit-card')) {
+                var gatewayPaymentType = jQuery(this).data('payment-type'),
+                    gatewayModule = jQuery(this).val(),
+                    showLocal = jQuery(this).data('show-local'),
+                    relevantMethods = [];
                 if (gatewayPaymentType === 'RemoteCreditCard') {
-                    // only show remote credit cards that belong to the selected gateway
-                    paymentModuleMatch = (paymentModule === gatewayModule);
-                } else if (gatewayPaymentType === 'CreditCard') {
-                    // any local credit card can be used with any credit card gateway
-                    paymentModuleMatch = true;
-                }
-
-                if (showLocal && paymentType === 'CreditCard') {
-                    paymentTypeMatch = true;
-                    paymentModuleMatch = true;
-                }
-
-                var payMethodElements = jQuery('[data-paymethod-id="' + payMethodId + '"]');
-
-                if (paymentTypeMatch && paymentModuleMatch) {
-                    jQuery(payMethodElements).show();
-                    relevantMethods.push(this);
+                    inputNoStoreContainer.hide().find('input').prop('disabled', 'disabled');
                 } else {
-                    jQuery(payMethodElements).hide();
+                    if (inputNoStoreContainer.not(':visible')) {
+                        inputNoStoreContainer.slideDown().find('input').removeProp('disabled');
+                    }
                 }
-            });
 
-            var enabledRelevantMethods = relevantMethods.filter(function (item) {
-                return ! jQuery(item).attr('disabled');
-            });
+                existingCards.each(function (index) {
+                    var paymentType = jQuery(this).data('payment-type'),
+                        paymentModule = jQuery(this).data('payment-gateway'),
+                        payMethodId = jQuery(this).val();
 
-            if (enabledRelevantMethods.length > 0) {
-                var defaultId = null;
-                jQuery.each(enabledRelevantMethods, function(index, value) {
-                    var jQueryElement = jQuery(value),
-                        order = parseInt(jQueryElement.data('order-preference'), 10);
-                    if ((defaultId === null) || (order < defaultId)) {
-                        defaultId = jQueryElement.val();
-                        if (order === 0) {
+                    var paymentTypeMatch = (paymentType === gatewayPaymentType);
+
+                    var paymentModuleMatch = false;
+                    if (gatewayPaymentType === 'RemoteCreditCard') {
+                        // only show remote credit cards that belong to the selected gateway
+                        paymentModuleMatch = (paymentModule === gatewayModule);
+                    } else if (gatewayPaymentType === 'CreditCard') {
+                        // any local credit card can be used with any credit card gateway
+                        paymentModuleMatch = true;
+                    }
+
+                    if (showLocal && paymentType === 'CreditCard') {
+                        paymentTypeMatch = true;
+                        paymentModuleMatch = true;
+                    }
+
+                    var payMethodElements = jQuery('[data-paymethod-id="' + payMethodId + '"]');
+
+                    if (paymentTypeMatch && paymentModuleMatch) {
+                        jQuery(payMethodElements).show();
+                        relevantMethods.push(this);
+                    } else {
+                        jQuery(payMethodElements).hide();
+                    }
+                });
+
+                var enabledRelevantMethods = relevantMethods.filter(function (item) {
+                    return !jQuery(item).attr('disabled');
+                });
+
+                if (enabledRelevantMethods.length > 0) {
+                    var defaultId = null;
+                    jQuery.each(enabledRelevantMethods, function (index, value) {
+                        var jQueryElement = jQuery(value),
+                            order = parseInt(jQueryElement.data('order-preference'), 10);
+                        if ((defaultId === null) || (order < defaultId)) {
+                            defaultId = jQueryElement.val();
+                            if (order === 0) {
+                                return false;
+                            }
+                        }
+                    });
+                    if (defaultId === null) {
+                        defaultId = 'new';
+                    }
+
+                    jQuery.each(enabledRelevantMethods, function (index, value) {
+                        var jQueryElement = jQuery(value);
+                        if (jQueryElement.val() === defaultId) {
+                            jQueryElement.iCheck('check');
                             return false;
                         }
-                    }
-                });
-                if (defaultId === null) {
-                    defaultId = 'new';
-                }
+                    });
 
-                jQuery.each(enabledRelevantMethods, function(index, value) {
-                    var jQueryElement = jQuery(value);
-                    if (jQueryElement.val() === defaultId) {
-                        jQueryElement.iCheck('check');
-                        return false;
+                    existingCardContainer.show();
+                    if (hideCvcOnCheckoutForExistingCard !== '1') {
+                        existingCardInfo.show().find('input').removeAttr('disabled');
+                    } else {
+                        existingCardInfo.hide().find('input').attr('disabled', 'disabled');
                     }
-                });
-
-                existingCardContainer.show();
-                if (hideCvcOnCheckoutForExistingCard !== '1') {
-                    existingCardInfo.show().find('input').removeAttr('disabled');
                 } else {
+                    jQuery(newCardOption).iCheck('check');
+                    existingCardContainer.hide();
                     existingCardInfo.hide().find('input').attr('disabled', 'disabled');
                 }
-            } else {
-                jQuery(newCardOption).iCheck('check');
-                existingCardContainer.hide();
-                existingCardInfo.hide().find('input').attr('disabled', 'disabled');
-            }
 
-            if (!creditCardInputFields.is(":visible")) {
-                creditCardInputFields.slideDown(afterDefaultOnSelectOptions);
+                if (!creditCardInputFields.is(":visible")) {
+                    creditCardInputFields.slideDown(afterDefaultOnSelectOptions);
+                } else {
+                    afterDefaultOnSelectOptions.complete();
+                }
             } else {
-                afterDefaultOnSelectOptions.complete();
+                creditCardInputFields.slideUp(afterDefaultOnSelectOptions);
             }
-        } else {
-            creditCardInputFields.slideUp(afterDefaultOnSelectOptions);
-        }
-    });
+        });
 
-    jQuery('.cc-input-container .paymethod-info').click(function() {
+    jQuery('.cc-input-container .paymethod-info').click(function () {
         var payMethodId = $(this).data('paymethod-id');
         var input = jQuery('input[name="ccinfo"][value=' + payMethodId + ']:not(:disabled)');
 
@@ -986,7 +985,7 @@ jQuery(document).ready(function(){
         }
     });
 
-    jQuery("#inputDomainContact").on('change', function() {
+    jQuery("#inputDomainContact").on('change', function () {
         var thisInput = jQuery(this);
         if (this.value === "addingnew") {
             thisInput.closest('div').addClass('pb-2');
@@ -1001,8 +1000,7 @@ jQuery(document).ready(function(){
     if (typeof registerFormPasswordStrengthFeedback == 'function') {
         jQuery("#inputNewPassword1").keyup(registerFormPasswordStrengthFeedback);
     } else {
-        jQuery("#inputNewPassword1").keyup(function ()
-        {
+        jQuery("#inputNewPassword1").keyup(function () {
             passwordStrength = getPasswordStrength(jQuery(this).val());
             if (passwordStrength >= 75) {
                 textLabel = langPasswordStrong;
@@ -1022,12 +1020,12 @@ jQuery(document).ready(function(){
             ).attr('aria-valuenow', passwordStrength);
             jQuery("#passwordStrengthMeterBar").removeClass(
                 'progress-bar-success progress-bar-warning progress-bar-danger').addClass(
-                'progress-bar-' + cssClass);
+                    'progress-bar-' + cssClass);
         });
     }
 
     jQuery('#inputDomain').on('shown.bs.tooltip', function () {
-        setTimeout(function(input) {
+        setTimeout(function (input) {
             input.tooltip('hide');
         },
             5000,
@@ -1097,17 +1095,17 @@ jQuery(document).ready(function(){
 
         // fade in results
         if (jQuery('#DomainSearchResults').not(":visible")) {
-            jQuery('.domain-pricing').fadeOut('fast', function() {
+            jQuery('.domain-pricing').fadeOut('fast', function () {
                 jQuery('#DomainSearchResults').fadeIn();
             });
 
         }
 
         var lookup = WHMCS.http.jqClient.post(
-                WHMCS.utils.getRouteUrl('/domain/check'),
-                frmDomain.serialize() + '&type=domain',
-                'json'
-            ),
+            WHMCS.utils.getRouteUrl('/domain/check'),
+            frmDomain.serialize() + '&type=domain',
+            'json'
+        ),
             spotlight = WHMCS.http.jqClient.post(
                 WHMCS.utils.getRouteUrl('/domain/check'),
                 frmDomain.serialize() + '&type=spotlight',
@@ -1125,7 +1123,7 @@ jQuery(document).ready(function(){
                 jQuery('.domain-lookup-primary-loader').hide();
                 return;
             }
-            jQuery.each(data.result, function(index, domain) {
+            jQuery.each(data.result, function (index, domain) {
                 var pricing = null,
                     result = jQuery('#primaryLookupResult'),
                     available = result.find('.domain-available'),
@@ -1189,7 +1187,7 @@ jQuery(document).ready(function(){
                         } else {
                             error.text('');
                             errors = domain.error.split(reg);
-                            for(var i=0; i < errors.length; i++) {
+                            for (var i = 0; i < errors.length; i++) {
                                 var errorMsg = errors[i];
                                 if (errorMsg.length) {
                                     if (error.text()) {
@@ -1210,17 +1208,17 @@ jQuery(document).ready(function(){
                 }
 
             });
-        }).always(function() {
+        }).always(function () {
             hasDomainLookupEnded();
         });
 
         // spotlight lookup handler
-        spotlight.done(function(data) {
+        spotlight.done(function (data) {
             if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
                 jQuery('.domain-lookup-spotlight-loader').hide();
                 return;
             }
-            jQuery.each(data.result, function(index, domain) {
+            jQuery.each(data.result, function (index, domain) {
                 var tld = domain.tldNoDots,
                     pricing = domain.pricing,
                     result = jQuery('#spotlight' + tld + ' .domain-lookup-result');
@@ -1261,14 +1259,14 @@ jQuery(document).ready(function(){
                 }
                 result.show();
             });
-        }).always(function() {
+        }).always(function () {
             hasDomainLookupEnded();
         });
 
         // suggestions lookup handler
         suggestion.done(function (data) {
             if (typeof data != 'object' || data.result.length == 0 || data.result.error) {
-                jQuery('.suggested-domains').fadeOut('fast', function() {
+                jQuery('.suggested-domains').fadeOut('fast', function () {
                     jQuery(this).hide();
                 });
                 return;
@@ -1276,7 +1274,7 @@ jQuery(document).ready(function(){
                 jQuery('.suggested-domains').show();
             }
             var suggestionCount = 1;
-            jQuery.each(data.result, function(index, domain) {
+            jQuery.each(data.result, function (index, domain) {
                 var tld = domain.tld,
                     pricing = domain.pricing;
                 suggestions.find('div:first').clone(true, true).appendTo(suggestions);
@@ -1318,12 +1316,12 @@ jQuery(document).ready(function(){
             });
             jQuery('.domain-lookup-suggestions-loader').hide();
             jQuery('#domainSuggestions').show();
-        }).always(function() {
+        }).always(function () {
             hasDomainLookupEnded();
         });
     });
 
-    jQuery('.btn-add-to-cart').on('click', function() {
+    jQuery('.btn-add-to-cart').on('click', function () {
         if (jQuery(this).hasClass('checkout')) {
             window.location = whmcsBaseUrl + '/cart.php?a=confdomains';
             return;
@@ -1347,8 +1345,8 @@ jQuery(document).ready(function(){
 
         var sideOrder =
             ((jQuery(this).parents('.spotlight-tlds').length > 0)
-            ||
-            (jQuery(this).parents('.suggested-domains').length > 0)) ? 1 : 0;
+                ||
+                (jQuery(this).parents('.suggested-domains').length > 0)) ? 1 : 0;
 
         var addToCart = WHMCS.http.jqClient.post(
             whmcsBaseUrl + '/cart.php',
@@ -1370,7 +1368,7 @@ jQuery(document).ready(function(){
                 }
                 if (resultDomain.length && !resultDomain.val()) {
                     resultDomain.val(domain);
-                    resultDomainPricing.val(data.period).attr('name', 'domainsregperiod[' + domain +']');
+                    resultDomainPricing.val(data.period).attr('name', 'domainsregperiod[' + domain + ']');
                     if (btnDomainContinue.length > 0 && btnDomainContinue.is(':disabled')) {
                         btnDomainContinue.removeAttr('disabled');
                     }
@@ -1397,7 +1395,7 @@ jQuery(document).ready(function(){
         }
 
         var frmDomain = jQuery('#frmDomainTransfer'),
-        transferButton = jQuery('#btnTransferDomain'),
+            transferButton = jQuery('#btnTransferDomain'),
             inputDomain = jQuery('#inputTransferDomain'),
             authField = jQuery('#inputAuthCode'),
             domain = inputDomain.val(),
@@ -1451,15 +1449,15 @@ jQuery(document).ready(function(){
                     }
                 } else {
                     jQuery('#transferUnavailable').html(result.unavailable)
-                        .fadeIn('fast', function() {
-                            setTimeout(function(input) {
-                                    input.fadeOut('fast');
-                                },
+                        .fadeIn('fast', function () {
+                            setTimeout(function (input) {
+                                input.fadeOut('fast');
+                            },
                                 3000,
                                 jQuery(this)
                             );
                         }
-                    );
+                        );
                 }
             }
         }).always(function () {
@@ -1472,7 +1470,7 @@ jQuery(document).ready(function(){
 
     });
 
-    jQuery("#btnEmptyCart").click(function() {
+    jQuery("#btnEmptyCart").click(function () {
         jQuery('#modalEmptyCart').modal('show');
     });
 
@@ -1482,7 +1480,7 @@ jQuery(document).ready(function(){
         jQuery("#cctype").val(jQuery('span.type', this).html().trim());
     });
 
-    jQuery(document).on('click', '.domain-contact-support', function(e) {
+    jQuery(document).on('click', '.domain-contact-support', function (e) {
         e.preventDefault();
 
         var child = window.open();
@@ -1495,7 +1493,7 @@ jQuery(document).ready(function(){
     jQuery('#frmDomainChecker input[type=text]:visible').first().focus();
     jQuery('#frmDomainTransfer input[type=text]:visible').first().focus();
 
-    jQuery('.checkout .mc-promo .btn-add').click(function(e) {
+    jQuery('.checkout .mc-promo .btn-add').click(function (e) {
         var self = jQuery(this),
             productKey = self.data('product-key'),
             upSellBox = jQuery('#promo_' + productKey);
@@ -1532,7 +1530,7 @@ jQuery(document).ready(function(){
         );
     });
 
-    jQuery('.viewcart .mc-promo .btn-add').click(function(e) {
+    jQuery('.viewcart .mc-promo .btn-add').click(function (e) {
         var self = jQuery(this);
         self.attr('disabled', 'disabled')
             .find('span.arrow i').removeClass('fa-chevron-right').addClass('fa-spinner fa-spin');
@@ -1562,13 +1560,13 @@ jQuery(document).ready(function(){
         );
     });
 
-    jQuery(document).on('click', '#btnAddUpSellCheckout', function(e) {
+    jQuery(document).on('click', '#btnAddUpSellCheckout', function (e) {
         var upsellModalForm = jQuery('#upsellModalForm');
         WHMCS.http.jqClient.post(
             whmcsBaseUrl + '/cart.php',
             upsellModalForm.serialize(),
             function (data) {
-                if (data.done){
+                if (data.done) {
                     jQuery('#totalCartPrice').text(data.newTotal);
                 }
             },
@@ -1580,14 +1578,14 @@ jQuery(document).ready(function(){
     var useCreditOnCheckout = jQuery('#iCheck-useCreditOnCheckout'),
         skipCreditOnCheckout = jQuery('#iCheck-skipCreditOnCheckout');
 
-    useCreditOnCheckout.on('ifChecked', function() {
+    useCreditOnCheckout.on('ifChecked', function () {
         var radio = jQuery('#useCreditOnCheckout'),
             selectedPaymentMethod = jQuery('input[name="paymentmethod"]:checked'),
             selectedCC = jQuery('input[name="ccinfo"]:checked'),
             isCcSelected = selectedPaymentMethod.hasClass('is-credit-card'),
             firstNonCcGateway = jQuery('input[name="paymentmethod"]')
-            .not(jQuery('input.is-credit-card[name="paymentmethod"]'))
-            .first(),
+                .not(jQuery('input.is-credit-card[name="paymentmethod"]'))
+                .first(),
             container = jQuery('#paymentGatewaysContainer'),
             existingCardInfo = jQuery('#existingCardInfo'),
             ccInputFields = jQuery('#creditCardInputFields'),
@@ -1622,7 +1620,7 @@ jQuery(document).ready(function(){
         }
     });
 
-    skipCreditOnCheckout.on('ifChecked', function() {
+    skipCreditOnCheckout.on('ifChecked', function () {
         var selectedPaymentMethod = jQuery('input[name="paymentmethod"]:checked'),
             selectedCC = jQuery('input[name="ccinfo"]:checked'),
             isCcSelected = selectedPaymentMethod.hasClass('is-credit-card'),
@@ -1652,7 +1650,7 @@ jQuery(document).ready(function(){
     }
 
     jQuery('#domainRenewals, #serviceRenewals').find('span.added').hide().end().find('span.to-add').find('i').hide();
-    jQuery('.btn-add-renewal-to-cart').on('click', function() {
+    jQuery('.btn-add-renewal-to-cart').on('click', function () {
         var self = jQuery(this);
         var selfOuterWidth = self.outerWidth();
         var postUrl;
@@ -1683,7 +1681,7 @@ jQuery(document).ready(function(){
             return;
         }
 
-        self.attr('disabled', 'disabled').each(function() {
+        self.attr('disabled', 'disabled').each(function () {
             self.find('i').fadeIn('fast').end();
         });
 
@@ -1701,7 +1699,7 @@ jQuery(document).ready(function(){
             recalculateRenewalTotals();
         });
     });
-    jQuery(document).on('submit', '#removeRenewalForm', function(e) {
+    jQuery(document).on('submit', '#removeRenewalForm', function (e) {
         e.preventDefault();
 
         var buttonId = '#renewDomain';
@@ -1712,11 +1710,11 @@ jQuery(document).ready(function(){
         WHMCS.http.jqClient.post(
             whmcsBaseUrl + '/cart.php',
             jQuery(this).serialize() + '&ajax=1'
-        ).done(function(data) {
+        ).done(function (data) {
             var domainId = data.i;
             var button = jQuery(buttonId + domainId);
 
-            button.attr('disabled', 'disabled').each(function() {
+            button.attr('disabled', 'disabled').each(function () {
                 jQuery(this).find('span.added').hide().end()
                     .removeClass('checkout').find('span.to-add').show().end().removeAttr('disabled');
                 jQuery(this).css('width', '');
@@ -1727,26 +1725,26 @@ jQuery(document).ready(function(){
         });
     });
 
-    jQuery('.select-renewal-pricing').on('change', function() {
+    jQuery('.select-renewal-pricing').on('change', function () {
         var self = jQuery(this),
             domainId = self.data('domain-id'),
             button = jQuery('#renewDomain' + domainId);
 
-        button.attr('disabled', 'disabled').each(function() {
+        button.attr('disabled', 'disabled').each(function () {
             jQuery(this).css('width', jQuery(this).outerWidth());
             jQuery(this).find('span.added').hide().end()
                 .removeClass('checkout').find('span.to-add').show().end().removeAttr('disabled');
         });
     });
 
-    jQuery('#domainRenewalFilter').on('input', function() {
+    jQuery('#domainRenewalFilter').on('input', function () {
         var inputText = jQuery(this).val().toLowerCase();
-        jQuery('#domainRenewals').find('div.domain-renewal').filter(function() {
+        jQuery('#domainRenewals').find('div.domain-renewal').filter(function () {
             jQuery(this).toggle(jQuery(this).data('domain').toLowerCase().indexOf(inputText) > -1);
         });
     });
 
-    jQuery('#serviceRenewalFilter').on('input', function() {
+    jQuery('#serviceRenewalFilter').on('input', function () {
         var inputText = jQuery(this).val().toLowerCase();
         var hasMatchingInputs = function matchInputs(element, input) {
             var isInputMatched = false;
@@ -1754,7 +1752,7 @@ jQuery(document).ready(function(){
                 jQuery('#hideShowServiceRenewalButton').find('span.to-show').hide().end()
                     .find('span.to-hide').show().end().removeAttr('disabled');
             }
-            jQuery.each(element.data(), function(key, value) {
+            jQuery.each(element.data(), function (key, value) {
                 if (String(value).toLowerCase().indexOf(input) > -1) {
                     isInputMatched = true;
                     return false;
@@ -1764,13 +1762,13 @@ jQuery(document).ready(function(){
             return isInputMatched;
         }
 
-        jQuery('#serviceRenewals').find('.service-renewal').filter(function() {
+        jQuery('#serviceRenewals').find('.service-renewal').filter(function () {
             var serviceRenewals = jQuery(this);
             var addonRenewals = serviceRenewals.find('.addon-renewals');
             var hasMatchingAddonItem = false;
 
             if (addonRenewals.length > 0) {
-                addonRenewals.find('.service-renewal').filter(function() {
+                addonRenewals.find('.service-renewal').filter(function () {
                     hasMatchingAddonItem = hasMatchingInputs(jQuery(this), inputText);
                 });
             }
@@ -1787,7 +1785,7 @@ jQuery(document).ready(function(){
     jQuery(this).find('span.to-hide').hide().end()
         .find('span.to-show').show().end().removeAttr('disabled');
     hideNoneRenewableServices();
-    jQuery('#hideShowServiceRenewalButton').on('click', function() {
+    jQuery('#hideShowServiceRenewalButton').on('click', function () {
         if (jQuery(this).find('span.to-show').is(":hidden")) {
             jQuery(this).find('span.to-hide').hide().end()
                 .find('span.to-show').show().end().removeAttr('disabled');
@@ -1804,7 +1802,7 @@ jQuery(document).ready(function(){
         checkoutForm.on('submit', validateCheckoutCreditCardInput);
         checkoutForm.on('submit.paymentjs', function (event) {
             WHMCS.payment.event.checkoutFormSubmit(
-                {...whmcsPaymentModuleMetadata, ...{event: event}},
+                { ...whmcsPaymentModuleMetadata, ...{ event: event } },
                 WHMCS.payment.event.previouslySelected.module,
                 jQuery(this)
             );
@@ -1817,8 +1815,7 @@ jQuery(document).ready(function(){
     }
 });
 //checkoutForm
-function validateCheckoutCreditCardInput(e)
-{
+function validateCheckoutCreditCardInput(e) {
     var newOrExisting = jQuery('input[name="ccinfo"]:checked').val(),
         submitButton = checkoutForm.find('*[type="submit"]'),
         cardType = null,
@@ -1900,8 +1897,8 @@ function removeItem(type, num, renewalType = null) {
 }
 
 function updateConfigurableOptions(i, billingCycle) {
-    WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'a=cyclechange&ajax=1&i='+i+'&billingcycle='+billingCycle,
-        function(data) {
+    WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'a=cyclechange&ajax=1&i=' + i + '&billingcycle=' + billingCycle,
+        function (data) {
             var co = jQuery('#productConfigurableOptions'),
                 add = jQuery('#productAddonsContainer');
             if (co.length) {
@@ -1929,16 +1926,16 @@ function recalctotals() {
     var thisRequestId = Math.floor((Math.random() * 1000000) + 1);
     window.lastSliderUpdateRequestId = thisRequestId;
 
-    var post = WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'ajax=1&a=confproduct&calctotal=true&'+jQuery("#frmConfigureProduct").serialize());
+    var post = WHMCS.http.jqClient.post(whmcsBaseUrl + '/cart.php', 'ajax=1&a=confproduct&calctotal=true&' + jQuery("#frmConfigureProduct").serialize());
     post.done(
-        function(data) {
+        function (data) {
             if (thisRequestId == window.lastSliderUpdateRequestId) {
                 jQuery("#producttotal").html(data);
             }
         }
     );
     post.always(
-        function() {
+        function () {
             jQuery("#orderSummaryLoader").delay(500).fadeOut('slow');
         }
     );
@@ -1958,12 +1955,12 @@ function recalculateRenewalTotals() {
     window.lastSliderUpdateRequestId = thisRequestId;
     WHMCS.http.jqClient.get(
         WHMCS.utils.getRouteUrl(routePath)
-    ).done(function(data) {
+    ).done(function (data) {
         if (thisRequestId === window.lastSliderUpdateRequestId) {
             jQuery("#producttotal").html(data.body);
         }
     }).always(
-        function() {
+        function () {
             jQuery("#orderSummaryLoader").delay(500).fadeOut('slow');
         }
     );
@@ -1993,12 +1990,12 @@ function selectDomainPeriodInCart(domainName, price, period, yearsString) {
         }
     );
     update.done(
-        function(data) {
+        function (data) {
             if (data.forceReload) {
                 window.location.reload();
                 return;
             }
-            data.domains.forEach(function(domain) {
+            data.domains.forEach(function (domain) {
                 jQuery("[name='" + domain.domain + "Price']").parent('div').find('.renewal-price').html(
                     domain.prefixedRenewPrice + domain.shortRenewalYearsLanguage
                 );
@@ -2046,14 +2043,13 @@ function selectDomainPeriodInCart(domainName, price, period, yearsString) {
         }
     );
     update.always(
-        function() {
+        function () {
             loader.delay(500).fadeOut('slow');
         }
     );
 }
 
-function loadMoreSuggestions()
-{
+function loadMoreSuggestions() {
     var suggestions = jQuery('#domainSuggestions'),
         suggestionCount;
 
@@ -2068,8 +2064,7 @@ function loadMoreSuggestions()
     }
 }
 
-function validate_captcha(form)
-{
+function validate_captcha(form) {
     var reCaptcha = jQuery('#g-recaptcha-response'),
         reCaptchaContainer = jQuery('#divDynamicRecaptcha'),
         captcha = jQuery('#inputCaptcha');
@@ -2091,7 +2086,7 @@ function validate_captcha(form)
         'json'
     );
 
-    validate.done(function(data) {
+    validate.done(function (data) {
         if (data.error) {
             jQuery('#inputCaptcha').attr('data-original-title', data.error).tooltip('show');
             if (captcha.length) {
@@ -2106,8 +2101,7 @@ function validate_captcha(form)
     });
 }
 
-function selectPreferredCard()
-{
+function selectPreferredCard() {
     var methods = jQuery('input[name="ccinfo"]:visible'),
         select = methods.first(),
         preferred = methods.filter('[data-order-preference=0]');
@@ -2117,8 +2111,7 @@ function selectPreferredCard()
     select.iCheck('check');
 }
 
-function showNoneRenewableServices()
-{
+function showNoneRenewableServices() {
     jQuery('.service-renewal, .addon-renewals').each(function () {
         if (jQuery(this).attr('data-is-renewable') === 'false') {
             jQuery(this).show();
@@ -2126,8 +2119,7 @@ function showNoneRenewableServices()
     });
 }
 
-function hideNoneRenewableServices()
-{
+function hideNoneRenewableServices() {
     jQuery('.service-renewal, .addon-renewals').each(function (i, element) {
         var isRenewable = jQuery(this).attr('data-is-renewable');
         if (isRenewable === 'false') {
@@ -2136,14 +2128,13 @@ function hideNoneRenewableServices()
             } else {
                 jQuery(this).hide();
             }
-        } else if (isRenewable === 'true' ) {
+        } else if (isRenewable === 'true') {
             jQuery(this).show();
         }
     });
 }
 
-function hasRenewableServiceAddon(data)
-{
+function hasRenewableServiceAddon(data) {
     var hasService = false;
     jQuery(data).find('div.service-renewal').each(function (i, element) {
         if (jQuery(element).attr('data-is-renewable') === 'true') {

@@ -1,9 +1,6 @@
 {if ($linkableProviders || $hasLinkedProvidersEnabled) && $linkContext == 'linktable'}
-    <table id="tableLinkedAccounts" class="table display data-driven"
-           data-ajax-url="{$linkedAccountsUrl}"
-           data-on-draw-rebind-confirmation-modal="true"
-           data-lang-empty-table="{lang key='remoteAuthn.noLinkedAccounts'}"
-    >
+    <table id="tableLinkedAccounts" class="table display data-driven" data-ajax-url="{$linkedAccountsUrl}"
+        data-on-draw-rebind-confirmation-modal="true" data-lang-empty-table="{lang key='remoteAuthn.noLinkedAccounts'}">
         <thead>
             <tr class="text-center">
                 <th>{lang key='remoteAuthn.provider'}</th>
@@ -75,8 +72,7 @@
     {/if}
 
     <div class="providerPreLinking" data-link-context="{$linkContext}"
-         data-hide-on-prelink={if in_array($linkContext, ['clientsecurity','login'])}0{else}1{/if}
-         data-disable-on-prelink=0>
+        data-hide-on-prelink={if in_array($linkContext, ['clientsecurity','login'])}0{else}1{/if} data-disable-on-prelink=0>
         <div class="social-signin-btns">
             {foreach $linkableProviders as $provider }
                 {if in_array($linkContext, ['checkout-existing'])}

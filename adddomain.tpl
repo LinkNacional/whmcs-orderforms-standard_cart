@@ -45,20 +45,21 @@
                             <div class="col-xs-9">
                                 <div class="input-group">
                                     <span class="input-group-addon">{lang key='orderForm.www'}</span>
-                                    <input type="text" name="sld" value="{$sld}" id="inputDomain" class="form-control" autocapitalize="none" />
+                                    <input type="text" name="sld" value="{$sld}" id="inputDomain" class="form-control"
+                                        autocapitalize="none" />
                                 </div>
                             </div>
                             <div class="col-xs-3">
                                 <select name="tld" class="form-control">
                                     {if $domain == 'register'}
                                         {foreach $registertlds as $listtld}
-                                            <option value="{$listtld}"{if $listtld eq $tld} selected="selected"{/if}>
+                                            <option value="{$listtld}" {if $listtld eq $tld} selected="selected" {/if}>
                                                 {$listtld}
                                             </option>
                                         {/foreach}
                                     {else}
                                         {foreach $transfertlds as $listtld}
-                                            <option value="{$listtld}"{if $listtld eq $tld} selected="selected"{/if}>
+                                            <option value="{$listtld}" {if $listtld eq $tld} selected="selected" {/if}>
                                                 {$listtld}
                                             </option>
                                         {/foreach}

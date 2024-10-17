@@ -18,7 +18,8 @@
             </button>
         </div>
         <div class="expander">
-            <i class="fas fa-chevron-right rotate" data-toggle="tooltip" data-placement="right" title="Click to learn more"></i>
+            <i class="fas fa-chevron-right rotate" data-toggle="tooltip" data-placement="right"
+                title="Click to learn more"></i>
         </div>
         <div class="icon">
             <img src="{$promotion->getImagePath()}">

@@ -18,7 +18,8 @@
             <select class="form-control custom-select" onchange="selectChangeNavigate(this)">
                 {assign var='hasCurrent' value=false}
                 {foreach $panel->getChildren() as $child}
-                    <option menuItemName="{$child->getName()}" value="{$child->getUri()}" class="list-group-item" {if $child->isCurrent()}selected="selected"{/if}>
+                    <option menuItemName="{$child->getName()}" value="{$child->getUri()}" class="list-group-item"
+                        {if $child->isCurrent()}selected="selected" {/if}>
                         {$child->getLabel()}
 
                         {if $child->hasBadge()}
@@ -30,7 +31,8 @@
                     {/if}
                 {/foreach}
                 {if !$hasCurrent}
-                    <option value="" class="list-group-item" selected=""selected>- {lang key="cartchooseanothercategory"} -</option>
+                    <option value="" class="list-group-item" selected="" selected>- {lang key="cartchooseanothercategory"} -
+                    </option>
                 {/if}
             </select>
         </form>
