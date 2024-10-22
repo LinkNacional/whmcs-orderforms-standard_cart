@@ -442,8 +442,8 @@
                                     <div id="cpfField">
                                         <label for="inputCPF" class="field-icon">CPF</label>
                                         <input type="text" name="inputCPF" id="inputCPF" class="field form-control"
-                                            placeholder="123.456.789-10" inputmode="numeric" maxlength="14"
-                                            onchange="this.value = maskCPF(this.value)" maxlength="11">
+                                            placeholder="123.456.789-10" inputmode="numeric" maxlength="11"
+                                            onchange="this.value = maskCPF(this.value)" >
                                     </div>
                                     <div id="nifField" style="display: none;">
                                         <label for="inputNIF" class="field-icon">NIF</label>
