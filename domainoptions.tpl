@@ -41,7 +41,8 @@
                                 {$searchResults.shortestPeriod.period} {$LANG.orderyears} @ {$searchResults.shortestPeriod.register}
                             </span>
                         </button>
-                        <button type="button" class="btn btn-default btn-sm dropdown-toggle additional-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle additional-options" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
                             <b class="caret"></b>
                             <span class="sr-only">
                                 {lang key="domainChecker.additionalPricingOptions" domain=$searchResults.domainName}
@@ -50,7 +51,8 @@
                         <ul class="dropdown-menu" role="menu">
                             {foreach $searchResults.pricing as $years => $price}
                                 <li>
-                                    <a href="#" onclick="selectDomainPricing('{$searchResults.domainName}', '{$price.register}', {$years}, '{$LANG.orderyears}');return false;">
+                                    <a href="#"
+                                        onclick="selectDomainPricing('{$searchResults.domainName}', '{$price.register}', {$years}, '{$LANG.orderyears}');return false;">
                                         <b class="far fa-shopping-cart"></b>
                                         {$years} {$LANG.orderyears} @ {$price.register}
                                     </a>
@@ -118,37 +120,41 @@
                 <div class="col-sm-6 margin-bottom-5">
                     <input type="hidden" name="domainsregperiod[{$result.domainName}]" value="{$result.shortestPeriod.period}" />
                     <label>
-                        <input type="checkbox" name="domains[]" value="{$result.domainName}" id="domainSuggestion{$num}" class="suggested-domains" />
+                        <input type="checkbox" name="domains[]" value="{$result.domainName}" id="domainSuggestion{$num}"
+                            class="suggested-domains" />
                         {$result.domainName}
                     </label>
                     <div class="pull-right float-right">
                         {if count($result.pricing) > 1}
                             <div class="btn-group domain-suggestion-pricing">
-                        {/if}
-                        <button type="button" class="btn btn-default btn-sm" onclick="selectDomainPricing('{$result.domainName}', '{$result.shortestPeriod.register}', {$result.shortestPeriod.period}, '{$LANG.orderyears}', '{$num}')">
-                            <span name="{$result.domainName}-selected-price">
-                                <b class="far fa-shopping-cart"></b>
-                                {$result.shortestPeriod.period} {$LANG.orderyears} @ {$result.shortestPeriod.register}
-                            </span>
-                        </button>
-                        {if count($result.pricing) > 1}
-                            <button type="button" class="btn btn-default btn-sm dropdown-toggle additional-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <b class="caret"></b>
-                                <span class="sr-only">
-                                    {lang key="domainChecker.additionalPricingOptions" domain=$result.domainName}
+                            {/if}
+                            <button type="button" class="btn btn-default btn-sm"
+                                onclick="selectDomainPricing('{$result.domainName}', '{$result.shortestPeriod.register}', {$result.shortestPeriod.period}, '{$LANG.orderyears}', '{$num}')">
+                                <span name="{$result.domainName}-selected-price">
+                                    <b class="far fa-shopping-cart"></b>
+                                    {$result.shortestPeriod.period} {$LANG.orderyears} @ {$result.shortestPeriod.register}
                                 </span>
                             </button>
-                            <ul class="dropdown-menu" role="menu">
-                                {foreach $result.pricing as $years => $price}
-                                    <li>
-                                        <a href="#" onclick="selectDomainPricing('{$result.domainName}', '{$price.register}', {$years}, '{$LANG.orderyears}', '{$num}');return false;">
-                                            <b class="far fa-shopping-cart"></b>
-                                            {$years} {$LANG.orderyears} @ {$price.register}
-                                        </a>
-                                    </li>
-                                {/foreach}
-                            </ul>
-                        </div>
+                            {if count($result.pricing) > 1}
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle additional-options"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <b class="caret"></b>
+                                    <span class="sr-only">
+                                        {lang key="domainChecker.additionalPricingOptions" domain=$result.domainName}
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    {foreach $result.pricing as $years => $price}
+                                        <li>
+                                            <a href="#"
+                                                onclick="selectDomainPricing('{$result.domainName}', '{$price.register}', {$years}, '{$LANG.orderyears}', '{$num}');return false;">
+                                                <b class="far fa-shopping-cart"></b>
+                                                {$years} {$LANG.orderyears} @ {$price.register}
+                                            </a>
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            </div>
                         {/if}
                     </div>
                 </div>

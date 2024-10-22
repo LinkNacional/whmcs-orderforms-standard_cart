@@ -1,10 +1,9 @@
 {foreach $renewableItems as $renewableItem}
-    <div class="service-renewal"
-         data-product-name="{$renewableItem.product->name}"
-         data-service-id="{$renewableItem.serviceId}"
-         data-service-domain="{$renewableItem.domain}"
-         {if $renewableItem.renewable === false}style="display: none;" data-is-renewable="false" {else}data-is-renewable="true"{/if}
-    >
+    <div class="service-renewal" data-product-name="{$renewableItem.product->name}"
+        data-service-id="{$renewableItem.serviceId}" data-service-domain="{$renewableItem.domain}"
+        {if $renewableItem.renewable === false}style="display: none;" data-is-renewable="false"
+        {else}data-is-renewable="true" 
+        {/if}>
         <div class="pull-right float-right">
             {if $renewableItem.renewable === false}
                 <span class="label label-info">
@@ -45,7 +44,9 @@
                 {/if}
             </div>
             {if $renewableItem.renewable === true}
-                <button id="renewService{$renewableItem.serviceId}" class="btn btn-default btn-add-renewal-to-cart pull-right float-right" data-service-id="{$prefix}{$renewableItem.serviceId}">
+                <button id="renewService{$renewableItem.serviceId}"
+                    class="btn btn-default btn-add-renewal-to-cart pull-right float-right"
+                    data-service-id="{$prefix}{$renewableItem.serviceId}">
                     <span class="to-add">
                         <i class="fas fa-fw fa-spinner fa-spin"></i>
                         {lang key='addtocart'}
@@ -57,9 +58,9 @@
             {/if}
         </div>
         {if !empty($renewableItem.addons)}
-            <div class="addon-renewals"
-                 {if $renewableItem.renewableCount <= 0}style="display: none;" data-is-renewable="false" {else}data-is-renewable="true"{/if}
-            >
+            <div class="addon-renewals" {if $renewableItem.renewableCount <= 0}style="display: none;" data-is-renewable="false"
+                {else}data-is-renewable="true" 
+                {/if}>
                 <h4 class="font-size-22">Addons</h4>
                 <div>
                     {include file="orderforms/standard_cart/service-renewal-item.tpl" renewableItems=$renewableItem.addons prefix='a-'}

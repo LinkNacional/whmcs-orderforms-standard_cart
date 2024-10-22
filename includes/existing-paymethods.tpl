@@ -13,14 +13,9 @@
         {/if}
 
         <div class="paymethod-info radio-inline" data-paymethod-id="{$payMethod->id}">
-            <input type="radio"
-                   name="ccinfo"
-                   class="existing-card"
-                   {if $payMethodExpired}disabled{/if}
-                   data-payment-type="{$payMethod->getType()}"
-                   data-payment-gateway="{$payMethod->gateway_name}"
-                   data-order-preference="{$payMethod->order_preference}"
-                   value="{$payMethod->id}">
+            <input type="radio" name="ccinfo" class="existing-card" {if $payMethodExpired}disabled{/if}
+                data-payment-type="{$payMethod->getType()}" data-payment-gateway="{$payMethod->gateway_name}"
+                data-order-preference="{$payMethod->order_preference}" value="{$payMethod->id}">
         </div>
 
         <div class="paymethod-info" data-paymethod-id="{$payMethod->id}">
@@ -31,8 +26,8 @@
                 {$payMethod->payment->getDisplayName()}
             {else}
                 <span class="type">
-                {$payMethod->payment->getAccountType()}
-            </span>
+                    {$payMethod->payment->getAccountType()}
+                </span>
                 {substr($payMethod->payment->getAccountNumber(), -4)}
             {/if}
         </div>
