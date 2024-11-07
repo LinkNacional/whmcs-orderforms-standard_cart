@@ -193,7 +193,7 @@
                                 </div>
                             </div>
                         {/foreach}
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="display: none;">
                             <div
                                 class="account border-bottom{if !$selectedAccountId || !is_numeric($selectedAccountId)} active{/if}">
                                 <label class="radio-inline">
@@ -1564,11 +1564,25 @@
                 const dobField = document.getElementById('dobField');
                 const isCNPJ = document.getElementById("isCNPJ");
 
+
+                
                 function toggleOptionalField() {
                     const country = countryInput.value;
                     const containerDiv = document.getElementById("containerExistingAccountSelect");
 
                     if (containerDiv && optionalField) { // Verifica se ambos os elementos existem
+
+
+
+                    const requiredFields = document.querySelectorAll("[required]");
+    
+    requiredFields.forEach(field => {
+        if (field.offsetParent === null) { // Verifica se o campo está oculto
+            field.removeAttribute("required"); // Remove `required` de campos não focáveis
+        }
+    });
+
+
                         if (window.getComputedStyle(containerDiv).display !== "none") {
                             optionalField.style.setProperty("display", "none",
                             "important"); // Define "display: none !important"
