@@ -244,6 +244,9 @@
     #cw-bubble-holder {
         display: none;
     }
+    #basic-addon1{
+        text-align: center;
+    }
 
 
     @media (max-width: 600px) {
