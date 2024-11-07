@@ -241,6 +241,11 @@
         border: 1px solid #fefefe;
     }
 
+    #cw-bubble-holder {
+        display: none;
+    }
+
+
     @media (max-width: 600px) {
         .domain-input-group {
             margin: 0px !important;
