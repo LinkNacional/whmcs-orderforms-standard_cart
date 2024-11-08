@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  function updateAddressFields(data, country, cityField, stateField, addressField = '') {
+  function updateAddressFields(data, country, cityField, stateField, addressField = '', neighborhoodField = '') {
     const place = data?.places?.[0] || {};
 
     const inputCity = document.getElementById('inputCity');
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const stateInput = document.getElementById('stateinput');
     const stateSelect = document.getElementById('stateselect');
     const inputAddress = document.getElementById('inputAddress');
+    const inputNeighborhood = document.getElementById('inputNeighborhood');
 
     if (inputCity) inputCity.value = place[cityField] || '';
     if (inputCountry) inputCountry.value = country;
@@ -29,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (stateSelect) stateSelect.style.display = 'none';
     if (addressField && inputAddress) {
       inputAddress.value = place[addressField] || '';
+    }
+    if (neighborhoodField && inputNeighborhood) {
+      inputNeighborhood.value = place[neighborhoodField] || '';
     }
   }
 
@@ -66,11 +70,11 @@ document.addEventListener('DOMContentLoaded', function () {
             inputCity.value = data.localidade;
             inputState.value = data.uf;
             inputCountry.value = 'BR';
+            document.getElementById('inputNeighborhood').value = data.bairro || '';
 
             document.getElementById('stateinput').style.display = 'none';
             document.getElementById('stateselect').style.display = 'block';
 
-            // Ajustar exibição dos labels
             labelInput.style.display = 'none';
             labelSelect.style.display = 'inline-block';
             showMessage('Endereço atualizado com sucesso!');
@@ -84,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetchCepData(
         `https://api.zippopotam.us/GB/${cep}`,
         data => {
-          updateAddressFields(data, 'GB', 'place name', 'state');
+          updateAddressFields(data, 'GB', 'place name', 'state', '', 'county');
           showMessage('Endereço atualizado com sucesso!');
         }
       );
@@ -92,20 +96,20 @@ document.addEventListener('DOMContentLoaded', function () {
       fetchCepData(
         `https://api.zippopotam.us/US/${cep}`,
         data => {
-          updateAddressFields(data, 'US', 'place name', 'state', 'street');
+          updateAddressFields(data, 'US', 'place name', 'state', 'street', 'neighborhood');
           showMessage('Endereço atualizado com sucesso!');
         }
       );
     } else if (/^\d{7}$/.test(cep) || /^\d{4}-\d{3}$/.test(cep)) {
       if (/^\d{7}$/.test(cep)) cep = cep.slice(0, 4) + '-' + cep.slice(4);
 
-      // Usando a API GeoAPI para Portugal
       fetchCepData(`https://json.geoapi.pt/cp/${cep}`, function (data) {
         if (data) {
           inputAddress.value = data.ruas[0] || '';
           inputCity.value = data.Localidade || '';
           inputCountry.value = 'PT';
           inputState.value = data.Distrito || '';
+          document.getElementById('inputNeighborhood').value = data.Freguesia || '';
 
           document.getElementById('stateinput').style.display = 'block';
           document.getElementById('stateselect').style.display = 'none';
@@ -131,7 +135,6 @@ document.addEventListener('DOMContentLoaded', function () {
       updateFieldsFromCep(cep);
     });
 
-    // Chamar a função apenas se o valor for válido
     if (inputPostcode.value) {
       updateFieldsFromCep(inputPostcode.value);
     }
@@ -145,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const inputCountry = document.getElementById('inputCountry');
         if (inputCountry) {
           var select = document.getElementById('inputCountry');
-          // Mudar o valor como se fosse um clique do usuário
           select.value = countryCode.toUpperCase();
           const event = new Event('change', { bubbles: true });
           inputCountry.dispatchEvent(event);
