@@ -1772,7 +1772,7 @@
 
                         function showErrorModal(missingFields) {
                             // Exibe o modal de erro com a mensagem fornecida
-                            document.getElementById('errorMessage').textContent = 'Por favor, corrija os seguintes erros:';
+                            document.getElementById('errorMessage').textContent = '{$LANG.requiredFieldsMessage}';
 
                             // Limpa qualquer lista anterior de campos faltantes
                             const list = document.getElementById('missingFieldsList');
