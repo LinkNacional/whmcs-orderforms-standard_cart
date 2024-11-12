@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputCountry = document.getElementById('inputCountry');
     const labelSelect = document.querySelector("label[for='state']");
     const labelInput = document.querySelector("label[for='stateinput']");
+    const inputHouseNumber = document.getElementById('inputHouseNumber');
+
+    inputHouseNumber.value = '';
+
 
     if (!inputAddress || !inputCity || !inputCountry) {
       console.error('Campos de endereço não encontrados');

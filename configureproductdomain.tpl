@@ -244,7 +244,8 @@
     #cw-bubble-holder {
         display: none;
     }
-    #basic-addon1{
+
+    #basic-addon1 {
         text-align: center;
     }
 
@@ -401,6 +402,8 @@
                             </div>
                         </div>
                     {/if}
+
+
 
                     {* {if $subdomains}
                         <div class="option">

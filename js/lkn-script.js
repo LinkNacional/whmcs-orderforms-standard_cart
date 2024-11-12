@@ -113,4 +113,29 @@ document.addEventListener('DOMContentLoaded', function () {
     if (initialField) {
         initialField.focus();
     }
+
+
+
+    let owndomain = document.getElementById("owndomainsld")
+    let transferDomain = document.getElementById("transfersld")
+    let registerDomain = document.getElementById("registersld")
+    if (owndomain) {
+        owndomain.addEventListener("input", function () {
+            this.value = this.value.toLowerCase();
+
+        });
+    }
+    if (transferDomain) {
+        transferDomain.addEventListener("input", function () {
+            this.value = this.value.toLowerCase();
+
+        });
+    }
+    if (registerDomain) {
+        registerDomain.addEventListener("input", function () {
+            this.value = this.value.toLowerCase();
+
+        });
+    }
+
 });
