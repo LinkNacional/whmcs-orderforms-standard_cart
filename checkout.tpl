@@ -2175,14 +2175,24 @@
             document.getElementById('frmCheckout').addEventListener('submit', function(event) {
                 // Declarações de variáveis para os campos de senha e CPF/CNPJ
                 const cpfCnpjInput = document.getElementById('inputCPF').value.trim();
+                const cnpjInput = document.getElementById('inputCNPJ').value.trim();
 
 
                 // Validação de CPF/CNPJ
-                if (cpfCnpjInput && !validateCpfCnpj(cpfCnpjInput)) {
+                if (cpfCnpjInput && cpfCnpjInput.value && !validateCpfCnpj(cpfCnpjInput)) {
                     event.preventDefault(); // Impede o envio do formulário
-                    alert("CPF ou CNPJ inválido!");
+                    alert("CPF inválido!");
                     return; // Sai da função para evitar o envio do formulário
                 }
+
+                if (cnpjInput && cnpjInput.value && !validateCpfCnpj(cnpjInput)) {
+                    event.preventDefault(); // Impede o envio do formulário
+                    alert("CNPJ inválido!");
+                    return; // Sai da função para evitar o envio do formulário
+                }
+
+
+
 
                 const dateInput = document.getElementById('inputDate');
 
