@@ -12,9 +12,11 @@
     window.langPasswordWeak = "{$LANG.pwstrengthweak}";
     window.langPasswordModerate = "{$LANG.pwstrengthmoderate}";
     window.langPasswordStrong = "{$LANG.pwstrengthstrong}";
+    const systemURL = "{$systemURL}";
 </script>
 
 <script type="text/javascript" src="{assetPath file='increment.js'}"></script>
+<script type="text/javascript" src="{assetPath file='validationsInApi.js'}"></script>
 <script type="text/javascript" src="{assetPath file='limitDate.js'}"></script>
 
 {if $isWhatsappField}
@@ -638,10 +640,32 @@
 
                         {if $customfields}
                             <!-- div class="sub-heading">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="field-container">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="row">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="primary-bg-color">{$LANG.orderadditionalrequiredinfo}<br><i><small>{lang key='orderForm.requiredField'}</small></i></span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="field-container">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="row">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -812,10 +836,32 @@
 
 
                                 {foreach $customfields as $customfield}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="col-sm-6">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="customfield{$customfield.id}">{$customfield.name} {$customfield.required}</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$customfield.input}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -986,9 +1032,31 @@
 
 
                                     {if $customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="field-help-text">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        {$customfield.description}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span class="field-help-text">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {$customfield.description}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1159,8 +1227,30 @@
 
 
                                     {/if}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1331,8 +1421,8 @@
 
 
                                 {/foreach}
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div -->
                             {/if}
 
                         </div>
@@ -1857,7 +1947,43 @@
                         </span>
                     </button>
                     <script>
-                        function showSpinner(event) {
+                        // Função para validar o CPF
+                        function validateCPF(cpf) {
+                            const cpfPattern = /^\d{11}$/;
+                            return cpfPattern.test(cpf);
+                        }
+
+                        // Função para validar o CNPJ
+                        function validateCNPJ(cnpj) {
+                            const cnpjPattern = /^\d{14}$/;
+                            return cnpjPattern.test(cnpj);
+                        }
+
+
+                        document.getElementById('frmCheckout').addEventListener('submit', function(event) {
+                            const cnpj = document.getElementById('inputCNPJ').value.trim();
+                            const cpf = document.getElementById('inputCPF').value.trim();
+
+
+                            // Validação do CPF
+                            if (cpf && !validateCPF(cpf)) {
+                                event.preventDefault();
+                                alert("CPF inválido!");
+                                return;
+                            }
+
+                            // Validação do CNPJ
+                            if (cnpj && !validateCNPJ(cnpj)) {
+                                event.preventDefault();
+                                alert("CNPJ inválido!");
+                                return;
+                            }
+                        });
+                    </script>
+
+
+                    <script>
+                        async function showSpinner(event) {
                             const containerDiv = document.getElementById("containerExistingAccountSelect");
 
                             if (!containerDiv) {
@@ -1868,7 +1994,8 @@
 
                                 // Encontra os campos obrigatórios
                                 const requiredFields = document.querySelectorAll(
-                                    'input[required], select[required], textarea[required]');
+                                    'input[required], select[required], textarea[required]'
+                                );
 
                                 // Limpa qualquer borda vermelha de campos anteriores
                                 requiredFields.forEach((field) => {
@@ -1878,10 +2005,8 @@
                                 // Verifica se os campos obrigatórios estão preenchidos, parando no primeiro erro
                                 for (const field of requiredFields) {
                                     if (!field.value.trim()) { // Garante que o valor não esteja vazio ou apenas com espaços
-                                        // Busca a label associada ao campo, se existir
                                         const label = document.querySelector('label[for="' + field.id + '"]');
-                                        missingFields.push("{$LANG.requiredFieldMessage}<strong>" + (label ? label.textContent : (field.name || field.id)) + "<strong>");
-
+                                        missingFields.push("{$LANG.requiredFieldMessage}<strong>" + (label ? label.textContent : (field.name || field.id)) + "</strong>");
 
                                         // Adiciona a borda vermelha no campo de entrada que está faltando
                                         field.classList.add('invalid-field');
@@ -1912,6 +2037,53 @@
                                     return;
                                 }
 
+                                let email = document.getElementById("inputEmail");
+                                if (email) {
+                                    try {
+                                        let email_validate = await makeRequest(systemURL +
+                                            "/modules/addons/lknwhmcsdcc/api.php", "POST", {
+                                                action: "validate-email",
+                                                email: email.value
+                                            });
+                                        console.log(email_validate)
+
+                                        if (email_validate.success != "OK") {
+                                            // Usando o código de erro para buscar a tradução no WHMCS
+                                            let errorMessage = getLangMessage(email_validate.error_code);
+                                            missingFields.push(errorMessage);
+                                            email.classList.add('invalid-field');
+                                            showErrorModal(missingFields);
+                                            return;
+                                        }
+                                    } catch (error) {
+                                        console.error("Erro na validação do e-mail:", error);
+                                        missingFields.push("Erro ao validar o e-mail. Tente novamente mais tarde.");
+                                        showErrorModal(missingFields);
+                                        return;
+                                    }
+                                }
+
+                                // Função para retornar a mensagem de erro baseada no código
+                                function getLangMessage(errorCode) {
+                                    switch (errorCode) {
+                                        case 100:
+                                            return '{$LANG.invalidEmailFormat}'; // Formato de email inválido
+                                        case 101:
+                                            return '{$LANG.invalidEmailSyntax}'; // Sintaxe de email inválida
+                                        case 102:
+                                            return '{$LANG.emailSyntaxCheckFailed}'; // Falha na verificação de sintaxe
+                                        case 103:
+                                            return '{$LANG.emailUnreachable}'; // E-mail inalcansável
+                                        case 104:
+                                            return '{$LANG.actionInvalid}'; // Ação inválida
+                                        case 105:
+                                            return '{$LANG.methodNotSupported}'; // Método não suportado
+                                        default:
+                                            return '{$LANG.unknownError}'; // Erro desconhecido
+                                    }
+                                }
+
+
                                 // Se todas as validações passarem, exibe o spinner e submete o formulário
                                 document.getElementById('btnText').style.display = 'none';
                                 document.getElementById('spinner').style.display = 'inline-block';
@@ -1923,25 +2095,13 @@
                             }
                         }
 
-                        // Função para exibir o modal com a mensagem de erro
                         function showErrorModal(missingFields) {
-
-
-
-                            missingFields.forEach((field) => {
-                                if (field && field.trim()) {
-                                    document.getElementById('errorMessage').innerHTML = field.trim();
-
-                                }
-                            });
-
-                            // Exibe o modal com a lista de erros
+                            document.getElementById('errorMessage').innerHTML = missingFields.join('<br>');
                             document.getElementById('errorModal').style.display = 'block';
                         }
 
                         function closeModal() {
                             document.getElementById('errorModal').style.display = 'none';
-
                             const firstInvalidField = document.querySelector('.invalid-field');
                             if (firstInvalidField) {
                                 firstInvalidField.focus();
@@ -1956,7 +2116,6 @@
                         }
 
                         document.addEventListener('DOMContentLoaded', function() {
-                            // Remove a classe 'invalid-field' ao preencher o campo manualmente
                             document.querySelectorAll('input[required], select[required], textarea[required]').forEach((
                                 field) => {
                                 field.addEventListener('input', function() {
@@ -1969,6 +2128,139 @@
                     </script>
 
 
+                    <script>
+                        document.querySelector("#fullName").addEventListener("change", function() {
+                            var fullName = document.getElementById('fullName').value.trim();
+                            // Divida o nome completo em palavras
+                            var nameParts = fullName.split(' ');
+
+                            // O primeiro nome será a primeira palavra
+                            var firstName = nameParts[0];
+
+                            // O sobrenome será o resto das palavras
+                            var lastName = nameParts.slice(1).join(' ');
+
+                            // Preencha os campos "Primeiro Nome" e "Sobrenome"
+                            document.getElementById('inputFirstName').value = firstName;
+                            document.getElementById('inputLastName').value = lastName;
+
+
+                        });
+                    </script>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const countryInput = document.getElementById('inputCountry');
+                            const optionalField = document.querySelector('#lkn-optional');
+                            const cpfField = document.getElementById('cpfField');
+                            const nifField = document.getElementById('nifField');
+                            const dobField = document.getElementById('dobField');
+                            const isCNPJ = document.getElementById("isCNPJ");
+
+
+
+                            function toggleOptionalField() {
+                                const country = countryInput.value;
+                                const containerDiv = document.getElementById("containerExistingAccountSelect");
+
+                                if (containerDiv && optionalField) { // Verifica se ambos os elementos existem
+
+
+
+                                    const requiredFields = document.querySelectorAll("[required]");
+
+                                    requiredFields.forEach(field => {
+                                        if (field.offsetParent === null) { // Verifica se o campo está oculto
+                                            field.removeAttribute(
+                                                "required"); // Remove `required` de campos não focáveis
+                                        }
+                                    });
+
+
+                                    if (window.getComputedStyle(containerDiv).display !== "none") {
+                                        optionalField.style.setProperty("display", "none",
+                                            "important"); // Define "display: none !important"
+                                    } else {
+                                        optionalField.style.display = (country === 'BR' || country === 'PT') ? "block" :
+                                            "none";
+                                    }
+                                }
+
+                                if (country === 'BR') {
+                                    cpfField.style.display = "block";
+                                    nifField.style.display = "none";
+                                    dobField.style.display = "block"; // Exibe a data de nascimento para o Brasil
+                                    isCNPJ.style.display = "block";
+                                } else if (country === 'PT') {
+                                    cpfField.style.display = "none";
+                                    nifField.style.display = "block"; // Exibe o NIF para Portugal
+                                    dobField.style.display = "none"; // Oculta a data de nascimento
+                                    isCNPJ.style.display = "none";
+
+                                }
+                            }
+
+
+                            // Inicializa a verificação ao carregar a página
+                            toggleOptionalField();
+
+                            // Adiciona um ouvinte de eventos para o campo de entrada
+                            countryInput.addEventListener('change', toggleOptionalField);
+
+                            // Função para atualizar a lista de países preferidos
+                            function atualizarPaisFavoritos() {
+                                // Países favoritos que você deseja (usando os códigos dos países)
+                                const paisesFavoritos = ['br', 'us', 'mz',
+                                    'pt'
+                                ]; // Brasil, Estados Unidos, Moçambique, Portugal
+
+                                // Seleciona a lista de países
+                                const countryList = document.querySelector('.country-list');
+
+                                // Seleciona todos os itens de países da lista
+                                const allCountries = Array.from(countryList.querySelectorAll('.country'));
+
+                                // Remove os países antigos com a classe 'preferred'
+                                allCountries.forEach(country => {
+                                    country.classList.remove('preferred');
+                                });
+
+                                // Filtra os países preferidos, garantindo que não existam duplicatas
+                                const favoritosUnicos = allCountries.filter((countryItem, index, self) => {
+                                    const countryCode = countryItem.getAttribute('data-country-code');
+                                    return paisesFavoritos.includes(countryCode) && self.findIndex(item => item
+                                        .getAttribute('data-country-code') === countryCode) === index;
+                                });
+
+                                // Filtra os países restantes (não favoritos)
+                                const outros = allCountries.filter(countryItem =>
+                                    !paisesFavoritos.includes(countryItem.getAttribute('data-country-code'))
+                                );
+
+                                // Limpa a lista e remove todos os itens (inclusive o divider)
+                                countryList.innerHTML = '';
+
+                                // Adiciona os países favoritos únicos no topo da lista
+                                favoritosUnicos.forEach(favorito => {
+                                    favorito.classList.add(
+                                        'preferred'); // Marca os favoritos com a classe 'preferred'
+                                    countryList.appendChild(favorito); // Adiciona cada favorito no topo
+                                });
+
+                                // Adiciona o divider após os favoritos (se houver)
+                                const divider = document.createElement('li');
+                                divider.classList.add('divider'); // Cria o elemento 'divider'
+                                countryList.appendChild(divider); // Adiciona o divider após os favoritos
+
+                                // Adiciona os outros países após o divider
+                                outros.forEach(outro => {
+                                    countryList.appendChild(outro); // Adiciona os países restantes
+                                });
+                            }
+
+                            // Chama a função para atualizar os países favoritos
+                            atualizarPaisFavoritos();
+                        });
+                    </script>
 
 
 
@@ -1994,231 +2286,8 @@
             </script>
         {/if}
 
-        <script>
-            document.querySelector("#fullName").addEventListener("change", function() {
-                var fullName = document.getElementById('fullName').value.trim();
-                // Divida o nome completo em palavras
-                var nameParts = fullName.split(' ');
-
-                // O primeiro nome será a primeira palavra
-                var firstName = nameParts[0];
-
-                // O sobrenome será o resto das palavras
-                var lastName = nameParts.slice(1).join(' ');
-
-                // Preencha os campos "Primeiro Nome" e "Sobrenome"
-                document.getElementById('inputFirstName').value = firstName;
-                document.getElementById('inputLastName').value = lastName;
 
 
-            });
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                const countryInput = document.getElementById('inputCountry');
-                const optionalField = document.querySelector('#lkn-optional');
-                const cpfField = document.getElementById('cpfField');
-                const nifField = document.getElementById('nifField');
-                const dobField = document.getElementById('dobField');
-                const isCNPJ = document.getElementById("isCNPJ");
-
-
-
-                function toggleOptionalField() {
-                    const country = countryInput.value;
-                    const containerDiv = document.getElementById("containerExistingAccountSelect");
-
-                    if (containerDiv && optionalField) { // Verifica se ambos os elementos existem
-
-
-
-                        const requiredFields = document.querySelectorAll("[required]");
-
-                        requiredFields.forEach(field => {
-                            if (field.offsetParent === null) { // Verifica se o campo está oculto
-                                field.removeAttribute("required"); // Remove `required` de campos não focáveis
-                            }
-                        });
-
-
-                        if (window.getComputedStyle(containerDiv).display !== "none") {
-                            optionalField.style.setProperty("display", "none",
-                                "important"); // Define "display: none !important"
-                        } else {
-                            optionalField.style.display = (country === 'BR' || country === 'PT') ? "block" : "none";
-                        }
-                    }
-
-                    if (country === 'BR') {
-                        cpfField.style.display = "block";
-                        nifField.style.display = "none";
-                        dobField.style.display = "block"; // Exibe a data de nascimento para o Brasil
-                        isCNPJ.style.display = "block";
-                    } else if (country === 'PT') {
-                        cpfField.style.display = "none";
-                        nifField.style.display = "block"; // Exibe o NIF para Portugal
-                        dobField.style.display = "none"; // Oculta a data de nascimento
-                        isCNPJ.style.display = "none";
-
-                    }
-                }
-
-
-                // Inicializa a verificação ao carregar a página
-                toggleOptionalField();
-
-                // Adiciona um ouvinte de eventos para o campo de entrada
-                countryInput.addEventListener('change', toggleOptionalField);
-
-                // Função para atualizar a lista de países preferidos
-                function atualizarPaisFavoritos() {
-                    // Países favoritos que você deseja (usando os códigos dos países)
-                    const paisesFavoritos = ['br', 'us', 'mz', 'pt']; // Brasil, Estados Unidos, Moçambique, Portugal
-
-                    // Seleciona a lista de países
-                    const countryList = document.querySelector('.country-list');
-
-                    // Seleciona todos os itens de países da lista
-                    const allCountries = Array.from(countryList.querySelectorAll('.country'));
-
-                    // Remove os países antigos com a classe 'preferred'
-                    allCountries.forEach(country => {
-                        country.classList.remove('preferred');
-                    });
-
-                    // Filtra os países preferidos, garantindo que não existam duplicatas
-                    const favoritosUnicos = allCountries.filter((countryItem, index, self) => {
-                        const countryCode = countryItem.getAttribute('data-country-code');
-                        return paisesFavoritos.includes(countryCode) && self.findIndex(item => item
-                            .getAttribute('data-country-code') === countryCode) === index;
-                    });
-
-                    // Filtra os países restantes (não favoritos)
-                    const outros = allCountries.filter(countryItem =>
-                        !paisesFavoritos.includes(countryItem.getAttribute('data-country-code'))
-                    );
-
-                    // Limpa a lista e remove todos os itens (inclusive o divider)
-                    countryList.innerHTML = '';
-
-                    // Adiciona os países favoritos únicos no topo da lista
-                    favoritosUnicos.forEach(favorito => {
-                        favorito.classList.add('preferred'); // Marca os favoritos com a classe 'preferred'
-                        countryList.appendChild(favorito); // Adiciona cada favorito no topo
-                    });
-
-                    // Adiciona o divider após os favoritos (se houver)
-                    const divider = document.createElement('li');
-                    divider.classList.add('divider'); // Cria o elemento 'divider'
-                    countryList.appendChild(divider); // Adiciona o divider após os favoritos
-
-                    // Adiciona os outros países após o divider
-                    outros.forEach(outro => {
-                        countryList.appendChild(outro); // Adiciona os países restantes
-                    });
-                }
-
-                // Chama a função para atualizar os países favoritos
-                atualizarPaisFavoritos();
-            });
-        </script>
-
-        <script>
-            function validateCpfCnpj(cpfCnpj) {
-                // Remove caracteres especiais
-                cpfCnpj = cpfCnpj.replace(/[^\d]/g, '');
-
-                // Verifica se é CPF
-                if (cpfCnpj.length === 11) {
-                    // Verifica se todos os dígitos são iguais
-                    if (/^(\d)\1{10}$/.test(cpfCnpj)) {
-                    return false;
-                }
-
-                // Calcula o primeiro dígito verificador
-                let sum = 0;
-                for (let i = 0; i < 9; i++) {
-                    sum += parseInt(cpfCnpj[i]) * (10 - i);
-                }
-                let digit1 = (sum % 11 < 2) ? 0 : 11 - (sum % 11);
-
-                // Calcula o segundo dígito verificador
-                sum = 0;
-                for (let i = 0; i < 10; i++) {
-                    sum += parseInt(cpfCnpj[i]) * (11 - i);
-                }
-                let digit2 = (sum % 11 < 2) ? 0 : 11 - (sum % 11);
-
-                // Verifica se os dígitos verificadores estão corretos
-                return cpfCnpj[9] == digit1 && cpfCnpj[10] == digit2;
-            }
-
-            // Verifica se é CNPJ
-            if (cpfCnpj.length === 14) {
-                // Verifica se todos os dígitos são iguais
-                if (/^(\d)\1{13}$/.test(cpfCnpj)) {
-                return false;
-            }
-
-            // Calcula o primeiro dígito verificador
-            let sum = 0;
-            let weights = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-            for (let i = 0; i < 12; i++) {
-                sum += parseInt(cpfCnpj[i]) * weights[i];
-            }
-            let digit1 = (sum % 11 < 2) ? 0 : 11 - (sum % 11);
-
-            // Calcula o segundo dígito verificador
-            sum = 0;
-            weights = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-            for (let i = 0; i < 13; i++) {
-                sum += parseInt(cpfCnpj[i]) * weights[i];
-            }
-            let digit2 = (sum % 11 < 2) ? 0 : 11 - (sum % 11);
-
-            // Verifica se os dígitos verificadores estão corretos
-            return cpfCnpj[12] == digit1 && cpfCnpj[13] == digit2;
-            }
-
-            return false;
-            }
-
-            // Captura o evento de clique no botão do formulário
-            document.getElementById('frmCheckout').addEventListener('submit', function(event) {
-                // Declarações de variáveis para os campos de senha e CPF/CNPJ
-                const cpfCnpjInput = document.getElementById('inputCPF').value.trim();
-                const cnpjInput = document.getElementById('inputCNPJ').value.trim();
-                const email = document.getElementById("inputEmail");
-
-                // Validação de CPF/CNPJ
-                if (cpfCnpjInput && cpfCnpjInput.value && !validateCpfCnpj(cpfCnpjInput)) {
-                    event.preventDefault(); // Impede o envio do formulário
-                    alert("CPF inválido!");
-                    return; // Sai da função para evitar o envio do formulário
-                }
-
-                if (cnpjInput && cnpjInput.value && !validateCpfCnpj(cnpjInput)) {
-                    event.preventDefault(); // Impede o envio do formulário
-                    alert("CNPJ inválido!");
-                    return; // Sai da função para evitar o envio do formulário
-                }
-
-                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-
-                function validarEmail(email) {
-                    if (!emailPattern.test(email)) {
-                        alert("Email inválido!");
-                        return
-                    }
-
-                }
-                validarEmail(email.value);
-
-
-
-
-            });
-        </script>
 
 
 
