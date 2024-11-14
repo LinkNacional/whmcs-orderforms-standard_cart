@@ -2045,7 +2045,6 @@
                                                 action: "validate-email",
                                                 email: email.value
                                             });
-                                        console.log(email_validate)
 
                                         if (email_validate.success != "OK") {
                                             // Usando o código de erro para buscar a tradução no WHMCS
@@ -2056,7 +2055,6 @@
                                             return;
                                         }
                                     } catch (error) {
-                                        console.error("Erro na validação do e-mail:", error);
                                         missingFields.push("Erro ao validar o e-mail. Tente novamente mais tarde.");
                                         showErrorModal(missingFields);
                                         return;
