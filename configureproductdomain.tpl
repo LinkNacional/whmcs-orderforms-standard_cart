@@ -353,7 +353,7 @@
 
                     {if $registerdomainenabled}
                         <div class="option option-selected">
-                            <div class="options-container d-flex align-items-center mb-2">
+                            <div class="options-container d-flex align-items-center">
                                 <label class="d-flex align-items-center me-3 label-register">
                                     <input type="radio" name="domainoption" value="register" id="selregister"
                                         {if $domainoption eq "register"} class="hidden-input" checked {/if} />
@@ -370,7 +370,7 @@
 
                     {if $transferdomainenabled}
                         <div class="option">
-                            <div class="options-container d-flex align-items-center mb-2">
+                            <div class="options-container d-flex align-items-center">
                                 <label class="d-flex align-items-center me-3 label-register">
                                     <input type="radio" name="domainoption" value="transfer" id="seltransfer"
                                         class="hidden-input" {if $domainoption eq "transfer"} checked {/if} />
@@ -389,7 +389,7 @@
 
                     {if $owndomainenabled}
                         <div class="option">
-                            <div class="options-container d-flex align-items-center mb-2">
+                            <div class="options-container d-flex align-items-center">
                                 <label class="d-flex align-items-center me-3 label-register">
                                     <input type="radio" name="domainoption" value="owndomain" id="selowndomain"
                                         class="hidden-input" {if $domainoption eq "owndomain"} checked {/if} />

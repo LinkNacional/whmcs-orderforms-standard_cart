@@ -3,11 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch(url)
       .then(response => response.json())
       .then(onSuccess)
-      .catch(error => {
-        console.error(`Erro na requisição: ${error}`);
-        if (onError) onError();
-        showMessage('Erro ao buscar dados. Tente novamente.', true);
-      });
+
   }
 
   function updateAddressFields(data, country, cityField, stateField, addressField = '', neighborhoodField = '') {
@@ -51,13 +47,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputAddress = document.getElementById('inputAddress');
     const inputCity = document.getElementById('inputCity');
     const inputState = document.getElementById('stateselect');
-    const inputCountry = document.getElementById('inputCountry');
+    const inputCountry = document.getElementById('inputCountry'); // Ex.: 'BR', 'US'
     const labelSelect = document.querySelector("label[for='state']");
     const labelInput = document.querySelector("label[for='stateinput']");
     const inputHouseNumber = document.getElementById('inputHouseNumber');
+    const phoneCode = document.querySelector('.selected-dial-code')?.textContent.trim(); // Ex.: '+55'
+
+    const countryCodes = {
+      '+55': 'BR',
+      '+44': 'GB',
+      '+1': 'US',
+      '+351': 'PT',
+    };
+
+    const phoneCountry = countryCodes[phoneCode] || null; // Converte o phoneCode para país correspondente
 
     inputHouseNumber.value = '';
-
 
     if (!inputAddress || !inputCity || !inputCountry) {
       console.error('Campos de endereço não encontrados');
@@ -65,7 +70,20 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    if (/^\d{8}$/.test(cep)) { // Brasil
+    if (!phoneCountry) {
+      console.warn('Código de país não reconhecido ou ausente.');
+      showMessage('Código de país não reconhecido ou ausente.', true);
+      return;
+    }
+
+    // Verifica se o país do telefone corresponde ao inputCountry
+    if (phoneCountry !== inputCountry.value) {
+      console.warn(`O país do telefone (${phoneCountry}) não corresponde ao país do endereço (${inputCountry.value}).`);
+      showMessage('País do telefone não corresponde ao país do endereço.', true);
+      return;
+    }
+
+    if (/^\d{8}$/.test(cep) && phoneCountry === 'BR') { // Brasil
       fetchCepData(
         `https://viacep.com.br/ws/${cep}/json/`,
         function (data) {
@@ -88,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       );
-    } else if (/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(cep) || /^[A-Z]{1,2}\d[A-Z\d]?$/.test(cep)) {
+    } else if (/^[A-Z]{1,2}\d[A-Z\d]? \d[A-Z]{2}$/.test(cep) && phoneCountry === 'GB') {
       fetchCepData(
         `https://api.zippopotam.us/GB/${cep}`,
         data => {
@@ -96,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
           showMessage('Endereço atualizado com sucesso!');
         }
       );
-    } else if (/^\d{5}(-\d{4})?$/.test(cep)) {
+    } else if (/^\d{5}(-\d{4})?$/.test(cep) && phoneCountry === 'US') {
       fetchCepData(
         `https://api.zippopotam.us/US/${cep}`,
         data => {
@@ -104,15 +122,15 @@ document.addEventListener('DOMContentLoaded', function () {
           showMessage('Endereço atualizado com sucesso!');
         }
       );
-    } else if (/^\d{7}$/.test(cep) || /^\d{4}-\d{3}$/.test(cep)) {
+    } else if ((/^\d{7}$/.test(cep) || /^\d{4}-\d{3}$/.test(cep)) && phoneCountry === 'PT') {
       if (/^\d{7}$/.test(cep)) cep = cep.slice(0, 4) + '-' + cep.slice(4);
 
       fetchCepData(`https://json.geoapi.pt/cp/${cep}`, function (data) {
         if (data) {
-          inputAddress.value = data.ruas[0] || '';
-          inputCity.value = data.Localidade || '';
+          console.log(data);
+          inputAddress.value = data.partes[0].Artéria || '';
+          inputCity.value = data.Concelho || '';
           inputCountry.value = 'PT';
-          inputState.value = data.Distrito || '';
           document.getElementById('inputNeighborhood').value = data.Freguesia || '';
 
           document.getElementById('stateinput').style.display = 'block';
@@ -127,9 +145,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     } else {
-      console.warn(`Formato de CEP não reconhecido: ${cep}`);
-      showMessage(`Formato de CEP não reconhecido: ${cep}`, true);
+      console.warn(`Formato de CEP não reconhecido ou país não permitido: ${cep}`);
+      showMessage(`Formato de CEP não reconhecido ou país não permitido: ${cep}`, true);
     }
+
+    document.getElementById("inputHouseNumber").focus();
   }
 
   const inputPostcode = document.getElementById('inputPostcode');
@@ -167,3 +187,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+
+
+// TODO adicionar campo de complemento e bairro obrigatório
+
+// TODO só pesquisa o cep de acordo com o país
