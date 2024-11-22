@@ -17,7 +17,7 @@ jobs:
 
       - name: Make plugin root directory
         working-directory: ${{env.WORK_DIR}}
-        run: "mkdir $PLUGIN_NAME && mv -t ./$PLUGIN_NAME ./css ./img ./includes ./js ./lang *.js *.tpl *.css *.php *.gif *.yaml *.html && ls -lah"
+        run: "mkdir $PLUGIN_NAME && mv -t ./$PLUGIN_NAME ./css ./img ./includes ./js ./lang *.js *.tpl *.css *.php *.gif *.yaml *.html  && find ./${{env.PLUGIN_NAME}} -type f -exec chmod 0644 {} + && find ./${{env.PLUGIN_NAME}} -type d -exec chmod 0755 {} + && ls -lah"
 
       - name: Create .zip for source code
         uses: thedoctor0/zip-release@master
