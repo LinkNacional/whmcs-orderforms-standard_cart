@@ -1,26 +1,26 @@
 {if !empty($lastProduct)}
-<div class="product-added-panel panel card">
-    <div class="panel-body card-body">
-        <span class="text-muted">
-            <i class="far fa-check"></i>&nbsp;{lang key="recommendations.productAdded"}
-        </span>
-        <div>
-            <span class="product-name">&nbsp;{$lastProduct.product.name}</span>
-            <span class="product-group">&nbsp;{$lastProduct.product.productGroup.name}</span>
-        </div>
-        <div>
-            <span class="product-price">
-                {if !$lastProduct.pricing->isFree()}
-                    &nbsp;{$lastProduct.pricing->price()->toFull()}
-                    {if $lastProduct.pricing->setup() && $lastProduct.pricing->setup()->toNumeric() > 0}
-                        + {$lastProduct.pricing->setup()->toFull()} {lang key="ordersetupfee"}
-                    {/if}
-                {/if}
+    <div class="product-added-panel panel card">
+        <div class="panel-body card-body">
+            <span class="text-muted">
+                <i class="far fa-check"></i>&nbsp;{lang key="recommendations.productAdded"}
             </span>
-            <span class="product-cycle">&nbsp;{lang key='orderpaymentterm'|cat:$lastProduct.pricing->cycle()}</span>
+            <div>
+                <span class="product-name">&nbsp;{$lastProduct.product.name}</span>
+                <span class="product-group">&nbsp;{$lastProduct.product.productGroup.name}</span>
+            </div>
+            <div>
+                <span class="product-price">
+                    {if !$lastProduct.pricing->isFree()}
+                        &nbsp;{$lastProduct.pricing->price()->toFull()}
+                        {if $lastProduct.pricing->setup() && $lastProduct.pricing->setup()->toNumeric() > 0}
+                            + {$lastProduct.pricing->setup()->toFull()} {lang key="ordersetupfee"}
+                        {/if}
+                    {/if}
+                </span>
+                <span class="product-cycle">&nbsp;{lang key='orderpaymentterm'|cat:$lastProduct.pricing->cycle()}</span>
+            </div>
         </div>
     </div>
-</div>
 {/if}
 <div class="product-recommendations-container">
     <div class="product-recommendations">
@@ -57,36 +57,40 @@
                     {/if}
                     {foreach $categoryRecommendation.recommendations as $recommendation}
                         {assign var="price" value=$recommendation->pricing()->first()}
-                        <div class="product-recommendation" data-color="{$recommendation.color}" style="border-color:{$recommendation->color};">
+                        <div class="product-recommendation" data-color="{$recommendation.color}"
+                            style="border-color:{$recommendation->color};">
                             <div class="header{if !$recommendation.shortDescription} header-static{/if}">
                                 <div class="cta">
                                     <div class="price" style="color:{$recommendation->color};">
-                                        <span {if !$recommendation->isFree()}class="w-hidden hidden"{/if}>{lang key="orderfree"}</span>
+                                        <span {if !$recommendation->isFree()}class="w-hidden hidden" {/if}>{lang key="orderfree"}</span>
                                         {if !$recommendation->isFree() && $price}
                                             <span class="breakdown-price">
-                                            {if $price->isOneTime()}
-                                                {$price->price()->toFull()}
-                                            {elseif $price->isRecurring()}
-                                                {$price->breakdownPrice()}
-                                            {/if}
-                                        </span>
+                                                {if $price->isOneTime()}
+                                                    {$price->price()->toFull()}
+                                                {elseif $price->isRecurring()}
+                                                    {$price->breakdownPrice()}
+                                                {/if}
+                                            </span>
                                         {/if}
                                         {if !$recommendation->isFree() && !is_null($price->setup()) && $price->setup()->toNumeric() > 0}
-                                            <span class="setup-fee"><small>{$price->setup()->toFull()}&nbsp;{lang key="ordersetupfee"}</small></span>
+                                            <span
+                                                class="setup-fee"><small>{$price->setup()->toFull()}&nbsp;{lang key="ordersetupfee"}</small></span>
                                         {/if}
                                     </div>
-                                    <a type="button" class="btn btn-sm btn-add" href="{$recommendation->getRoutePath()}" role="button" style="background-color:{$recommendation->color};">
+                                    <a type="button" class="btn btn-sm btn-add" href="{$recommendation->getRoutePath()}" role="button"
+                                        style="background-color:{$recommendation->color};">
                                         <span class="text">
                                             {lang key="addtocart"}
                                         </span>
-                                            <span class="arrow" style="background-color:{$recommendation->color};">
+                                        <span class="arrow" style="background-color:{$recommendation->color};">
                                             <i class="fas fa-chevron-right"></i>
                                         </span>
                                     </a>
                                 </div>
                                 <div class="expander" style="color:{$recommendation->color};">
                                     {if $recommendation.shortDescription}
-                                        <i class="fas fa-chevron-right rotate" data-toggle="tooltip" data-placement="right" title="{lang key="recommendations.learnMore"}"></i>
+                                        <i class="fas fa-chevron-right rotate" data-toggle="tooltip" data-placement="right"
+                                            title="{lang key="recommendations.learnMore"}"></i>
                                     {else}
                                         <i class="fas fa-square fa-xs"></i>
                                     {/if}

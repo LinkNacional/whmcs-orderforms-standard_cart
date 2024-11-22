@@ -1,17 +1,18 @@
 {include file="orderforms/standard_cart/common.tpl"}
-
 <div id="order-standard_cart">
     <div class="row">
-        <div class="cart-sidebar">
+        <!--div class="cart-sidebar">
             {include file="orderforms/standard_cart/sidebar-categories.tpl"}
-        </div>
-        <div class="cart-body">
+        </div -->
+        <div class="cart-body" style="width:100%;">
             <div class="header-lined">
                 <h1 class="font-size-36">
                     {if $totalResults > 1}{lang key='navrenewdomains'}{else}{lang key='domainrenew'}{/if}
                     {if $totalResults > 5}
                         <div class="pull-right float-right">
-                            <input id="domainRenewalFilter" type="search" class="domain-renewals-filter form-control input-inline-100" placeholder="{lang key='searchenterdomain'}">
+                            <input id="domainRenewalFilter" type="search"
+                                class="domain-renewals-filter form-control input-inline-100"
+                                placeholder="{lang key='searchenterdomain'}">
                         </div>
                     {/if}
                 </h1>
@@ -35,7 +36,8 @@
                         {if $totalResults < $totalDomainCount}
                             <div class="text-center">
                                 {lang key='domainRenewal.showingDomains' showing=$totalResults totalCount=$totalDomainCount}
-                                <a id="linkShowAll" href="{routePath('cart-domain-renewals')}">{lang key='domainRenewal.showAll'}</a>
+                                <a id="linkShowAll"
+                                    href="{routePath('cart-domain-renewals')}">{lang key='domainRenewal.showAll'}</a>
                             </div>
                         {/if}
 
@@ -56,7 +58,7 @@
                                                 {lang key='domainrenewalspastgraceperiod'}
                                             </span>
                                         {elseif !$renewalData.beforeRenewLimit && $renewalData.daysUntilExpiry > 0}
-                                            <span class="label label-{if $renewalData.daysUntilExpiry > 30}success{else}warning{/if}">
+                                            <span class="label label-{if $renewalData.daysUntilExpiry > 30}info{else}warning{/if}">
                                                 {lang key='domainRenewal.expiringIn' days=$renewalData.daysUntilExpiry}
                                             </span>
                                         {elseif $renewalData.daysUntilExpiry === 0}
@@ -76,7 +78,8 @@
 
                                     <h3 class="font-size-24">{$renewalData.domain}</h3>
 
-                                    <p>{lang key='clientareadomainexpirydate'}: {$renewalData.expiryDate->format('j M Y')} ({$renewalData.expiryDate->diffForHumans()})</p>
+                                    <p>{lang key='clientareadomainexpirydate'}: {$renewalData.expiryDate->format('j M Y')}
+                                        ({$renewalData.expiryDate->diffForHumans()})</p>
                                     {if $renewalData.freeDomainRenewal}
                                         <p class="domain-renewal-desc">{lang key='domainRenewal.freeWithServiceDesc'}</p>
                                     {/if}
@@ -91,16 +94,19 @@
                                                         *
                                                     {/if}
                                                 </label>
-                                                <div class="col-sm-6">
-                                                    <select class="form-control select-renewal-pricing" id="renewalPricing{$renewalData.id}" data-domain-id="{$renewalData.id}">
+                                                <div class="col-sm">
+                                                    <select class="form-control select-renewal-pricing"
+                                                        id="renewalPricing{$renewalData.id}" data-domain-id="{$renewalData.id}">
                                                         {foreach $renewalData.renewalOptions as $renewalOption}
                                                             <option value="{$renewalOption.period}">
-                                                                {$renewalOption.period} {lang key='orderyears'} @ {$renewalOption.rawRenewalPrice}
+                                                                {$renewalOption.period} {lang key='orderyears'} @
+                                                                {$renewalOption.rawRenewalPrice}
                                                                 {if $renewalOption.gracePeriodFee && $renewalOption.gracePeriodFee->toNumeric() != 0.00}
                                                                     + {$renewalOption.gracePeriodFee} {lang key='domainRenewal.graceFee'}
                                                                 {/if}
                                                                 {if $renewalOption.redemptionGracePeriodFee && $renewalOption.redemptionGracePeriodFee->toNumeric() != 0.00}
-                                                                    + {$renewalOption.redemptionGracePeriodFee} {lang key='domainRenewal.redemptionFee'}
+                                                                    + {$renewalOption.redemptionGracePeriodFee}
+                                                                    {lang key='domainRenewal.redemptionFee'}
                                                                 {/if}
                                                             </option>
                                                         {/foreach}
@@ -113,7 +119,9 @@
                                     <div class="text-right">
                                         {if !$renewalData.eligibleForRenewal || $renewalData.beforeRenewLimit || ($renewalData.pastGracePeriod && $renewalData.pastRedemptionGracePeriod)}
                                         {else}
-                                            <button id="renewDomain{$renewalData.id}" class="btn btn-default btn-sm btn-add-renewal-to-cart" data-domain-id="{$renewalData.id}">
+                                            <button id="renewDomain{$renewalData.id}"
+                                                class="btn btn-default btn-sm btn-add-renewal-to-cart"
+                                                data-domain-id="{$renewalData.id}">
                                                 <span class="to-add">
                                                     <i class="fas fa-fw fa-spinner fa-spin"></i>
                                                     {lang key='addtocart'}
@@ -167,7 +175,8 @@
                 <div class="modal-content">
                     <div class="modal-header d-block">
                         <h4 class="modal-title">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="{lang key='orderForm.close'}">
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="{lang key='orderForm.close'}">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <i class="fas fa-times fa-3x"></i>
@@ -187,4 +196,6 @@
     </form>
 </div>
 
-<script>recalculateRenewalTotals();</script>
+<script>
+    recalculateRenewalTotals();
+</script>
