@@ -1,9 +1,9 @@
-name: Encode and generate new release
+name: Generate new release
 
 on:
   pull_request:
     types: [closed]
-    branches: [dev]
+    branches: [child-flat]
 env:
   PLUGIN_NAME: lkn-orderforms-standard-cart
 
@@ -32,7 +32,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: "1.1.0"
+          custom_tag: "1.1.1"
 
       - name: Generate new release with encoded source code
         uses: ncipollo/release-action@v1

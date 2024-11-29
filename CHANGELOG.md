@@ -1,3 +1,7 @@
+# 1.1.1 - 29/11/2024
+* Fix issues for optional inputs validation;
+* Update front-end logging.
+
 # 1.1.0 - 22/11/2024
 * Styling update;
 * Domain input field sanitization;
