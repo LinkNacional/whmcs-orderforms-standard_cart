@@ -13,11 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para atualizar os campos de endereço
     function updateAddressFields() {
-        console.log("Atualizando os campos de endereço...");
+        // console.log("Atualizando os campos de endereço...");
         address.value = `${inputAddress.value.trim()}, ${houseNumber.value.trim()}`;
         address2.value = neighborhood.value.trim();
-        console.log("Endereço 1:", address.value);
-        console.log("Endereço 2:", address2.value);
+        // console.log("Endereço 1:", address.value);
+        // console.log("Endereço 2:", address2.value);
     }
     
 
@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateIsPessoaJuridica() {
         if (iCheckIsPessoaJuridica.classList.contains("checked")) {
             isPessoaJuridica.checked = true;
-            console.log("Classe 'checked' encontrada no iCheck-isPessoaJuridica, isPessoaJuridica marcado como true");
+            // console.log("Classe 'checked' encontrada no iCheck-isPessoaJuridica, isPessoaJuridica marcado como true");
         } else {
             isPessoaJuridica.checked = false;
-            console.log("Classe 'checked' não encontrada no iCheck-isPessoaJuridica, isPessoaJuridica marcado como false");
+            // console.log("Classe 'checked' não encontrada no iCheck-isPessoaJuridica, isPessoaJuridica marcado como false");
         }
         // Armazena o estado no localStorage
         localStorage.setItem("isPessoaJuridica", isPessoaJuridica.checked);
@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Verifica o estado do checkbox
         if (iCheckCustomPhoneInput.classList.contains("checked")) {
             document.getElementById('customPhoneInput').checked = true;
-            console.log("Checkbox 'customPhoneInput' marcado como true");
+            // console.log("Checkbox 'customPhoneInput' marcado como true");
         } else {
             document.getElementById('customPhoneInput').checked = false;
-            console.log("Checkbox 'customPhoneInput' marcado como false");
+            // console.log("Checkbox 'customPhoneInput' marcado como false");
         }
         // Armazena o estado no localStorage
         localStorage.setItem("customPhoneInput", document.getElementById('customPhoneInput').checked);
@@ -71,9 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Observe as mudanças na classe 'checked' no elemento iCheck-isPessoaJuridica
     observerIsPessoaJuridica.observe(iCheckIsPessoaJuridica, { attributes: true });
+    const containerDiv = document.getElementById("containerExistingAccountSelect");
 
     // Armazenar e recuperar valores de endereço
-    if (neighborhood && inputAddress && houseNumber && address && address2) {
+    if (neighborhood && inputAddress && houseNumber && address && address2 && !containerDiv) {
         // Adiciona ouvintes de evento para os campos de endereço
         neighborhood.addEventListener("change", updateAddressFields);
 
@@ -90,19 +91,19 @@ document.addEventListener("DOMContentLoaded", function () {
             neighborhood.value = bairro;
         }
         inputAddress.addEventListener("change", function () {
-            console.log("Alterado inputAddress:", inputAddress.value);
+            // console.log("Alterado inputAddress:", inputAddress.value);
             updateAddressFields();
             localStorage.setItem("address", inputAddress.value);
         });
 
         houseNumber.addEventListener("change", function () {
-            console.log("Alterado houseNumber:", houseNumber.value);
+            // console.log("Alterado houseNumber:", houseNumber.value);
             updateAddressFields();
             localStorage.setItem("houseNumber", houseNumber.value);
         });
 
         neighborhood.addEventListener("change", function () {
-            console.log("Alterado neighborhood:", neighborhood.value);
+            // console.log("Alterado neighborhood:", neighborhood.value);
             updateAddressFields();
             localStorage.setItem("neighborhood", neighborhood.value);
         });
@@ -110,23 +111,23 @@ document.addEventListener("DOMContentLoaded", function () {
         // Recupera os valores do localStorage e preenche os campos de endereço
         if (localStorage.getItem("neighborhood")) {
             neighborhood.value = localStorage.getItem("neighborhood");
-            console.log("Recuperado do localStorage: neighborhood:", neighborhood.value);
+            // console.log("Recuperado do localStorage: neighborhood:", neighborhood.value);
         }
         if (localStorage.getItem("address")) {
             inputAddress.value = localStorage.getItem("address");
-            console.log("Recuperado do localStorage: address:", inputAddress.value);
+            // console.log("Recuperado do localStorage: address:", inputAddress.value);
         }
         if (localStorage.getItem("address1")) {
             address.value = localStorage.getItem("address1");
-            console.log("Recuperado do localStorage: address1:", address.value);
+            // console.log("Recuperado do localStorage: address1:", address.value);
         }
         if (localStorage.getItem("address2")) {
             address2.value = localStorage.getItem("address2");
-            console.log("Recuperado do localStorage: address2:", address2.value);
+            // console.log("Recuperado do localStorage: address2:", address2.value);
         }
         if (localStorage.getItem("houseNumber")) {
             houseNumber.value = localStorage.getItem("houseNumber");
-            console.log("Recuperado do localStorage: houseNumber:", houseNumber.value);
+            // console.log("Recuperado do localStorage: houseNumber:", houseNumber.value);
         }
 
         // Chama a função de atualização dos campos de endereço assim que os valores são preenchidos
@@ -135,44 +136,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Armazenar os valores de CPF, Data, CNPJ e isPessoaJuridica no localStorage
     inputDate.addEventListener("change", function () {
-        console.log("Alterado inputDate:", inputDate.value);
+        // console.log("Alterado inputDate:", inputDate.value);
         localStorage.setItem("inputDate", inputDate.value);
     });
 
     inputCpf.addEventListener("change", function () {
-        console.log("Alterado inputCPF:", inputCpf.value);
+        // console.log("Alterado inputCPF:", inputCpf.value);
         localStorage.setItem("inputCPF", inputCpf.value);
     });
 
     inputCNPJ.addEventListener("change", function () {
-        console.log("Alterado inputCNPJ:", inputCNPJ.value);
+        // console.log("Alterado inputCNPJ:", inputCNPJ.value);
         localStorage.setItem("inputCNPJ", inputCNPJ.value);
     });
 
     // Recupera os valores do localStorage e preenche os campos CPF, Data, CNPJ e isPessoaJuridica ao carregar a página
     if (localStorage.getItem("inputDate")) {
         inputDate.value = localStorage.getItem("inputDate");
-        console.log("Recuperado do localStorage: inputDate:", inputDate.value);
+        // console.log("Recuperado do localStorage: inputDate:", inputDate.value);
     }
     if (localStorage.getItem("inputCPF")) {
         inputCpf.value = localStorage.getItem("inputCPF");
-        console.log("Recuperado do localStorage: inputCPF:", inputCpf.value);
+        // console.log("Recuperado do localStorage: inputCPF:", inputCpf.value);
     }
     if (localStorage.getItem("inputCNPJ")) {
         inputCNPJ.value = localStorage.getItem("inputCNPJ");
-        console.log("Recuperado do localStorage: inputCNPJ:", inputCNPJ.value);
+        // console.log("Recuperado do localStorage: inputCNPJ:", inputCNPJ.value);
     }
     if (localStorage.getItem("isPessoaJuridica") !== null) {
         isPessoaJuridica.checked = JSON.parse(localStorage.getItem("isPessoaJuridica")); // converte de volta para booleano
-        console.log("Recuperado do localStorage: isPessoaJuridica:", isPessoaJuridica.checked);
+        // console.log("Recuperado do localStorage: isPessoaJuridica:", isPessoaJuridica.checked);
 
         // Verifica o estado da checkbox ao carregar a página
         if (isPessoaJuridica.checked) {
             iCheckIsPessoaJuridica.classList.add("checked");
-            console.log("Classe 'checked' adicionada ao iCheck-isPessoaJuridica no carregamento");
+            // console.log("Classe 'checked' adicionada ao iCheck-isPessoaJuridica no carregamento");
         } else {
             iCheckIsPessoaJuridica.classList.remove("checked");
-            console.log("Classe 'checked' removida do iCheck-isPessoaJuridica no carregamento");
+            // console.log("Classe 'checked' removida do iCheck-isPessoaJuridica no carregamento");
         }
     }
 
@@ -180,10 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem("customPhoneInput") === "true") {
         iCheckCustomPhoneInput.classList.add("checked");
         document.getElementById('customPhoneInput').checked = true;
-        console.log("Checkbox 'customPhoneInput' marcado com base no localStorage");
+        // console.log("Checkbox 'customPhoneInput' marcado com base no localStorage");
     } else {
         iCheckCustomPhoneInput.classList.remove("checked");
         document.getElementById('customPhoneInput').checked = false;
-        console.log("Checkbox 'customPhoneInput' desmarcado com base no localStorage");
+        // console.log("Checkbox 'customPhoneInput' desmarcado com base no localStorage");
     }
 });
