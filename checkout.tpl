@@ -2015,7 +2015,7 @@
                         }
 
                         // Função para validar o CNPJ
-                        function validateCNPJ(cnpj) {
+                        function validateCNPJ(value) {
                             if (!value) return false
 
                             if (value === null || value === '') {
