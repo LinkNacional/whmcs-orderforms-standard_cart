@@ -1748,7 +1748,10 @@
         </div>
         <div class="text-center">
             {if $accepttos}
-                <p>
+                <p
+                    id="tos-root-container"
+                    style="display: none;"
+                >
                     <label class="checkbox-inline">
                         <input
                             type="checkbox"
@@ -1791,6 +1794,43 @@
                 </span>
             </button>
             <script>
+                const tosRootContainer = document.getElementById('tos-root-container')
+                const btnNewUserSignup = document.getElementById('btnNewUserSignup')
+                const btnAlreadyRegistered = document.getElementById('btnAlreadyRegistered')
+
+                function onClickBtnNewUserSignup() {
+                    tosRootContainer.style.display = 'block'
+                }
+
+                function onClickBtnAlreadyRegistered() {
+                    tosRootContainer.style.display = 'none'
+                }
+
+                if (btnNewUserSignup) {
+
+                    btnNewUserSignup.addEventListener('click', onClickBtnNewUserSignup)
+                }
+
+                if (btnAlreadyRegistered) {
+                    btnAlreadyRegistered.addEventListener('click', onClickBtnAlreadyRegistered)
+                }
+
+                const observer = new MutationObserver((mutationsList) => {
+                    for (const mutation of mutationsList) {
+                        const btnCompleteOrder = document.getElementById("btnCompleteOrder")
+
+                        if (!['none', ''].includes(btnCompleteOrder?.style?.display)) {
+                            tosRootContainer.style.display = 'block'
+
+                            observer.disconnect();
+
+                            break;
+                        }
+                    }
+                });
+
+                observer.observe(document.body, { childList: true, subtree: true });
+
                 // Função para validar o CPF
                 function validateCPF(cpf) {
                     // Verifica se o CPF é do tipo string
