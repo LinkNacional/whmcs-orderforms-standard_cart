@@ -1797,6 +1797,8 @@
                 const tosRootContainer = document.getElementById('tos-root-container')
                 const btnNewUserSignup = document.getElementById('btnNewUserSignup')
                 const btnAlreadyRegistered = document.getElementById('btnAlreadyRegistered')
+                const orderForm = document.getElementById('frmCheckout')
+                const btnCompleteOrder = document.getElementById("btnCompleteOrder")
 
                 function onClickBtnNewUserSignup() {
                     tosRootContainer.style.display = 'block'
@@ -1815,9 +1817,19 @@
                     btnAlreadyRegistered.addEventListener('click', onClickBtnAlreadyRegistered)
                 }
 
+                btnCompleteOrder.addEventListener('click', () => {
+                    console.log('ping')
+                    const btnCompleteOrder = document.getElementById("btnCompleteOrder")
+
+                    btnCompleteOrder.disabled = true
+
+                    setTimeout(() => {
+                        btnCompleteOrder.disabled = false
+                    }, 5000);
+                })
+
                 const observer = new MutationObserver((mutationsList) => {
                     for (const mutation of mutationsList) {
-                        const btnCompleteOrder = document.getElementById("btnCompleteOrder")
 
                         if (!['none', ''].includes(btnCompleteOrder?.style?.display)) {
                             tosRootContainer.style.display = 'block'
