@@ -1824,11 +1824,14 @@
                     console.log('ping')
                     const btnCompleteOrder = document.getElementById("btnCompleteOrder")
 
-                    btnCompleteOrder.disabled = true
 
                     setTimeout(() => {
-                        btnCompleteOrder.disabled = false
-                    }, 5000);
+                        btnCompleteOrder.disabled = true
+
+                        setTimeout(() => {
+                            btnCompleteOrder.disabled = false
+                        }, 5000);
+                    }, 200);
                 })
 
                 const observer = new MutationObserver((mutationsList) => {
