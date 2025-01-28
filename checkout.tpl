@@ -417,7 +417,10 @@
                                             value="{$loginemail}"
                                         >
                                         <div style="text-align: right;">
-                                            <a href="password/reset">Esqueci minha senha?</a>
+                                            <a
+                                                href="password/reset"
+                                                target="_blank"
+                                            >Esqueci minha senha?</a>
                                         </div>
                                     </div>
                                     <div>
