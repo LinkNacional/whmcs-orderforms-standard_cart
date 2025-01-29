@@ -1803,12 +1803,33 @@
                 const orderForm = document.getElementById('frmCheckout')
                 const btnCompleteOrder = document.getElementById("btnCompleteOrder")
 
+                function clearFormCache() {
+                    const hadCheckoutError = document.querySelector('.checkout-error-feedback')
+
+                    if (hadCheckoutError) {
+                        return
+                    }
+
+                    localStorage.setItem("isPessoaJuridica", '');
+                    localStorage.setItem("customPhoneInput", '');
+                    localStorage.setItem("address", '');
+                    localStorage.setItem("houseNumber", '');
+                    localStorage.setItem("neighborhood", '');
+                    localStorage.setItem("inputDate", '');
+                    localStorage.setItem("inputCPF", '');
+                    localStorage.setItem("inputCNPJ", '');
+                }
+
                 function onClickBtnNewUserSignup() {
                     tosRootContainer.style.display = 'block'
+                    clearFormCache()
+                    lkn_update_order_form_with_cached_data()
                 }
 
                 function onClickBtnAlreadyRegistered() {
                     tosRootContainer.style.display = 'none'
+                    clearFormCache()
+                    lkn_update_order_form_with_cached_data()
                 }
 
                 if (btnNewUserSignup) {
@@ -1821,7 +1842,6 @@
                 }
 
                 btnCompleteOrder.addEventListener('click', () => {
-                    console.log('ping')
                     const btnCompleteOrder = document.getElementById("btnCompleteOrder")
 
 

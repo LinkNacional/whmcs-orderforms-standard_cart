@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function lkn_update_order_form_with_cached_data() {
     let neighborhood = document.querySelector("#inputNeighborhood");
     let inputAddress = document.querySelector("#inputAddress");
     let address = document.querySelector("#inputAddress1");
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log("Endereço 1:", address.value);
         // console.log("Endereço 2:", address2.value);
     }
-    
+
 
     // Função para atualizar o estado do input "isPessoaJuridica" com base na classe "checked"
     function updateIsPessoaJuridica() {
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Caso os campos já tenham valores ao carregar a página, faz a atualização imediatamente
         if (address.value && address2.value) {
-            let partes = address.value.split(','); 
+            let partes = address.value.split(',');
 
             let rua = partes[0].trim();    // Garante que não haja espaços indesejados
             let numero = partes[1].trim(); // Remove espaços antes e depois do número
@@ -164,7 +164,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log("Recuperado do localStorage: inputCNPJ:", inputCNPJ.value);
     }
     if (localStorage.getItem("isPessoaJuridica") !== null) {
-        isPessoaJuridica.checked = JSON.parse(localStorage.getItem("isPessoaJuridica")); // converte de volta para booleano
+        try {
+            isPessoaJuridica.checked = JSON.parse(localStorage.getItem("isPessoaJuridica")); // converte de volta para booleano
+        } catch (error) {
+            isPessoaJuridica.checked = false
+        }
         // console.log("Recuperado do localStorage: isPessoaJuridica:", isPessoaJuridica.checked);
 
         // Verifica o estado da checkbox ao carregar a página
@@ -187,4 +191,4 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('customPhoneInput').checked = false;
         // console.log("Checkbox 'customPhoneInput' desmarcado com base no localStorage");
     }
-});
+}
