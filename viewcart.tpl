@@ -10,7 +10,10 @@
         var stateNotRequired = true;
     </script>
     {include file="orderforms/standard_cart/common.tpl"}
-    <script type="text/javascript" src="{$BASE_PATH_JS}/StatesDropdown.js"></script>
+    <script
+        type="text/javascript"
+        src="{$BASE_PATH_JS}/StatesDropdown.js"
+    ></script>
     <style>
         .top-nav li a[href*="clientarea.php"],
         .top-nav li a[href*="register.php"] {
@@ -29,7 +32,10 @@
                 {include file="orderforms/standard_cart/sidebar-categories.tpl"}
 
             </div -->
-            <div class="cart-body" style="width:100%">
+            <div
+                class="cart-body"
+                style="width:100%"
+            >
                 <div class="header-lined">
                     <div class="breadcrumb-lkn">
                         <ul>
@@ -57,28 +63,43 @@
                     <div class="secondary-cart-body">
 
                         {if $promoerrormessage}
-                            <div class="alert alert-warning text-center" role="alert">
+                            <div
+                                class="alert alert-warning text-center"
+                                role="alert"
+                            >
                                 {$promoerrormessage}
                             </div>
                         {elseif $errormessage}
-                            <div class="alert alert-danger" role="alert">
+                            <div
+                                class="alert alert-danger"
+                                role="alert"
+                            >
                                 <p>{$LANG.orderForm.correctErrors}:</p>
                                 <ul>
                                     {$errormessage}
                                 </ul>
                             </div>
                         {elseif $promotioncode && $rawdiscount eq "0.00"}
-                            <div class="alert alert-info text-center" role="alert">
+                            <div
+                                class="alert alert-info text-center"
+                                role="alert"
+                            >
                                 {$LANG.promoappliedbutnodiscount}
                             </div>
                         {elseif $promoaddedsuccess}
-                            <div class="alert alert-success text-center" role="alert">
+                            <div
+                                class="alert alert-success text-center"
+                                role="alert"
+                            >
                                 {$LANG.orderForm.promotionAccepted}
                             </div>
                         {/if}
 
                         {if $bundlewarnings}
-                            <div class="alert alert-warning" role="alert">
+                            <div
+                                class="alert alert-warning"
+                                role="alert"
+                            >
                                 <strong>{$LANG.bundlereqsnotmet}</strong><br />
                                 <ul>
                                     {foreach from=$bundlewarnings item=warning}
@@ -88,10 +109,15 @@
                             </div>
                         {/if}
 
-                        <form method="post" action="{$smarty.server.PHP_SELF}?a=view">
+                        <form
+                            method="post"
+                            action="{$smarty.server.PHP_SELF}?a=view"
+                        >
 
-                            <div class="view-cart-items-header"
-                                style="margin: 25px 0 20px 0;border-bottom: 1px solid #efefef;background-color: #fff;color: #181818;">
+                            <div
+                                class="view-cart-items-header"
+                                style="margin: 25px 0 20px 0;border-bottom: 1px solid #efefef;background-color: #fff;color: #181818;"
+                            >
                                 <div class="row">
                                     <div class="{if $showqtyoptions}col-sm-5{else}col-sm-7{/if} col-xs-7 col-7">
                                         {$LANG.orderForm.productOptions}
@@ -106,7 +132,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="view-cart-items" style="border-bottom: 1px solid #efefef;">
+                            <div
+                                class="view-cart-items"
+                                style="border-bottom: 1px solid #efefef;"
+                            >
 
                                 {foreach $products as $num => $product}
                                     <div class="item">
@@ -114,14 +143,19 @@
                                             <div class="{if $showqtyoptions}col-sm-5{else}col-sm-7{/if}">
                                                 <span class="item-title">
                                                     {$product.productinfo.name}
-                                                    <a href="{$WEB_ROOT}/cart.php?a=confproduct&i={$num}"
-                                                        class="btn btn-link btn-xs">
+                                                    <a
+                                                        href="{$WEB_ROOT}/cart.php?a=confproduct&i={$num}"
+                                                        class="btn btn-link btn-xs"
+                                                    >
                                                         <i class="fas fa-pencil-alt"></i>
                                                         {$LANG.orderForm.edit}
                                                     </a>
                                                     <span class="visible-xs-inline d-inline d-sm-none">
-                                                        <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                            onclick="removeItem('p','{$num}')">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-link btn-xs btn-remove-from-cart"
+                                                            onclick="removeItem('p','{$num}')"
+                                                        >
                                                             <i class="fas fa-times"></i>
                                                             {$LANG.orderForm.remove}
                                                         </button>
@@ -148,9 +182,17 @@
                                         {if $showqtyoptions}
                                             <div class="col-sm-2 item-qty">
                                                 {if $product.allowqty}
-                                                    <input type="number" name="qty[{$num}]" value="{$product.qty}"
-                                                        class="form-control text-center" min="0" />
-                                                    <button type="submit" class="btn btn-xs">
+                                                    <input
+                                                        type="number"
+                                                        name="qty[{$num}]"
+                                                        value="{$product.qty}"
+                                                        class="form-control text-center"
+                                                        min="0"
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-xs"
+                                                    >
                                                         {$LANG.orderForm.update}
                                                     </button>
                                                 {/if}
@@ -166,8 +208,11 @@
                                             {$product.proratadate}){/if}
                                         </div>
                                         <div class="col-sm-1 hidden-xs d-none d-sm-block">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('p','{$num}')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('p','{$num}')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
@@ -187,9 +232,17 @@
                                             {if $showAddonQtyOptions}
                                                 <div class="col-sm-2 item-qty">
                                                     {if $addon.allowqty === 2}
-                                                        <input type="number" name="paddonqty[{$num}][{$addonnum}]" value="{$addon.qty}"
-                                                            class="form-control text-center" min="0" />
-                                                        <button type="submit" class="btn btn-xs">
+                                                        <input
+                                                            type="number"
+                                                            name="paddonqty[{$num}][{$addonnum}]"
+                                                            value="{$addon.qty}"
+                                                            class="form-control text-center"
+                                                            min="0"
+                                                        />
+                                                        <button
+                                                            type="submit"
+                                                            class="btn btn-xs"
+                                                        >
                                                             {$LANG.orderForm.update}
                                                         </button>
                                                     {/if}
@@ -213,8 +266,11 @@
                                             <span class="item-title">
                                                 {$addon.name}
                                                 <span class="visible-xs-inline d-inline d-sm-none">
-                                                    <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                        onclick="removeItem('a','{$num}')">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-link btn-xs btn-remove-from-cart"
+                                                        onclick="removeItem('a','{$num}')"
+                                                    >
                                                         <i class="fas fa-times"></i>
                                                         {$LANG.orderForm.remove}
                                                     </button>
@@ -232,9 +288,17 @@
                                         {if $showAddonQtyOptions}
                                             <div class="col-sm-2 item-qty">
                                                 {if $addon.allowqty === 2}
-                                                    <input type="number" name="addonqty[{$num}]" value="{$addon.qty}"
-                                                        class="form-control text-center" min="0" />
-                                                    <button type="submit" class="btn btn-xs">
+                                                    <input
+                                                        type="number"
+                                                        name="addonqty[{$num}]"
+                                                        value="{$addon.qty}"
+                                                        class="form-control text-center"
+                                                        min="0"
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-xs"
+                                                    >
                                                         {$LANG.orderForm.update}
                                                     </button>
                                                 {/if}
@@ -247,8 +311,11 @@
                                             {if $addon.isProrated}<br />({$LANG.orderprorata} {$addon.prorataDate}){/if}
                                         </div>
                                         <div class="col-sm-1 hidden-xs d-none d-sm-block">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('a','{$num}')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('a','{$num}')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
@@ -262,13 +329,19 @@
                                         <div class="col-sm-7">
                                             <span class="item-title">
                                                 {if $domain.type eq "register"}{$LANG.orderdomainregistration}{else}{$LANG.orderdomaintransfer}{/if}
-                                                <a href="{$WEB_ROOT}/cart.php?a=confdomains" class="btn btn-link btn-xs">
+                                                <a
+                                                    href="{$WEB_ROOT}/cart.php?a=confdomains"
+                                                    class="btn btn-link btn-xs"
+                                                >
                                                     <i class="fas fa-pencil-alt"></i>
                                                     {$LANG.orderForm.edit}
                                                 </a>
                                                 <span class="visible-xs-inline d-inline d-sm-none">
-                                                    <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                        onclick="removeItem('d','{$num}')">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-link btn-xs btn-remove-from-cart"
+                                                        onclick="removeItem('d','{$num}')"
+                                                    >
                                                         <i class="fas fa-times"></i>
                                                         {$LANG.orderForm.remove}
                                                     </button>
@@ -290,23 +363,34 @@
                                                 <span class="cycle">{$domain.regperiod} {$domain.yearsLanguage}</span>
                                                 <span class="renewal cycle">
                                                     {if isset($domain.renewprice)}{lang key='domainrenewalprice'} <span
-                                                        class="renewal-price cycle">{$domain.renewprice->toPrefixed()}{$domain.shortRenewalYearsLanguage}{/if}</span>
+                                                            class="renewal-price cycle"
+                                                    >{$domain.renewprice->toPrefixed()}{$domain.shortRenewalYearsLanguage}{/if}</span>
                                                 </span>
                                             {else}
                                                 <span name="{$domain.domain}Price">{$domain.price}</span>
                                                 <div class="dropdown">
-                                                    <button class="btn btn-default btn-default btn-xs dropdown-toggle"
-                                                        type="button" id="{$domain.domain}Pricing"
-                                                        name="{$domain.domain}Pricing" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
+                                                    <button
+                                                        class="btn btn-default btn-default btn-xs dropdown-toggle"
+                                                        type="button"
+                                                        id="{$domain.domain}Pricing"
+                                                        name="{$domain.domain}Pricing"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                    >
                                                         {$domain.regperiod} {$domain.yearsLanguage}
                                                         <span class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="{$domain.domain}Pricing">
+                                                    <ul
+                                                        class="dropdown-menu"
+                                                        aria-labelledby="{$domain.domain}Pricing"
+                                                    >
                                                         {foreach $domain.pricing as $years => $price}
                                                             <li class="dropdown-item">
-                                                                <a href="#"
-                                                                    onclick="selectDomainPeriodInCart('{$domain.domain}', '{$price.register}', {$years}, '{if $years == 1}{lang key='orderForm.year'}{else}{lang key='orderForm.years'}{/if}');return false;">
+                                                                <a
+                                                                    href="#"
+                                                                    onclick="selectDomainPeriodInCart('{$domain.domain}', '{$price.register}', {$years}, '{if $years == 1}{lang key='orderForm.year'}{else}{lang key='orderForm.years'}{/if}');return false;"
+                                                                >
                                                                     {$years}
                                                                     {if $years == 1}{lang key='orderForm.year'}{else}{lang key='orderForm.years'}{/if}
                                                                     @ {$price.register}
@@ -322,8 +406,11 @@
                                             {/if}
                                         </div>
                                         <div class="col-sm-1 hidden-xs d-none d-sm-block">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('d','{$num}')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('d','{$num}')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </div>
@@ -350,8 +437,11 @@
                                             <span class="cycle">{$service.billingCycle}</span>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('r','{$num}','service')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('r','{$num}','service')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                                 <span
                                                     class="visible-xs d-block d-sm-none">{lang key='orderForm.remove'}</span>
@@ -380,8 +470,11 @@
                                             <span class="cycle">{$service.billingCycle}</span>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('r','{$num}','addon')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('r','{$num}','addon')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                                 <span
                                                     class="visible-xs d-block d-sm-none">{lang key='orderForm.remove'}</span>
@@ -411,8 +504,11 @@
                                             <span class="cycle">{$domain.regperiod} {$LANG.orderyears}</span>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('r','{$num}','domain')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('r','{$num}','domain')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                                 <span class="visible-xs d-block d-sm-none">{$LANG.orderForm.remove}</span>
                                             </button>
@@ -445,9 +541,17 @@
                                         {if $showUpgradeQtyOptions}
                                             <div class="col-sm-2 item-qty">
                                                 {if $upgrade->allowMultipleQuantities}
-                                                    <input type="number" name="upgradeqty[{$num}]" value="{$upgrade->qty}"
-                                                        class="form-control text-center" min="{$upgrade->minimumQuantity}" />
-                                                    <button type="submit" class="btn btn-xs">
+                                                    <input
+                                                        type="number"
+                                                        name="upgradeqty[{$num}]"
+                                                        value="{$upgrade->qty}"
+                                                        class="form-control text-center"
+                                                        min="{$upgrade->minimumQuantity}"
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-xs"
+                                                    >
                                                         {$LANG.orderForm.update}
                                                     </button>
                                                 {/if}
@@ -458,8 +562,11 @@
                                             <span class="cycle">{$upgrade->localisedNewCycle}</span>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('u','{$num}')">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link btn-xs btn-remove-from-cart"
+                                                onclick="removeItem('u','{$num}')"
+                                            >
                                                 <i class="fas fa-times"></i>
                                                 <span class="visible-xs d-block d-sm-none">{$LANG.orderForm.remove}</span>
                                             </button>
@@ -485,8 +592,12 @@
 
                             {if $cartitems == 0}
                                 <div class="view-cart-empty">
-                                    {$LANG.cartempty} <br /><a href="{$WEB_ROOT}/cart.php" class="btn btn-success btn-lg"
-                                        id="continueShopping" style="background-color: #DAE300;border: 0;color: #343B45;">
+                                    {$LANG.cartempty} <br /><a
+                                        href="{$WEB_ROOT}/cart.php"
+                                        class="btn btn-success btn-lg"
+                                        id="continueShopping"
+                                        style="background-color: #DAE300;border: 0;color: #343B45;"
+                                    >
                                         {$LANG.orderForm.continueShopping}
                                     </a>
                                 </div>
@@ -496,7 +607,11 @@
 
                         {if $cartitems > 0}
                             <div class="empty-cart">
-                                <button type="button" class="btn btn-link btn-xs" id="btnEmptyCart">
+                                <button
+                                    type="button"
+                                    class="btn btn-link btn-xs"
+                                    id="btnEmptyCart"
+                                >
                                     <i class="fas fa-trash-alt"></i>
                                     <span>{$LANG.emptycart}</span>
                                 </button>
@@ -590,71 +705,122 @@
                         </div -->
 
                 </div>
-                <div class="secondary-cart-sidebar" id="scrollingPanelContainer">
+                <div
+                    class="secondary-cart-sidebar"
+                    id="scrollingPanelContainer"
+                >
                     {if $cartitems != 0}
-                        <div class="order-summary" id="orderSummary">
-                            <div class="loader w-hidden" id="orderSummaryLoader">
+                        <div
+                            class="order-summary"
+                            id="orderSummary"
+                        >
+                            <div
+                                class="loader w-hidden"
+                                id="orderSummaryLoader"
+                            >
                                 <i class="fas fa-fw fa-sync fa-spin"></i>
                             </div>
-                            <h2 class="font-size-30" style="color: #121519;">{$LANG.ordersummary}</h2>
-                            <div class="summary-container"
-                                style="background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;">
+                            <h2
+                                class="font-size-30"
+                                style="color: #121519;"
+                            >{$LANG.ordersummary}</h2>
+                            <div
+                                class="summary-container"
+                                style="background-color: #ffffff;boder-radius:0;border:solid 1px #f8f8f8;"
+                            >
 
-                                <div class="subtotal clearfix" style="border-bottom:solid 1px #f8f8f8;">
+                                <div
+                                    class="subtotal clearfix"
+                                    style="border-bottom:solid 1px #f8f8f8;"
+                                >
                                     <span class="pull-left float-left">{$LANG.ordersubtotal}</span>
-                                    <span id="subtotal" class="pull-right float-right">{$subtotal}</span>
+                                    <span
+                                        id="subtotal"
+                                        class="pull-right float-right"
+                                    >{$subtotal}</span>
                                 </div>
                                 {if $promotioncode || $taxrate || $taxrate2}
                                     <div class="bordered-totals">
                                         {if $promotioncode}
                                             <div class="clearfix">
                                                 <span class="pull-left float-left">{$promotiondescription}</span>
-                                                <span id="discount" class="pull-right float-right">{$discount}</span>
+                                                <span
+                                                    id="discount"
+                                                    class="pull-right float-right"
+                                                >{$discount}</span>
                                             </div>
                                         {/if}
                                         {if $taxrate}
                                             <div class="clearfix">
                                                 <span class="pull-left float-left">{$taxname} @ {$taxrate}%</span>
-                                                <span id="taxTotal1" class="pull-right float-right">{$taxtotal}</span>
+                                                <span
+                                                    id="taxTotal1"
+                                                    class="pull-right float-right"
+                                                >{$taxtotal}</span>
                                             </div>
                                         {/if}
                                         {if $taxrate2}
                                             <div class="clearfix">
                                                 <span class="pull-left float-left">{$taxname2} @ {$taxrate2}%</span>
-                                                <span id="taxTotal2" class="pull-right float-right">{$taxtotal2}</span>
+                                                <span
+                                                    id="taxTotal2"
+                                                    class="pull-right float-right"
+                                                >{$taxtotal2}</span>
                                             </div>
                                         {/if}
                                     </div>
                                 {/if}
                                 <div class="recurring-totals clearfix">
                                     <span class="pull-left float-left">{$LANG.orderForm.totals}</span>
-                                    <span id="recurring" class="pull-right float-right recurring-charges">
-                                        <span id="recurringMonthly" {if !$totalrecurringmonthly}style="display:none;" {/if}>
+                                    <span
+                                        id="recurring"
+                                        class="pull-right float-right recurring-charges"
+                                    >
+                                        <span
+                                            id="recurringMonthly"
+                                            {if !$totalrecurringmonthly}style="display:none;"
+                                            {/if}
+                                        >
                                             <span class="cost">{$totalrecurringmonthly}</span>
                                             {$LANG.orderpaymenttermmonthly}<br />
                                         </span>
-                                        <span id="recurringQuarterly" {if !$totalrecurringquarterly}style="display:none;"
-                                            {/if}>
+                                        <span
+                                            id="recurringQuarterly"
+                                            {if !$totalrecurringquarterly}style="display:none;"
+                                            {/if}
+                                        >
                                             <span class="cost">{$totalrecurringquarterly}</span>
                                             {$LANG.orderpaymenttermquarterly}<br />
                                         </span>
-                                        <span id="recurringSemiAnnually"
-                                            {if !$totalrecurringsemiannually}style="display:none;" {/if}>
+                                        <span
+                                            id="recurringSemiAnnually"
+                                            {if !$totalrecurringsemiannually}style="display:none;"
+                                            {/if}
+                                        >
                                             <span class="cost">{$totalrecurringsemiannually}</span>
                                             {$LANG.orderpaymenttermsemiannually}<br />
                                         </span>
-                                        <span id="recurringAnnually" {if !$totalrecurringannually}style="display:none;"
-                                            {/if}>
+                                        <span
+                                            id="recurringAnnually"
+                                            {if !$totalrecurringannually}style="display:none;"
+                                            {/if}
+                                        >
                                             <span class="cost">{$totalrecurringannually}</span>
                                             {$LANG.orderpaymenttermannually}<br />
                                         </span>
-                                        <span id="recurringBiennially" {if !$totalrecurringbiennially}style="display:none;"
-                                            {/if}>
+                                        <span
+                                            id="recurringBiennially"
+                                            {if !$totalrecurringbiennially}style="display:none;"
+                                            {/if}
+                                        >
                                             <span class="cost">{$totalrecurringbiennially}</span>
                                             {$LANG.orderpaymenttermbiennially}<br />
                                         </span>
-                                        <span id="recurringTriennially"
-                                            {if !$totalrecurringtriennially}style="display:none;" {/if}>
+                                        <span
+                                            id="recurringTriennially"
+                                            {if !$totalrecurringtriennially}style="display:none;"
+                                            {/if}
+                                        >
                                             <span class="cost">{$totalrecurringtriennially}</span>
                                             {$LANG.orderpaymenttermtriennially}<br />
                                         </span>
@@ -662,7 +828,10 @@
                                 </div>
 
                                 <div class="total-due-today total-due-today-padded">
-                                    <span id="totalDueToday" class="amt">{$total}</span>
+                                    <span
+                                        id="totalDueToday"
+                                        class="amt"
+                                    >{$total}</span>
                                     <!--span>{$LANG.ordertotalduetoday}</span-->
                                 </div>
 
@@ -676,13 +845,19 @@
                                 </div>
 
                                 <div class="text-right">
-                                    <a href="{$WEB_ROOT}/cart.php" class="btn btn-link btn-continue-shopping"
-                                        id="continueShopping">
+                                    <a
+                                        href="{$WEB_ROOT}/cart.php"
+                                        class="btn btn-link btn-continue-shopping"
+                                        id="continueShopping"
+                                    >
                                         {$LANG.orderForm.continueShopping}
                                     </a>
-                                    <a href="{$WEB_ROOT}/cart.php?a=checkout&e=false"
+                                    <a
+                                        href="{$WEB_ROOT}/cart.php?a=checkout&e=false"
                                         class="btn btn-success btn-lg btn-checkout{if $cartitems == 0} disabled{/if}"
-                                        id="checkout" style="background-color: #DAE300;border: 0;color: #343B45;">
+                                        id="checkout"
+                                        style="background-color: #DAE300;border: 0;color: #343B45;"
+                                    >
                                         {$LANG.orderForm.checkout}
                                         <i class="fas fa-arrow-right"></i>
                                     </a>
@@ -696,18 +871,52 @@
         </div>
     </div>
 
-    <form method="post" action="{$WEB_ROOT}/cart.php">
-        <input type="hidden" name="a" value="remove" />
-        <input type="hidden" name="r" value="" id="inputRemoveItemType" />
-        <input type="hidden" name="i" value="" id="inputRemoveItemRef" />
-        <input type="hidden" name="rt" value="" id="inputRemoveItemRenewalType">
-        <div class="modal fade modal-remove-item" id="modalRemoveItem" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
+    <form
+        method="post"
+        action="{$WEB_ROOT}/cart.php"
+    >
+        <input
+            type="hidden"
+            name="a"
+            value="remove"
+        />
+        <input
+            type="hidden"
+            name="r"
+            value=""
+            id="inputRemoveItemType"
+        />
+        <input
+            type="hidden"
+            name="i"
+            value=""
+            id="inputRemoveItemRef"
+        />
+        <input
+            type="hidden"
+            name="rt"
+            value=""
+            id="inputRemoveItemRenewalType"
+        >
+        <div
+            class="modal fade modal-remove-item"
+            id="modalRemoveItem"
+            tabindex="-1"
+            role="dialog"
+        >
+            <div
+                class="modal-dialog"
+                role="document"
+            >
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="float-right">
-                            <button type="button" class="close" data-dismiss="modal"
-                                aria-label="{lang key='orderForm.close'}">
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="{lang key='orderForm.close'}"
+                            >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -718,23 +927,49 @@
                         {lang key='cartremoveitemconfirm'}
                     </div>
                     <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{lang key='no'}</button>
-                        <button type="submit" class="btn btn-primary">{lang key='yes'}</button>
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                        >{lang key='no'}</button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >{lang key='yes'}</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
 
-    <form method="post" action="{$WEB_ROOT}/cart.php">
-        <input type="hidden" name="a" value="empty" />
-        <div class="modal fade modal-remove-item" id="modalEmptyCart" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
+    <form
+        method="post"
+        action="{$WEB_ROOT}/cart.php"
+    >
+        <input
+            type="hidden"
+            name="a"
+            value="empty"
+        />
+        <div
+            class="modal fade modal-remove-item"
+            id="modalEmptyCart"
+            tabindex="-1"
+            role="dialog"
+        >
+            <div
+                class="modal-dialog"
+                role="document"
+            >
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="float-right">
-                            <button type="button" class="close" data-dismiss="modal"
-                                aria-label="{$LANG.orderForm.close}">
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="{$LANG.orderForm.close}"
+                            >
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -745,8 +980,15 @@
                         {$LANG.cartemptyconfirm}
                     </div>
                     <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{$LANG.no}</button>
-                        <button type="submit" class="btn btn-primary">{$LANG.yes}</button>
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                        >{$LANG.no}</button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >{$LANG.yes}</button>
                     </div>
                 </div>
             </div>
@@ -755,3 +997,22 @@
 </div>
 {include file="orderforms/standard_cart/recommendations-modal.tpl"}
 {/if}
+
+<script type="text/javascript">
+    const checkoutBtn = document.getElementById('checkout')
+
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            console.log('clear cache')
+
+            localStorage.setItem("isPessoaJuridica", '');
+            localStorage.setItem("customPhoneInput", '');
+            localStorage.setItem("address", '');
+            localStorage.setItem("houseNumber", '');
+            localStorage.setItem("neighborhood", '');
+            localStorage.setItem("inputDate", '');
+            localStorage.setItem("inputCPF", '');
+            localStorage.setItem("inputCNPJ", '');
+        })
+    }
+</script>

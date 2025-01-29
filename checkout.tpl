@@ -1797,77 +1797,87 @@
                 </span>
             </button>
             <script>
-                const tosRootContainer = document.getElementById('tos-root-container')
-                const btnNewUserSignup = document.getElementById('btnNewUserSignup')
-                const btnAlreadyRegistered = document.getElementById('btnAlreadyRegistered')
-                const orderForm = document.getElementById('frmCheckout')
-                const btnCompleteOrder = document.getElementById("btnCompleteOrder")
-
-                function clearFormCache() {
-                    const hadCheckoutError = document.querySelector('.checkout-error-feedback')
-
-                    if (hadCheckoutError) {
-                        return
-                    }
-
-                    localStorage.setItem("isPessoaJuridica", '');
-                    localStorage.setItem("customPhoneInput", '');
-                    localStorage.setItem("address", '');
-                    localStorage.setItem("houseNumber", '');
-                    localStorage.setItem("neighborhood", '');
-                    localStorage.setItem("inputDate", '');
-                    localStorage.setItem("inputCPF", '');
-                    localStorage.setItem("inputCNPJ", '');
-                }
-
-                function onClickBtnNewUserSignup() {
-                    tosRootContainer.style.display = 'block'
-                    clearFormCache()
-                    lkn_update_order_form_with_cached_data()
-                }
-
-                function onClickBtnAlreadyRegistered() {
-                    tosRootContainer.style.display = 'none'
-                    clearFormCache()
-                    lkn_update_order_form_with_cached_data()
-                }
-
-                if (btnNewUserSignup) {
-
-                    btnNewUserSignup.addEventListener('click', onClickBtnNewUserSignup)
-                }
-
-                if (btnAlreadyRegistered) {
-                    btnAlreadyRegistered.addEventListener('click', onClickBtnAlreadyRegistered)
-                }
-
-                btnCompleteOrder.addEventListener('click', () => {
+                document.addEventListener("DOMContentLoaded", function() {
+                    const tosRootContainer = document.getElementById('tos-root-container')
+                    const btnNewUserSignup = document.getElementById('btnNewUserSignup')
+                    const btnAlreadyRegistered = document.getElementById('btnAlreadyRegistered')
+                    const orderForm = document.getElementById('frmCheckout')
                     const btnCompleteOrder = document.getElementById("btnCompleteOrder")
 
+                    lkn_update_order_form_with_cached_data()
 
-                    setTimeout(() => {
-                        btnCompleteOrder.disabled = true
+                    function clearFormCache() {
+                        const hadCheckoutError = document.querySelector('.checkout-error-feedback')
+
+                        if (hadCheckoutError) {
+                            return
+                        }
+
+                        localStorage.setItem("isPessoaJuridica", '');
+                        localStorage.setItem("customPhoneInput", '');
+                        localStorage.setItem("address", '');
+                        localStorage.setItem("houseNumber", '');
+                        localStorage.setItem("neighborhood", '');
+                        localStorage.setItem("inputDate", '');
+                        localStorage.setItem("inputCPF", '');
+                        localStorage.setItem("inputCNPJ", '');
+
+                        lkn_update_order_form_with_cached_data()
+                    }
+
+                    function onClickBtnNewUserSignup() {
+                        tosRootContainer.style.display = 'block'
+
+                        btnNewUserSignup.addEventListener('click', clearFormCache)
+
+                    }
+
+                    function onClickBtnAlreadyRegistered() {
+                        tosRootContainer.style.display = 'none'
+
+                        btnAlreadyRegistered.addEventListener('click', clearFormCache)
+
+                    }
+
+                    if (btnNewUserSignup) {
+                        btnNewUserSignup.addEventListener('click', onClickBtnNewUserSignup)
+                    }
+
+                    if (btnAlreadyRegistered) {
+                        btnAlreadyRegistered.addEventListener('click', onClickBtnAlreadyRegistered)
+                    }
+
+                    btnCompleteOrder.addEventListener('click', () => {
+                        const btnCompleteOrder = document.getElementById("btnCompleteOrder")
+
+                        if (btnCompleteOrder.disabled) {
+                            return
+                        }
 
                         setTimeout(() => {
-                            btnCompleteOrder.disabled = false
-                        }, 5000);
-                    }, 200);
-                })
+                            btnCompleteOrder.disabled = true
 
-                const observer = new MutationObserver((mutationsList) => {
-                    for (const mutation of mutationsList) {
+                            setTimeout(() => {
+                                btnCompleteOrder.disabled = false
+                            }, 5000);
+                        }, 200);
+                    })
 
-                        if (!['none', ''].includes(btnCompleteOrder?.style?.display)) {
-                            tosRootContainer.style.display = 'block'
+                    const observer = new MutationObserver((mutationsList) => {
+                        for (const mutation of mutationsList) {
 
-                            observer.disconnect();
+                            if (!['none', ''].includes(btnCompleteOrder?.style?.display)) {
+                                tosRootContainer.style.display = 'block'
 
-                            break;
+                                observer.disconnect();
+
+                                break;
+                            }
                         }
-                    }
-                });
+                    });
 
-                observer.observe(document.body, { childList: true, subtree: true });
+                    observer.observe(document.body, { childList: true, subtree: true });
+                });
 
                 // Função para validar o CPF
                 function validateCPF(cpf) {
@@ -2025,17 +2035,24 @@
                         });
 
                         const cnpj = document.getElementById('inputCNPJ');
-                        const cpf = document.getElementById('inputCPF');
+                        const cpfInput = document.getElementById('inputCPF');
                         const iCheckIsPessoaJuridica = document.querySelector("#iCheck-isPessoaJuridica");
 
                         // Validação do CPF
-                        if (cpf && cpf.value && !validateCPF(cpf.value.trim())) {
+                        if (cpfInput && cpfInput.value && !validateCPF(cpfInput.value.trim())) {
                             event.preventDefault();
-                            cpf.classList.add('invalid-field')
+                            cpfInput.classList.add('invalid-field')
                             // Mensagem de erro: Por favor preencha o campo CNPJ corretamente
                             missingFields.push("{$LANG.requiredFieldMessage}<strong>CPF corretamente</strong>");
                             showErrorModal(missingFields);
-                            cpf.focus();
+                            cpfInput.focus();
+
+                            btnCompleteOrder.disabled = true
+
+                            cpfInput.addEventListener('keyup', () => {
+                                btnCompleteOrder.disabled = false
+                            }, { once: true })
+
                             return;
                         }
 
