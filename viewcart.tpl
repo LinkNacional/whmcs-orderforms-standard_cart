@@ -406,13 +406,33 @@
                                             {/if}
                                         </div>
                                         <div class="col-sm-1 hidden-xs d-none d-sm-block">
-                                            <button
-                                                type="button"
-                                                class="btn btn-link btn-xs btn-remove-from-cart"
-                                                onclick="removeItem('d','{$num}')"
-                                            >
-                                                <i class="fas fa-times"></i>
-                                            </button>
+                                            {if count($products) == 0}
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-link btn-xs btn-remove-from-cart"
+                                                    onclick="removeItem('d','{$num}')"
+                                                >
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            {else}
+                                                {assign var="has_product" value="0"}
+
+                                                {foreach $products as $num => $product}
+
+                                                    {if has_product == "0" && $product['domain'] == $domain['domain']}
+                                                        {assign var="has_product" value="1"}
+
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-link btn-xs btn-remove-from-cart"
+                                                            onclick="removeItem('d','{$num}')"
+                                                        >
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    {/if}
+                                                {/foreach}
+                                            {/if}
+
                                         </div>
                                     </div>
                                 </div>
