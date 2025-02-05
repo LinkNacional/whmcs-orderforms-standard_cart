@@ -39,16 +39,25 @@
                 <div class="header-lined">
                     <div class="breadcrumb-lkn">
                         <ul>
-                            <li class="done">{$LANG.domaincheckerchoosedomain}
-                                <hr />
-                            </li />
-                            <li class="done"><a href="cart.php?a=confproduct&i=0">{$LANG.orderconfigure}</a>
-                                <hr />
+                            <li class="done">
+                                <p>{$LANG.domaincheckerchoosedomain}</p>
+                                <div class="hor-line"></div>
                             </li>
-                            <li class="ativa">{$LANG.cartreviewcheckout}
-                                <hr />
+                            <li class="done">
+                                <a href="cart.php?a=confproduct&i=0">
+                                    <p>{$LANG.orderconfigure}</p>
+                                </a>
+                                <div class="hor-line"></div>
                             </li>
-                            <li>{$LANG.orderForm.checkout}</li>
+                            <li class="ativa">
+                                <a href="cart.php?a=view">
+                                    <p>{$LANG.cartreviewcheckout}</p>
+                                </a>
+                                <div class="hor-line"></div>
+                            </li>
+                            <li>
+                                <p>{$LANG.orderForm.checkout}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
