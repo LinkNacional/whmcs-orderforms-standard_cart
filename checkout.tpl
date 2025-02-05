@@ -537,7 +537,7 @@
                             <div class="col-sm-12">
                                 <div>
                                     <label
-                                        for="inputNeighborhood"
+                                        for="inputAddressComponent"
                                         class="field-icon"
                                     >
                                         <i class="fas fa-map-marker-alt"></i>
@@ -545,10 +545,9 @@
                                     </label>
                                     <input
                                         type="text"
-                                        id="inputNeighborhood"
-                                        name="inputNeighborhood"
+                                        id="inputAddressComponent"
+                                        name="inputAddressComponent"
                                         class="field form-control"
-                                        required
                                     >
                                 </div>
                             </div>
@@ -600,6 +599,71 @@
                             >
                             </div>
 
+                            {* Data de nascimento *}
+                            <div
+                                id="birthDatePos"
+                                class="form-group col-sm-6"
+                            >
+                                <label>{$LANG['lkn']['Birthdate']}</label>
+                                <div
+                                    class="container row d-flex"
+                                    style="gap: 5px;"
+                                >
+                                    <div>
+                                        <select
+                                            id="inputBirthDateDay"
+                                            name="birthDateDay"
+                                            class="form-control custom-select"
+                                            style="max-width: max-content; cursor: pointer;"
+                                        >
+                                            <option value="">{$LANG['lkn']['day']}</option>
+                                            {for $day=1 to 31}
+                                                <option value="{$day}">{$day}</option>
+                                            {/for}
+                                        </select>
+                                        <small class="form-text text-muted">{$LANG['lkn']['day']}</small>
+                                    </div>
+
+                                    <div>
+                                        <select
+                                            id="inputBirthDateMonth"
+                                            name="birthDateMonth"
+                                            class="form-control custom-select"
+                                            style="max-width: max-content; cursor: pointer;"
+                                        >
+                                            <option value="">{$LANG['lkn']['month']}</option>
+                                            <option value="1">{lang key='dateTime.january'}</option>
+                                            <option value="2">{lang key='dateTime.february'}</option>
+                                            <option value="3">{lang key='dateTime.march'}</option>
+                                            <option value="4">{lang key='dateTime.april'}</option>
+                                            <option value="5">{lang key='dateTime.may'}</option>
+                                            <option value="6">{lang key='dateTime.june'}</option>
+                                            <option value="7">{lang key='dateTime.july'}</option>
+                                            <option value="8">{lang key='dateTime.august'}</option>
+                                            <option value="9">{lang key='dateTime.september'}</option>
+                                            <option value="10">{lang key='dateTime.october'}</option>
+                                            <option value="11">{lang key='dateTime.november'}</option>
+                                            <option value="12">{lang key='dateTime.december'}</option>
+                                        </select>
+                                        <small class="form-text text-muted">{$LANG['lkn']['month']}</small>
+                                    </div>
+                                    <div>
+                                        <select
+                                            id="inputBirthDateYear"
+                                            name="birthDateYear"
+                                            class="form-control custom-select"
+                                            style="max-width: max-content; cursor: pointer;"
+                                        >
+                                            <option value="">{$LANG['lkn']['year']}</option>
+                                            {for $year=$smarty.now|date_format:"%Y" - 100 to $smarty.now|date_format:"%Y"}
+                                                <option value="{$year}">{$year}</option>
+                                            {/for}
+                                        </select>
+                                        <small class="form-text text-muted">{$LANG['lkn']['year']}</small>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div
                                 id="isLegalPersonPos"
                                 class="col-sm-12"
@@ -622,7 +686,6 @@
                                     id="inputCPF"
                                     class="field form-control"
                                     maxlength="14"
-                                    required
                                 >
                             </div>
                         </div>

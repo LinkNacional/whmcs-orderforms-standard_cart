@@ -7,22 +7,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   document.getElementsByTagName('head')[0].appendChild(link)
 
-  const termsOfServiceCont = document.getElementById('tos-root-container')
-  const btnNewUserSignup = document.getElementById('btnNewUserSignup')
-  const btnAlreadyRegistered = document.getElementById('btnAlreadyRegistered')
-
-  if (btnNewUserSignup) {
-    btnNewUserSignup.addEventListener('click', () => {
-      termsOfServiceCont.style.display = 'block'
-    })
-  }
-
-  if (btnAlreadyRegistered) {
-    btnAlreadyRegistered.addEventListener('click', () => {
-      termsOfServiceCont.style.display = 'none'
-    })
-  }
-
   const IS_DEV_ENV = true
   const CUSTOM_FIELDS_IDS = {
     cpf: IS_DEV_ENV ? 2 : 2,
@@ -81,7 +65,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const inputStreet = document.querySelector('#inputAddress1')
   const inputDistrict = document.querySelector('#inputAddress2')
   const inputCity = document.querySelector('#inputCity')
-  const inputAddressComponent = document.getElementById('inputNeighborhood')
+  const inputAddressComponent = document.getElementById('inputAddressComponent')
 
   const inputState = () => {
     const stateInput = document.querySelector('#stateinput')
@@ -93,9 +77,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     return document.querySelector('#stateselect')
   }
 
-  const inputBirthDateDay = null
-  const inputBirthDateMonth = null
-  const inputBirthDateYear = null
+  const inputBirthDateDay = document.getElementById('inputBirthDateDay')
+  const inputBirthDateMonth = document.getElementById('inputBirthDateMonth')
+  const inputBirthDateYear = document.getElementById('inputBirthDateYear')
   const inputNumber = document.querySelector('#inputNumber')
   const inputPhoneIsWhatsapp = document.getElementById('customPhoneInput')
 
@@ -130,8 +114,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
       const inputName = element.name
       const newValue = input[1]
 
-      console.log('1. setting', inputName, 'to', newValue)
-
       localStorage.setItem(inputName, newValue)
     })
   }
@@ -141,24 +123,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
       if (!input) { return }
       const event = input.tagName === 'SELECT' ? 'change' : 'keyup'
       const inputName = input.name
-      console.log('event', event)
 
       const cachedValue = localStorage.getItem(inputName)
 
       if (input.type === 'checkbox') {
         input.checked = cachedValue === 'true' ? true : false
-        console.log('checkbox', inputPhoneIsWhatsapp)
-        console.log('setting checkbox', inputName, 'to', localStorage.getItem(inputName))
       } else {
         input.value = cachedValue
-        console.log('setting input', inputName, 'to', localStorage.getItem(inputName))
       }
 
       input.addEventListener(event, (event) => {
-        console.log('updating', inputName, 'to', event.currentTarget.value)
-
         localStorage.setItem(inputName, event.currentTarget.value)
       })
+    })
+  }
+
+  function clear_form_cache(items) {
+    items.forEach(item => {
+      localStorage.removeItem(item.name)
+      item.value = ''
     })
   }
 
@@ -176,9 +159,54 @@ window.addEventListener('DOMContentLoaded', (event) => {
     inputEmail,
     inputIsLegalPerson,
     inputPhoneIsWhatsapp,
-    inputAddressComponent
+    inputAddressComponent,
+    inputBirthDateDay,
+    inputBirthDateMonth,
+    inputBirthDateYear
   ])
-  console.log('inputIsLegalPerson.checked', inputIsLegalPerson.checked, typeof inputIsLegalPerson.checked)
+
+  const termsOfServiceCont = document.getElementById('tos-root-container')
+  const btnNewUserSignup = document.getElementById('btnNewUserSignup')
+  const btnAlreadyRegistered = document.getElementById('btnAlreadyRegistered')
+
+  const checkoutErrorFeedback = document.querySelector('.checkout-error-feedback')
+
+  if (checkoutErrorFeedback && btnNewUserSignup) {
+    btnNewUserSignup.dispatchEvent(new MouseEvent('click'))
+    termsOfServiceCont.style.display = 'block'
+  }
+
+  if (btnNewUserSignup) {
+    btnNewUserSignup.addEventListener('click', () => {
+      termsOfServiceCont.style.display = 'block'
+
+      clear_form_cache([
+        inputPostcode,
+        inputStreet,
+        inputDistrict,
+        inputState(),
+        inputCity,
+        inputNumber,
+        inputCnpj,
+        inputCpf,
+        inputPhoneNumber,
+        inputFullname,
+        inputEmail,
+        inputIsLegalPerson,
+        inputPhoneIsWhatsapp,
+        inputAddressComponent,
+        inputBirthDateDay,
+        inputBirthDateMonth,
+        inputBirthDateYear
+      ])
+    })
+  }
+
+  if (btnAlreadyRegistered) {
+    btnAlreadyRegistered.addEventListener('click', () => {
+      termsOfServiceCont.style.display = 'none'
+    })
+  }
 
   if (inputIsLegalPerson.checked) {
     inputIsLegalPersonCont.dispatchEvent(new MouseEvent('click'))
@@ -186,19 +214,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
   }
 
   inputIsLegalPersonCont.addEventListener('click', () => {
-    console.log('inputIsLegalPerson.checked', inputIsLegalPerson.checked, typeof inputIsLegalPerson.checked)
     const newValue = inputIsLegalPerson.checked
 
     update_cached_form_value([[inputIsLegalPerson, newValue]])
 
     inputIsLegalPerson.value = newValue
-
-    console.log('newValue', newValue)
   })
 
   inputCountry.addEventListener('mousedown', e => e.preventDefault())
 
   const feedbackModal = document.getElementById('clientDetailsModal')
+
+  // Handle address number after street1
+
+  const inputStreetSplitted = inputStreet.value.split(', ')
+
+  if (inputStreetSplitted.length > 1) {
+    inputStreet.value = inputStreetSplitted[0]
+    inputNumber = inputStreetSplitted[1]
+  }
 
   /**
    * Validates the fields that cannot be automatically validated by HTML.
@@ -545,6 +579,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     static scrollAndCall(element, callback) {
       element.scrollIntoView({
+        behavior: 'smooth',
         block: 'center',
         inline: 'center'
       })
@@ -918,7 +953,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     isEnabled() {
-      console.log('this.fiscalDataCont.style.display', this.fiscalDataCont.style.display)
       return this.fiscalDataCont.style.display !== 'none'
     }
 
@@ -1023,8 +1057,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       if (display === 'none') {
         this.cpfInput.required = false
+        formHandler.birthDateDayInput.required = false
+        formHandler.birthDateMonthInput.required = false
+        formHandler.birthDateYearInput.required = false
       } else {
         this.cpfInput.required = true
+        formHandler.birthDateDayInput.required = true
+        formHandler.birthDateMonthInput.required = true
+        formHandler.birthDateYearInput.required = true
       }
     }
 
@@ -1316,6 +1356,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     registerClientForm.reportValidity()
 
+    let hasInvalidFields = false
+
     const invalidElements = registerClientForm.querySelectorAll(':invalid')
 
     invalidElements.forEach(el => {
@@ -1323,9 +1365,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     })
 
     if (!registerClientForm.checkValidity()) {
-      Validator.scrollToFirstInvalid()
-
-      return
+      hasInvalidFields = true
     }
 
     if (brazilFiscalDataHandler.isEnabled()) {
@@ -1333,8 +1373,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (!Validator.isValidCNPJ(brazilFiscalDataHandler.getCnpj())) {
           hasInvalidFields = true
           Validator.setInvalid('cnpj')
-          Validator.scrollToFirstInvalid()
-          return
         }
       }
 
@@ -1345,8 +1383,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
           hasInvalidFields = true
           formHandler.setInputInvalid(inputCpf)
           Validator.setInvalid('cpf')
-          Validator.scrollToFirstInvalid()
-          return
+        }
+
+        if (!formHandler.getBirthDate()) {
+          hasInvalidFields = true
+          Validator.setInvalid('birthdate')
         }
       }
     }
@@ -1355,12 +1396,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
       if (!Validator.isValidNif(portugalFiscalDataHandler.getNif())) {
         hasInvalidFields = true
         Validator.setInvalid('nif')
-        Validator.scrollToFirstInvalid()
-        return
       }
     }
 
+    if (hasInvalidFields) {
+      Validator.scrollToFirstInvalid()
 
+      return
+    }
 
     let [firstName, ...lastName] = inputFullname.value.trim().split(' ')
 
@@ -1373,6 +1416,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     originalFirstNameInput.value = firstName
     originalLastNameInput.value = lastName
     originalPhoneNumberInput.value = phoneNumberHandler.getPersistableNumber()
+    inputStreet.value = `${inputStreet.value}, ${inputNumber.value}`
+
+    submitBtn.disabled = true
 
     setTimeout(() => { registerClientForm.submit() }, 1000)
   })
