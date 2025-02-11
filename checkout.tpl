@@ -1548,6 +1548,41 @@
 </div>
 </div>
 
+<!-- Modal -->
+<div
+    id="clientDetailsModal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+>
+    <div
+        class="modal-dialog modal-sm"
+        role="document"
+    >
+        <div
+            class="modal-content"
+            style="min-height: 250px;"
+        >
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-sm btn-block btn-primary"
+                    data-dismiss="modal"
+                >{$LANG['lkn']['Close']}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    const LKN_LANG = {$LANG['lkn']|@json_encode}
+</script>
 <script
     type="text/javascript"
     src="{$BASE_PATH_JS}/jquery.payment.js"

@@ -41,6 +41,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const inputPhoneNumber = document.querySelector('#inputPhone')
 
   const registerClientForm = document.querySelector('#frmCheckout')
+  const containerNewUserSignup = document.getElementById('containerNewUserSignup')
 
   const submitBtn = document.querySelector('#btnCompleteOrder')
   const fiscalDataCont = document.querySelector('#taxDataCard')
@@ -66,6 +67,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const inputDistrict = document.querySelector('#inputAddress2')
   const inputCity = document.querySelector('#inputCity')
   const inputAddressComponent = document.getElementById('inputAddressComponent')
+  const inputAccepttos = document.getElementById('accepttos')
 
   const inputState = () => {
     const stateInput = document.querySelector('#stateinput')
@@ -289,8 +291,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       Validator.setInvalid('password')
       Validator.scrollToFirstInvalid(() => {
         formHandler.showDialog(
-          LKNLANG['Passwords do not match'],
-          LKNLANG['Please make sure the password field and confirm password have the same password']
+          LKN_LANG['Passwords do not match'],
+          LKN_LANG['Please make sure the password field and confirm password have the same password']
         )
       })
     }
@@ -310,8 +312,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
       Validator.setInvalid('name')
       Validator.scrollToFirstInvalid(() => {
         formHandler.showDialog(
-          LKNLANG['Incomplete name'],
-          LKNLANG['Please enter your first and last name']
+          LKN_LANG['Incomplete name'],
+          LKN_LANG['Please enter your first and last name']
         )
       })
     }
@@ -532,23 +534,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
       return digit1 === digits[1]
     }
 
-    static addRedBorder(inputElement) {
-      inputElement.style.border = '1px solid #E31E17'
+    static addRedBorder(inputElements) {
+      const elements = Array.isArray(inputElements) ? inputElements : [inputElements];
 
-      const removeEvent = inputElement.tagName === 'SELECT' ? 'change' : 'click'
+      elements.forEach(element => {
+        element.style.border = '1px solid #E31E17';
+      });
 
-      inputElement.addEventListener(removeEvent, () => {
-        setTimeout(() => {
-          inputElement.style.borderColor = 'lightgray'
-        }, 500)
-      }, { once: true })
+      const removeEvent = elements[0].tagName === 'SELECT' ? 'change' : 'keyup';
+
+      elements.forEach(element => {
+        element.addEventListener(removeEvent, () => {
+          elements.forEach(el => el.style.borderColor = 'lightgray');
+        }, { once: true });
+      });
     }
 
     static setInvalid(field) {
       if (field === 'birthdate') {
-        this.addRedBorder(inputBirthDateDay)
-        this.addRedBorder(inputBirthDateMonth)
-        this.addRedBorder(inputBirthDateYear)
+        this.addRedBorder([
+          inputBirthDateDay,
+          inputBirthDateMonth,
+          inputBirthDateYear
+        ])
 
         return
       }
@@ -890,6 +898,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
       this.stateInput().value = stateValue
       this.cityInput.value = cityValue
       this.numberInput.value = numberValue
+
+      this.streetInput.dispatchEvent(new KeyboardEvent('keyup'))
+      this.districtInput.dispatchEvent(new KeyboardEvent('keyup'))
+      this.cityInput.dispatchEvent(new KeyboardEvent('keyup'))
+      this.numberInput.dispatchEvent(new KeyboardEvent('keyup'))
 
       update_cached_form_value([
         [this.streetInput, this.streetInput.value],
@@ -1351,12 +1364,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
   })
 
-  submitBtn.addEventListener('click', event => {
+  function handleSubmitBtnClick(event) {
     event.preventDefault()
 
     registerClientForm.reportValidity()
 
     let hasInvalidFields = false
+    const errors = []
 
     const invalidElements = registerClientForm.querySelectorAll(':invalid')
 
@@ -1373,37 +1387,75 @@ window.addEventListener('DOMContentLoaded', (event) => {
         if (!Validator.isValidCNPJ(brazilFiscalDataHandler.getCnpj())) {
           hasInvalidFields = true
           Validator.setInvalid('cnpj')
+          errors.push(LKN_LANG['Please verify that the CNPJ entered is correct and try again'])
         }
-      }
+      } else {
+        const cpf = brazilFiscalDataHandler.getCpf()
 
-      const cpf = brazilFiscalDataHandler.getCpf()
-
-      if (cpf.length > 0) {
         if (!Validator.isValidCPF(cpf)) {
           hasInvalidFields = true
           formHandler.setInputInvalid(inputCpf)
           Validator.setInvalid('cpf')
+          errors.push(LKN_LANG['Please verify that the CPF entered is correct and try again'])
         }
 
         if (!formHandler.getBirthDate()) {
           hasInvalidFields = true
           Validator.setInvalid('birthdate')
+          errors.push(LKN_LANG['Inform the date of birth'])
         }
       }
+
     }
 
     if (portugalFiscalDataHandler.isEnabled()) {
       if (!Validator.isValidNif(portugalFiscalDataHandler.getNif())) {
         hasInvalidFields = true
+        errors.push(LKN_LANG['Please verify that the NIF entered is correct and try again'])
         Validator.setInvalid('nif')
       }
     }
 
+    if (!phoneNumberHandler.isValidNumber()) {
+      hasInvalidFields = true
+      Validator.setInvalid('phonenumber')
+      errors.push(LKN_LANG['Inform the phone number correctly'])
+    }
+
+    const splittedName = inputFullname.value.trim().split(' ')
+
+    if (splittedName.length < 2) {
+      hasInvalidFields = true
+      Validator.setInvalid('name')
+      errors.push(LKN_LANG['lkn_order_form_inform_name_and_surname'])
+    }
+
+    if (!inputAccepttos.checked) {
+      hasInvalidFields = true
+      errors.push(LKN_LANG['accept_tos'])
+    }
+
     if (hasInvalidFields) {
-      Validator.scrollToFirstInvalid()
+      if (hasInvalidFields) {
+        Validator.scrollToFirstInvalid(() => {
+          let message = '<ul>'
+
+          errors.forEach(error => {
+            message += `<li>${error}</li>`
+          })
+
+          message += '</ul>'
+
+          formHandler.showDialog(
+            LKN_LANG['fix_invalid_fields'],
+            message
+          )
+        })
+      }
 
       return
     }
+
 
     let [firstName, ...lastName] = inputFullname.value.trim().split(' ')
 
@@ -1421,7 +1473,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
     submitBtn.disabled = true
 
     setTimeout(() => { registerClientForm.submit() }, 1000)
-  })
+  }
+
+  if (!btnAlreadyRegistered || btnAlreadyRegistered.style.display === 'none') {
+    termsOfServiceCont.style.display = 'block'
+    inputPostcode.required = false
+    inputStreet.required = false
+    inputState.required = false
+    inputNumber.required = false
+    inputCity.required = false
+    inputDistrict.required = false
+    inputFullname.required = false
+    inputEmail.required = false
+    inputPhoneNumber.required = false
+
+  } else {
+    submitBtn.addEventListener('click', handleSubmitBtnClick)
+  }
 
   VMasker(inputCpf).maskPattern('999.999.999-99')
   VMasker(inputCnpj).maskPattern('99.999.999/9999-99')
