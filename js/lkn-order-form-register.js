@@ -84,6 +84,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
   const inputBirthDateYear = document.getElementById('inputBirthDateYear')
   const inputNumber = document.querySelector('#inputNumber')
   const inputPhoneIsWhatsapp = document.getElementById('customPhoneInput')
+  const isPessoaJuridica = document.getElementById('isPessoaJuridica')
 
   const formGroupCpf = inputCpf.parentElement.parentElement
   // const formGroupBirthDate = inputBirthDate.parentElement.parentElement
@@ -235,6 +236,27 @@ window.addEventListener('DOMContentLoaded', (event) => {
     inputStreet.value = inputStreetSplitted[0]
     inputNumber = inputStreetSplitted[1]
   }
+
+  const phoneIsWhatsappCustomChecked = localStorage.getItem('phoneIsWhatsappCustom')
+
+
+  // Setup cache for isWhatsappField?
+  if (phoneIsWhatsappCustomChecked === 'true') {
+    inputPhoneIsWhatsapp.checked = true
+    inputPhoneIsWhatsapp.parentElement.classList.add('checked')
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      const checked = mutation.target.classList.contains('checked')
+
+      localStorage.setItem('phoneIsWhatsappCustom', `${checked}`)
+    });
+  });
+
+  console.log('inputPhoneIsWhatsapp', inputPhoneIsWhatsapp)
+
+  observer.observe(inputPhoneIsWhatsapp.parentElement, { attributes: true });
 
   /**
    * Validates the fields that cannot be automatically validated by HTML.
@@ -1433,6 +1455,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
     if (!inputAccepttos.checked) {
       hasInvalidFields = true
       errors.push(LKN_LANG['accept_tos'])
+    }
+
+    if (inputNewPassword1.value !== inputNewPassword2.value) {
+      hasInvalidFields = true
+      errors.push(LKN_LANG['passwords_does_not_match'])
     }
 
     if (hasInvalidFields) {
