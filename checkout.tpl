@@ -113,6 +113,14 @@
                 name="orderfrm"
                 id="frmCheckout"
             >
+                <div style="display: none;">
+                    <input
+                        type="checkbox"
+                        id="isPessoaJuridica"
+                        name="isCNPJ"
+                    >
+                </div>
+
                 <input
                     type="hidden"
                     name="checkout"
@@ -1543,6 +1551,9 @@
                 </span>
             </button>
         </div>
+
+
+
         </form>
     </div>
 </div>

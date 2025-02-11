@@ -1470,6 +1470,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
     originalPhoneNumberInput.value = phoneNumberHandler.getPersistableNumber()
     inputStreet.value = `${inputStreet.value}, ${inputNumber.value}`
 
+    const customPhoneInput = document.getElementById('customPhoneInput')
+    const isPessoaJuridica = document.getElementById('isPessoaJuridica')
+
+    isPessoaJuridica.checked = brazilFiscalDataHandler.getIsLegalPerson()
+    customPhoneInput.value = inputPhoneIsWhatsapp.checked ? 'on' : 'off'
+
     submitBtn.disabled = true
 
     setTimeout(() => { registerClientForm.submit() }, 1000)
