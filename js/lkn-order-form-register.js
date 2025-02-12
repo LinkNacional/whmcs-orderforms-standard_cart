@@ -246,102 +246,29 @@ window.addEventListener('DOMContentLoaded', (event) => {
     inputPhoneIsWhatsapp.parentElement.classList.add('checked')
   }
 
-  const observer = new MutationObserver((mutations) => {
+  new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       const checked = mutation.target.classList.contains('checked')
 
       localStorage.setItem('phoneIsWhatsappCustom', `${checked}`)
-    });
-  });
+    })
+  }).observe(inputPhoneIsWhatsapp.parentElement, { attributes: true })
 
-  console.log('inputPhoneIsWhatsapp', inputPhoneIsWhatsapp)
 
-  observer.observe(inputPhoneIsWhatsapp.parentElement, { attributes: true });
-
-  /**
-   * Validates the fields that cannot be automatically validated by HTML.
-   *
-   * @returns {boolean}
-   */
-  function hasInvalidFields() {
-    let hasInvalidFields = false
-
-    if (addressFieldsHandler.postCodeInput.value.length > 0) {
-      addressFieldsHandler.setRequired(true)
-      registerClientForm.reportValidity()
-    }
-
-    if (brazilFiscalDataHandler.isEnabled()) {
-      if (brazilFiscalDataHandler.getIsLegalPerson()) {
-        if (!Validator.isValidCNPJ(brazilFiscalDataHandler.getCnpj())) {
-          hasInvalidFields = true
-          Validator.setInvalid('cnpj')
-        }
-      }
-
-      const cpf = brazilFiscalDataHandler.getCpf()
-
-      if (cpf.length > 0) {
-        if (!Validator.isValidCPF(cpf)) {
-          hasInvalidFields = true
-          formHandler.setInputInvalid(inputCpf)
-          Validator.setInvalid('cpf')
-        }
-
-        if (formHandler.getBirthDate() === '') {
-          hasInvalidFields = true
-          Validator.setInvalid('birthdate')
-        }
-      }
-    }
-
-    if (portugalFiscalDataHandler.isEnabled()) {
-      if (!Validator.isValidNif(portugalFiscalDataHandler.getNif())) {
-        hasInvalidFields = true
-        Validator.setInvalid('nif')
-      }
-    }
-
-    if (
-      (
-        inputNewPassword1.value.length > 0 ||
-        inputNewPassword2.value.length > 0
-      ) &&
-      inputNewPassword1.value !== inputNewPassword2.value
-    ) {
-      hasInvalidFields = true
-      Validator.setInvalid('password')
-      Validator.scrollToFirstInvalid(() => {
-        formHandler.showDialog(
-          LKN_LANG['Passwords do not match'],
-          LKN_LANG['Please make sure the password field and confirm password have the same password']
-        )
-      })
-    }
-
-    if (inputNewPassword1.value.length === 0 || inputNewPassword2.value.length === 0) {
-      hasInvalidFields = true
-      Validator.setInvalid('password')
-    }
-
-    if (!phoneNumberHandler.isValidNumber()) {
-      hasInvalidFields = true
-      Validator.setInvalid('phonenumber')
-    }
-
-    if (inputFullname.value.split(' ').length < 2) {
-      hasInvalidFields = true
-      Validator.setInvalid('name')
-      Validator.scrollToFirstInvalid(() => {
-        formHandler.showDialog(
-          LKN_LANG['Incomplete name'],
-          LKN_LANG['Please enter your first and last name']
-        )
-      })
-    }
-
-    return hasInvalidFields
+  // Setup cache for isLegalPerson?
+  if (localStorage.getItem('isLegalPerson') === 'true') {
+    inputIsLegalPerson.checked = true
+    inputIsLegalPerson.parentElement.classList.add('checked')
   }
+
+  new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      const checked = mutation.target.classList.contains('checked')
+
+      localStorage.setItem('isLegalPerson', `${checked}`)
+    })
+  }).observe(inputIsLegalPerson.parentElement, { attributes: true })
+
 
   const restrictTypingToOnlyNumbers = evt => {
     evt = (evt) || window.event
@@ -894,6 +821,18 @@ window.addEventListener('DOMContentLoaded', (event) => {
      * @returns {string}
      */
     getCity() { return this.cityInput.value }
+
+    /**
+     * @returns {boolean}
+     */
+    areValid() {
+      return this.countryInput.value.length > 0 &&
+        this.streetInput.value.length > 0 &&
+        this.districtInput.value.length > 0 &&
+        this.numberInput.value.length > 0 &&
+        this.stateInput().value.length > 0 &&
+        this.cityInput.value.length > 0
+    }
 
     /**
      * @param {boolean} areRequired
@@ -1462,6 +1401,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
       errors.push(LKN_LANG['passwords_does_not_match'])
     }
 
+    if (inputFullname.value.split(' ').length < 2) {
+      hasInvalidFields = true
+      errors.push(LKN_LANG['lkn_order_form_inform_name_and_surname'])
+    }
+
+    if (!addressFieldsHandler.areValid()) {
+      hasInvalidFields = true
+      errors.push(LKN_LANG['fill_in_address_fields'])
+    }
+
     if (hasInvalidFields) {
       if (hasInvalidFields) {
         Validator.scrollToFirstInvalid(() => {
@@ -1508,6 +1457,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     setTimeout(() => { registerClientForm.submit() }, 1000)
   }
 
+  console.log(!btnAlreadyRegistered, btnAlreadyRegistered)
+
   if (!btnAlreadyRegistered || btnAlreadyRegistered.style.display === 'none') {
     termsOfServiceCont.style.display = 'block'
     inputPostcode.required = false
@@ -1519,7 +1470,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     inputFullname.required = false
     inputEmail.required = false
     inputPhoneNumber.required = false
-
+    inputCnpj.required = false
+    inputCpf.required = false
   } else {
     submitBtn.addEventListener('click', handleSubmitBtnClick)
   }
