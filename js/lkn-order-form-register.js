@@ -667,6 +667,22 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
 
       $('#clientDetailsModal').modal(options)
+
+      this.modal.querySelector('button').addEventListener('click', () => {
+        function getFirstElementWithBorderColor(color) {
+          const elements = document.querySelectorAll('*');
+          for (let element of elements) {
+            const computedStyle = window.getComputedStyle(element);
+            if (computedStyle.borderColor === color) {
+              return element;
+            }
+          }
+          return null;
+        }
+
+        const firstElement = getFirstElementWithBorderColor("rgb(227, 30, 23)");
+        setTimeout(() => { firstElement.focus() }, 500)
+      })
     }
 
     /**
@@ -1201,10 +1217,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
    * @param {KeyboardEvent} event
    */
   function handleInputPostcodeType(event) {
+    console.log('abc',)
     const postCode = inputPostcode.value.replace(/\D/g, '')
     const isNumberKey = !isNaN(parseInt(event.key))
 
-    if (!isNumberKey || postCode.length === 0) {
+    if (postCode.length === 0) {
       addressFieldsHandler.setRequired(false)
 
       return
@@ -1294,6 +1311,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     brazilFiscalDataHandler.setCnpjDisplay(!!brazilFiscalDataHandler.cnpjDisplayHidden)
   })
 
+  inputPostcode.addEventListener('input', handleInputPostcodeType)
+
   inputPostcode.addEventListener('keydown', restrictTypingToOnlyNumbers)
 
   inputPostcode.addEventListener('keyup', handleInputPostcodeType)
@@ -1343,6 +1362,28 @@ window.addEventListener('DOMContentLoaded', (event) => {
       hasInvalidFields = true
     }
 
+    if (inputFullname.value.split(' ').length < 2) {
+      hasInvalidFields = true
+      errors.push(LKN_LANG['lkn_order_form_inform_name_and_surname'])
+    }
+
+    if (!phoneNumberHandler.isValidNumber()) {
+      hasInvalidFields = true
+      Validator.setInvalid('phonenumber')
+      errors.push(LKN_LANG['Inform the phone number correctly'])
+    }
+
+    if (inputEmail.value.length < 1) {
+      dFields = true
+      Validator.setInvalid('email')
+      errors.push(LKN_LANG['fill_in_email_address'])
+    }
+
+    if (!addressFieldsHandler.areValid()) {
+      hasInvalidFields = true
+      errors.push(LKN_LANG['fill_in_address_fields'])
+    }
+
     if (brazilFiscalDataHandler.isEnabled()) {
       if (brazilFiscalDataHandler.getIsLegalPerson()) {
         if (!Validator.isValidCNPJ(brazilFiscalDataHandler.getCnpj())) {
@@ -1377,38 +1418,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
       }
     }
 
-    if (!phoneNumberHandler.isValidNumber()) {
-      hasInvalidFields = true
-      Validator.setInvalid('phonenumber')
-      errors.push(LKN_LANG['Inform the phone number correctly'])
-    }
-
-    const splittedName = inputFullname.value.trim().split(' ')
-
-    if (splittedName.length < 2) {
-      hasInvalidFields = true
-      Validator.setInvalid('name')
-      errors.push(LKN_LANG['lkn_order_form_inform_name_and_surname'])
-    }
-
-    if (!inputAccepttos.checked) {
-      hasInvalidFields = true
-      errors.push(LKN_LANG['accept_tos'])
-    }
-
     if (inputNewPassword1.value !== inputNewPassword2.value) {
       hasInvalidFields = true
       errors.push(LKN_LANG['passwords_does_not_match'])
     }
 
-    if (inputFullname.value.split(' ').length < 2) {
+    if (!inputAccepttos.checked) {
       hasInvalidFields = true
-      errors.push(LKN_LANG['lkn_order_form_inform_name_and_surname'])
-    }
-
-    if (!addressFieldsHandler.areValid()) {
-      hasInvalidFields = true
-      errors.push(LKN_LANG['fill_in_address_fields'])
+      errors.push(LKN_LANG['accept_tos'])
     }
 
     if (hasInvalidFields) {
@@ -1431,7 +1448,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
       return
     }
-
 
     let [firstName, ...lastName] = inputFullname.value.trim().split(' ')
 
