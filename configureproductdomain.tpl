@@ -9,7 +9,10 @@
         };
     });
 </script>
-<script type="text/javascript" src="{assetPath file='lkn-script.min.js'}?v={$versionHash}"></script>
+<script
+    type="text/javascript"
+    src="{assetPath file='lkn-script.min.js'}?v={$versionHash}"
+></script>
 
 
 <style>
@@ -338,8 +341,11 @@
             <div class="row">
                 <div class="secondary-cart-body-child">
                     <div class="product-domain-info">
-                        <img src="{$BASE_PATH_IMG}/products/{$productinfo.name}.png" class="image-product"
-                            id="image-product" />
+                        <img
+                            src="{$BASE_PATH_IMG}/products/{$productinfo.name}.png"
+                            class="image-product"
+                            id="image-product"
+                        />
                         <h1>{$productinfo.name}</h1>
                         <h2 class="font-size-18">{$LANG.domaincheckerchoosedomain}</h2>
                     </div>
@@ -347,7 +353,11 @@
             </div>
             {include file="orderforms/standard_cart/sidebar-categories-collapsed.tpl"}
             <form id="frmProductDomain">
-                <input type="hidden" id="frmProductDomainPid" value="{$pid}" />
+                <input
+                    type="hidden"
+                    id="frmProductDomainPid"
+                    value="{$pid}"
+                />
 
                 <div class="domain-selection-options">
 
@@ -355,8 +365,16 @@
                         <div class="option option-selected">
                             <div class="options-container d-flex align-items-center">
                                 <label class="d-flex align-items-center me-3 label-register">
-                                    <input type="radio" name="domainoption" value="register" id="selregister"
-                                        {if $domainoption eq "register"} class="hidden-input" checked {/if} />
+                                    <input
+                                        type="radio"
+                                        name="domainoption"
+                                        value="register"
+                                        id="selregister"
+                                        {if $domainoption eq "register"}
+                                            class="hidden-input"
+                                            checked
+                                        {/if}
+                                    />
                                     {$LANG.cartregisterdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
                                         <span class="tooltip-text">{$LANG.lkn_register_domain}</span>
@@ -372,8 +390,16 @@
                         <div class="option">
                             <div class="options-container d-flex align-items-center">
                                 <label class="d-flex align-items-center me-3 label-register">
-                                    <input type="radio" name="domainoption" value="transfer" id="seltransfer"
-                                        class="hidden-input" {if $domainoption eq "transfer"} checked {/if} />
+                                    <input
+                                        type="radio"
+                                        name="domainoption"
+                                        value="transfer"
+                                        id="seltransfer"
+                                        class="hidden-input"
+                                        {if $domainoption eq "transfer"}
+                                            checked
+                                        {/if}
+                                    />
                                     {$LANG.carttransferdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
 
@@ -391,8 +417,16 @@
                         <div class="option">
                             <div class="options-container d-flex align-items-center">
                                 <label class="d-flex align-items-center me-3 label-register">
-                                    <input type="radio" name="domainoption" value="owndomain" id="selowndomain"
-                                        class="hidden-input" {if $domainoption eq "owndomain"} checked {/if} />
+                                    <input
+                                        type="radio"
+                                        name="domainoption"
+                                        value="owndomain"
+                                        id="selowndomain"
+                                        class="hidden-input"
+                                        {if $domainoption eq "owndomain"}
+                                            checked
+                                        {/if}
+                                    />
                                     {$LANG.cartexistingdomainchoice|sprintf2:$companyname}
                                     <span class="tooltip-container">
                                         <span class="tooltip-text">{$LANG.lkn_my_domain}</span>
@@ -433,52 +467,107 @@
 
 
 
-                <div class="domain-input-group" id="domainregister">
+                <div
+                    class="domain-input-group"
+                    id="domainregister"
+                >
                     <div class="input-group input-group-lg input-group-box mw-100">
                         <!-- Ajuste do span para exibir "https://www." como no HTML anterior -->
 
-                        <span class="input-group-addon" id="basic-addon1">https://www.</span>
+                        <span
+                            class="input-group-addon"
+                            id="basic-addon1"
+                        >https://www.</span>
 
-                        <input type="text" id="registersld" value="{$sld}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="site.com"
-                            title="{lang key='orderForm.enterDomain'}" />
+                        <input
+                            type="text"
+                            id="registersld"
+                            value="{$sld}"
+                            class="form-control"
+                            autocapitalize="none"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            data-trigger="manual"
+                            placeholder="site.com"
+                            title="{lang key='orderForm.enterDomain'}"
+                            oninput="this.value = this.value.toLowerCase()"
+                        />
                     </div>
 
-                    <button type="submit" class="btn domain-check-availability lkn-check-button">
+                    <button
+                        type="submit"
+                        class="btn domain-check-availability lkn-check-button"
+                    >
                         {$LANG.orderForm.check}
                     </button>
                 </div>
 
 
-                <div class="domain-input-group " id="domainowndomain">
+                <div
+                    class="domain-input-group "
+                    id="domainowndomain"
+                >
                     <div class="input-group input-group-lg input-group-box mw-100">
 
-                        <span class="input-group-addon" id="basic-addon1">https://www.</span>
+                        <span
+                            class="input-group-addon"
+                            id="basic-addon1"
+                        >https://www.</span>
 
-                        <input type="text" id="owndomainsld" value="{$sld}" placeholder="site.com" class="form-control"
-                            autocapitalize="none" data-toggle="tooltip" data-placement="top" data-trigger="manual"
-                            title="{lang key='orderForm.enterDomain'}" />
+                        <input
+                            type="text"
+                            id="owndomainsld"
+                            value="{$sld}"
+                            placeholder="site.com"
+                            class="form-control"
+                            autocapitalize="none"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            data-trigger="manual"
+                            title="{lang key='orderForm.enterDomain'}"
+                        />
                     </div>
 
-                    <button type="submit" class="btn domain-check-availability lkn-check-button">
+                    <button
+                        type="submit"
+                        class="btn domain-check-availability lkn-check-button"
+                    >
                         {$LANG.orderForm.use}
 
                     </button>
                 </div>
 
-                <div class="domain-input-group" id="domaintransfer">
+                <div
+                    class="domain-input-group"
+                    id="domaintransfer"
+                >
                     <div class="input-group input-group-lg input-group-box mw-100">
 
-                        <span class="input-group-addon" id="basic-addon1">https://www.</span>
+                        <span
+                            class="input-group-addon"
+                            id="basic-addon1"
+                        >https://www.</span>
 
 
 
-                        <input type="text" id="transfersld" value="{$sld}" class="form-control" autocapitalize="none"
-                            data-toggle="tooltip" data-placement="top" data-trigger="manual" placeholder="site.com"
-                            title="{lang key='orderForm.enterDomain'}" />
+                        <input
+                            type="text"
+                            id="transfersld"
+                            value="{$sld}"
+                            class="form-control"
+                            autocapitalize="none"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            data-trigger="manual"
+                            placeholder="site.com"
+                            title="{lang key='orderForm.enterDomain'}"
+                        />
                     </div>
 
-                    <button type="submit" class="btn domain-check-availability lkn-check-button">
+                    <button
+                        type="submit"
+                        class="btn domain-check-availability lkn-check-button"
+                    >
                         {$LANG.orderForm.transfer}
 
 
@@ -492,14 +581,22 @@
             </form>
 
             <div class="clearfix"></div>
-            <form method="post" action="{$WEB_ROOT}/cart.php?a=add&pid={$pid}&domainselect=1"
-                id="frmProductDomainSelections">
+            <form
+                method="post"
+                action="{$WEB_ROOT}/cart.php?a=add&pid={$pid}&domainselect=1"
+                id="frmProductDomainSelections"
+            >
 
-                <div id="DomainSearchResults" class="w-hidden">
+                <div
+                    id="DomainSearchResults"
+                    class="w-hidden"
+                >
 
                     <div id="searchDomainInfo">
-                        <p id="primaryLookupSearching"
-                            class="domain-lookup-loader domain-lookup-primary-loader domain-searching domain-checker-result-headline">
+                        <p
+                            id="primaryLookupSearching"
+                            class="domain-lookup-loader domain-lookup-primary-loader domain-searching domain-checker-result-headline"
+                        >
                             <i class="fas fa-spinner fa-spin"></i>
                             <span
                                 class="domain-lookup-register-loader">{lang key='orderForm.checkingAvailability'}...</span>
@@ -507,11 +604,16 @@
                                 class="domain-lookup-transfer-loader">{lang key='orderForm.verifyingTransferEligibility'}...</span>
                             <span class="domain-lookup-other-loader">{lang key='orderForm.verifyingDomain'}...</span>
                         </p>
-                        <div id="primaryLookupResult"
-                            class="domain-lookup-result domain-lookup-primary-results w-hidden">
+                        <div
+                            id="primaryLookupResult"
+                            class="domain-lookup-result domain-lookup-primary-results w-hidden"
+                        >
                             <div class="domain-unavailable domain-checker-unavailable headline">
                                 {lang key='orderForm.domainIsUnavailable'}</div>
-                            <div class="domain-available domain-checker-available headline" style="color: #0C71C3;">
+                            <div
+                                class="domain-available domain-checker-available headline"
+                                style="color: #0C71C3;"
+                            >
                                 {$LANG.domainavailablemessage}</div>
                             <div class="btn btn-primary domain-contact-support headline">{$LANG.domainContactUs}</div>
                             <div class="transfer-eligible">
@@ -537,7 +639,10 @@
                                 <p class="domain-checker-unavailable headline">{lang key='orderForm.domainNotSupported'}
                                 </p>
                             </div>
-                            <div id="idnLanguageSelector" class="margin-10 idn-language-selector idn-language w-hidden">
+                            <div
+                                id="idnLanguageSelector"
+                                class="margin-10 idn-language-selector idn-language w-hidden"
+                            >
                                 <div class="row">
                                     <div
                                         class="col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2 offset-sm-1 offset-lg-2">
@@ -550,7 +655,10 @@
                                     <div
                                         class="col-sm-8 col-lg-6 col-sm-offset-2 col-lg-offset-3 offset-sm-2 offset-lg-3">
                                         <div class="form-group">
-                                            <select name="idnlanguage" class="form-control">
+                                            <select
+                                                name="idnlanguage"
+                                                class="form-control"
+                                            >
                                                 <option value="">{lang key='cart.idnLanguage'}</option>
                                                 {foreach $idnLanguages as $idnLanguageKey => $idnLanguage}
                                                     <option value="{$idnLanguageKey}">
@@ -572,14 +680,29 @@
                                 <span class="price"></span>
                             </div>
                             <p class="domain-error domain-checker-unavailable headline"></p>
-                            <input type="hidden" id="resultDomainOption" name="domainoption" />
-                            <input type="hidden" id="resultDomain" name="domains[]" />
-                            <input type="hidden" id="resultDomainPricingTerm" />
+                            <input
+                                type="hidden"
+                                id="resultDomainOption"
+                                name="domainoption"
+                            />
+                            <input
+                                type="hidden"
+                                id="resultDomain"
+                                name="domains[]"
+                            />
+                            <input
+                                type="hidden"
+                                id="resultDomainPricingTerm"
+                            />
                         </div>
                         <div class="text-center">
-                            <button id="btnDomainContinue" type="submit" class="btn btn-primary btn-lg w-hidden fixed"
+                            <button
+                                id="btnDomainContinue"
+                                type="submit"
+                                class="btn btn-primary btn-lg w-hidden fixed"
                                 disabled="disabled"
-                                style="background-color:#DAE300;border:none;color:#343B45;width:100%;"> {$LANG.continue}
+                                style="background-color:#DAE300;border:none;color:#343B45;width:100%;"
+                            > {$LANG.continue}
                                 &nbsp;<i class="fas fa-arrow-circle-right"></i>
                             </button>
                         </div>
@@ -587,11 +710,17 @@
 
                     {if $registerdomainenabled}
                         {if $spotlightTlds}
-                            <div id="spotlightTlds" class="spotlight-tlds clearfix w-hidden">
+                            <div
+                                id="spotlightTlds"
+                                class="spotlight-tlds clearfix w-hidden"
+                            >
                                 <div class="spotlight-tlds-container">
                                     {foreach $spotlightTlds as $key => $data}
                                         <div class="spotlight-tld-container spotlight-tld-container-{$spotlightTlds|count}">
-                                            <div id="spotlight{$data.tldNoDots}" class="spotlight-tld">
+                                            <div
+                                                id="spotlight{$data.tldNoDots}"
+                                                class="spotlight-tld"
+                                            >
                                                 {if $data.group}
                                                     <div class="spotlight-tld-{$data.group}">{$data.groupDisplayName}</div>
                                                 {/if}
@@ -600,15 +729,27 @@
                                                     <i class="fas fa-spinner fa-spin"></i>
                                                 </span>
                                                 <div class="domain-lookup-result">
-                                                    <button type="button" class="btn unavailable w-hidden" disabled="disabled">
+                                                    <button
+                                                        type="button"
+                                                        class="btn unavailable w-hidden"
+                                                        disabled="disabled"
+                                                    >
                                                         {lang key='domainunavailable'}
                                                     </button>
-                                                    <button type="button" class="btn invalid w-hidden" disabled="disabled">
+                                                    <button
+                                                        type="button"
+                                                        class="btn invalid w-hidden"
+                                                        disabled="disabled"
+                                                    >
                                                         {lang key='domainunavailable'}
                                                     </button>
                                                     <span class="available price w-hidden">{$data.register}</span>
-                                                    <button type="button" class="btn btn-add-to-cart product-domain w-hidden"
-                                                        data-whois="0" data-domain="">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-add-to-cart product-domain w-hidden"
+                                                        data-whois="0"
+                                                        data-domain=""
+                                                    >
                                                         <span class="to-add">{lang key='orderForm.add'}</span>
                                                         <span class="loading">
                                                             <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
@@ -617,7 +758,10 @@
                                                             {lang key='domaincheckeradded'}</span>
                                                         <span class="unavailable">{$LANG.domaincheckertaken}</span>
                                                     </button>
-                                                    <button type="button" class="btn btn-primary domain-contact-support w-hidden">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-primary domain-contact-support w-hidden"
+                                                    >
                                                         {lang key='domainChecker.contactSupport'}
                                                     </button>
                                                 </div>
@@ -632,15 +776,27 @@
                             <div class="panel-heading card-header">
                                 {lang key='orderForm.suggestedDomains'}
                             </div>
-                            <div id="suggestionsLoader"
-                                class="card-body panel-body domain-lookup-loader domain-lookup-suggestions-loader">
+                            <div
+                                id="suggestionsLoader"
+                                class="card-body panel-body domain-lookup-loader domain-lookup-suggestions-loader"
+                            >
                                 <i class="fas fa-spinner fa-spin"></i> {lang key='orderForm.generatingSuggestions'}
                             </div>
-                            <div id="domainSuggestions" class="domain-lookup-result list-group w-hidden">
+                            <div
+                                id="domainSuggestions"
+                                class="domain-lookup-result list-group w-hidden"
+                            >
                                 <div class="domain-suggestion list-group-item w-hidden">
-                                    <button type="button" class="btn btn-add-to-cart product-domain btn-add-to-cart-mobile"
-                                        data-whois="1" data-domain="">
-                                        <span class="to-add"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                    <button
+                                        type="button"
+                                        class="btn btn-add-to-cart product-domain btn-add-to-cart-mobile"
+                                        data-whois="1"
+                                        data-domain=""
+                                    >
+                                        <span class="to-add"><i
+                                                class="fa fa-plus"
+                                                aria-hidden="true"
+                                            ></i></span>
                                         <span class="loading">
                                             <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
                                         </span>
@@ -651,8 +807,13 @@
                                     <div class="actions">
                                         <span class="price"></span>
                                         <span class="promo w-hidden"></span>
-                                        <button type="button" class="btn btn-add-to-cart product-domain" data-whois="1"
-                                            data-domain="" style="border-color: #fff;background-color: #f6f6f6;">
+                                        <button
+                                            type="button"
+                                            class="btn btn-add-to-cart product-domain"
+                                            data-whois="1"
+                                            data-domain=""
+                                            style="border-color: #fff;background-color: #f6f6f6;"
+                                        >
                                             <span class="to-add">{$LANG.addtocart}</span>
                                             <span class="loading">
                                                 <i class="fas fa-spinner fa-spin"></i> {lang key='loading'}
@@ -660,17 +821,24 @@
                                             <span class="added">{lang key='domaincheckeradded'}</span>
                                             <span class="unavailable">{$LANG.domaincheckertaken}</span>
                                         </button>
-                                        <button type="button"
-                                            class="btn btn-primary domain-contact-support w-hidden">{lang key='domainChecker.contactSupport'}</button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary domain-contact-support w-hidden"
+                                        >{lang key='domainChecker.contactSupport'}</button>
 
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-footer card-footer more-suggestions text-center w-hidden">
-                                <a id="moreSuggestions" href="#"
-                                    onclick="loadMoreSuggestions();return false;">{lang key='domainsmoresuggestions'}</a>
-                                <span id="noMoreSuggestions"
-                                    class="no-more small w-hidden">{lang key='domaincheckernomoresuggestions'}</span>
+                                <a
+                                    id="moreSuggestions"
+                                    href="#"
+                                    onclick="loadMoreSuggestions();return false;"
+                                >{lang key='domainsmoresuggestions'}</a>
+                                <span
+                                    id="noMoreSuggestions"
+                                    class="no-more small w-hidden"
+                                >{lang key='domaincheckernomoresuggestions'}</span>
                             </div>
                             <div class="text-center text-muted domain-suggestions-warning">
                                 <p>{lang key='domainssuggestionswarnings'}</p>
