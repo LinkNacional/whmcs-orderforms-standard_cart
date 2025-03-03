@@ -49,16 +49,25 @@
                 <!--h1 class="font-size-36">{$LANG.orderconfigure}</h1-->
                 <div class="breadcrumb-lkn">
                     <ul>
-                        <li class="done">{$LANG.domaincheckerchoosedomain}
-                            <hr />
+                        <li class="done">
+                            <p>{$LANG.domaincheckerchoosedomain}</p>
+                            <div class="hor-line"></div>
                         </li>
-                        <li class="ativa">{$LANG.orderconfigure}
-                            <hr />
+                        <li class="ativa">
+                            <a href="cart.php?a=confproduct&i=0">
+                                <p>{$LANG.orderconfigure}</p>
+                            </a>
+                            <div class="hor-line"></div>
                         </li>
-                        <li>{$LANG.cartreviewcheckout}
-                            <hr />
+                        <li>
+                            <a href="cart.php?a=view">
+                                <p>{$LANG.cartreviewcheckout}</p>
+                            </a>
+                            <div class="hor-line"></div>
                         </li>
-                        <li>{$LANG.orderForm.checkout}</li>
+                        <li>
+                            <p>{$LANG.orderForm.checkout}</p>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -66,52 +75,91 @@
             {include file="orderforms/standard_cart/sidebar-categories-collapsed.tpl"}
 
             <form id="frmConfigureProduct">
-                <input type="hidden" name="configure" value="true" />
-                <input type="hidden" name="i" value="{$i}" />
+                <input
+                    type="hidden"
+                    name="configure"
+                    value="true"
+                />
+                <input
+                    type="hidden"
+                    name="i"
+                    value="{$i}"
+                />
 
                 <!-- MOVE TO HERE -->
                 <div class="row">
                     <div class="secondary-cart-body-child">
 
                         <div class="product-info">
-                            <img src="{$BASE_PATH_IMG}/products/{$productinfo.name}.png" class="image-product"
-                                id="image-product" />
+                            <img
+                                src="{$BASE_PATH_IMG}/products/{$productinfo.name}.png"
+                                class="image-product"
+                                id="image-product"
+                            />
                             {if $pricing.type eq "recurring"}
                                 <div class="field-container">
                                     <div class="form-group">
                                         <span style="font-size: 24px;font-weight: 1000;">{$productinfo.name}: </span>
                                         <label for="inputBillingcycle">{$LANG.cartchoosecycle}</label>
                                         <br>
-                                        <select name="billingcycle" id="inputBillingcycle" style="width: 100%;"
+                                        <select
+                                            name="billingcycle"
+                                            id="inputBillingcycle"
+                                            style="width: 100%;"
                                             class="form-control select-inline custom-select"
-                                            onchange="updateConfigurableOptions({$i}, this.value); return false">
+                                            onchange="updateConfigurableOptions({$i}, this.value); return false"
+                                        >
                                             {if $pricing.monthly}
-                                                <option value="monthly" {if $billingcycle eq "monthly"} selected{/if}>
+                                                <option
+                                                    value="monthly"
+                                                    {if $billingcycle eq "monthly"}
+                                                    selected{/if}
+                                                >
                                                     {$pricing.monthly}
                                                 </option>
                                             {/if}
                                             {if $pricing.quarterly}
-                                                <option value="quarterly" {if $billingcycle eq "quarterly"} selected{/if}>
+                                                <option
+                                                    value="quarterly"
+                                                    {if $billingcycle eq "quarterly"}
+                                                    selected{/if}
+                                                >
                                                     {$pricing.quarterly}
                                                 </option>
                                             {/if}
                                             {if $pricing.semiannually}
-                                                <option value="semiannually" {if $billingcycle eq "semiannually"} selected{/if}>
+                                                <option
+                                                    value="semiannually"
+                                                    {if $billingcycle eq "semiannually"}
+                                                    selected{/if}
+                                                >
                                                     {$pricing.semiannually}
                                                 </option>
                                             {/if}
                                             {if $pricing.annually}
-                                                <option value="annually" {if $billingcycle eq "annually"} selected{/if}>
+                                                <option
+                                                    value="annually"
+                                                    {if $billingcycle eq "annually"}
+                                                    selected{/if}
+                                                >
                                                     {$pricing.annually}
                                                 </option>
                                             {/if}
                                             {if $pricing.biennially}
-                                                <option value="biennially" {if $billingcycle eq "biennially"} selected{/if}>
+                                                <option
+                                                    value="biennially"
+                                                    {if $billingcycle eq "biennially"}
+                                                    selected{/if}
+                                                >
                                                     {$pricing.biennially}
                                                 </option>
                                             {/if}
                                             {if $pricing.triennially}
-                                                <option value="triennially" {if $billingcycle eq "triennially"} selected{/if}>
+                                                <option
+                                                    value="triennially"
+                                                    {if $billingcycle eq "triennially"}
+                                                    selected{/if}
+                                                >
                                                     {$pricing.triennially}
                                                 </option>
                                             {/if}
@@ -121,7 +169,11 @@
                             {/if}
                         </div>
 
-                        <div class="alert alert-danger w-hidden" role="alert" id="containerProductValidationErrors">
+                        <div
+                            class="alert alert-danger w-hidden"
+                            role="alert"
+                            id="containerProductValidationErrors"
+                        >
                             <p>{$LANG.orderForm.correctErrors}:</p>
                             <ul id="containerProductValidationErrorsList"></ul>
                         </div>
@@ -149,8 +201,12 @@
                                         {if count($metric.pricing) > 1}
                                             {$LANG.metrics.startingFrom} {$metric.lowestPrice} /
                                             {if $metric.unitName}{$metric.unitName}{else}{$LANG.metrics.unit}{/if}
-                                            <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
-                                                data-target="#modalMetricPricing-{$metric.systemName}">
+                                            <button
+                                                type="button"
+                                                class="btn btn-default btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#modalMetricPricing-{$metric.systemName}"
+                                            >
                                                 {$LANG.metrics.viewPricing}
                                             </button>
                                         {elseif count($metric.pricing) == 1}
@@ -178,15 +234,26 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="inputHostname">{$LANG.serverhostname}</label>
-                                            <input type="text" name="hostname" class="form-control" id="inputHostname"
-                                                value="{$server.hostname}" placeholder="servername.example.com">
+                                            <input
+                                                type="text"
+                                                name="hostname"
+                                                class="form-control"
+                                                id="inputHostname"
+                                                value="{$server.hostname}"
+                                                placeholder="servername.example.com"
+                                            >
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="inputRootpw">{$LANG.serverrootpw}</label>
-                                            <input type="password" name="rootpw" class="form-control" id="inputRootpw"
-                                                value="{$server.rootpw}">
+                                            <input
+                                                type="password"
+                                                name="rootpw"
+                                                class="form-control"
+                                                id="inputRootpw"
+                                                value="{$server.rootpw}"
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -195,15 +262,27 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="inputNs1prefix">{$LANG.serverns1prefix}</label>
-                                            <input type="text" name="ns1prefix" class="form-control" id="inputNs1prefix"
-                                                value="{$server.ns1prefix}" placeholder="ns1">
+                                            <input
+                                                type="text"
+                                                name="ns1prefix"
+                                                class="form-control"
+                                                id="inputNs1prefix"
+                                                value="{$server.ns1prefix}"
+                                                placeholder="ns1"
+                                            >
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="inputNs2prefix">{$LANG.serverns2prefix}</label>
-                                            <input type="text" name="ns2prefix" class="form-control" id="inputNs2prefix"
-                                                value="{$server.ns2prefix}" placeholder="ns2">
+                                            <input
+                                                type="text"
+                                                name="ns2prefix"
+                                                class="form-control"
+                                                id="inputNs2prefix"
+                                                value="{$server.ns2prefix}"
+                                                placeholder="ns2"
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -215,7 +294,10 @@
                             <div class="sub-heading">
                                 <span class="primary-bg-color">{$LANG.orderconfigpackage}</span>
                             </div>
-                            <div class="product-configurable-options" id="productConfigurableOptions">
+                            <div
+                                class="product-configurable-options"
+                                id="productConfigurableOptions"
+                            >
                                 <div class="row">
                                     {foreach $configurableoptions as $num => $configoption}
                                         {if $configoption.optiontype eq 1}
@@ -223,12 +305,18 @@
                                                 <div class="form-group">
                                                     <label
                                                         for="inputConfigOption{$configoption.id}">{$configoption.optionname}</label>
-                                                    <select name="configoption[{$configoption.id}]"
-                                                        id="inputConfigOption{$configoption.id}" class="form-control">
+                                                    <select
+                                                        name="configoption[{$configoption.id}]"
+                                                        id="inputConfigOption{$configoption.id}"
+                                                        class="form-control"
+                                                    >
                                                         {foreach key=num2 item=options from=$configoption.options}
-                                                            <option value="{$options.id}"
-                                                                {if $configoption.selectedvalue eq $options.id} selected="selected"
-                                                                {/if}>
+                                                            <option
+                                                                value="{$options.id}"
+                                                                {if $configoption.selectedvalue eq $options.id}
+                                                                    selected="selected"
+                                                                {/if}
+                                                            >
                                                                 {$options.name}
                                                             </option>
                                                         {/foreach}
@@ -243,9 +331,14 @@
                                                     {foreach key=num2 item=options from=$configoption.options}
                                                         <br />
                                                         <label>
-                                                            <input type="radio" name="configoption[{$configoption.id}]"
-                                                                value="{$options.id}" {if $configoption.selectedvalue eq $options.id}
-                                                                checked="checked" {/if} />
+                                                            <input
+                                                                type="radio"
+                                                                name="configoption[{$configoption.id}]"
+                                                                value="{$options.id}"
+                                                                {if $configoption.selectedvalue eq $options.id}
+                                                                    checked="checked"
+                                                                {/if}
+                                                            />
                                                             {if $options.name}
                                                                 {$options.name}
                                                             {else}
@@ -262,9 +355,14 @@
                                                         for="inputConfigOption{$configoption.id}">{$configoption.optionname}</label>
                                                     <br />
                                                     <label>
-                                                        <input type="checkbox" name="configoption[{$configoption.id}]"
-                                                            id="inputConfigOption{$configoption.id}" value="1"
-                                                            {if $configoption.selectedqty} checked{/if} />
+                                                        <input
+                                                            type="checkbox"
+                                                            name="configoption[{$configoption.id}]"
+                                                            id="inputConfigOption{$configoption.id}"
+                                                            value="1"
+                                                            {if $configoption.selectedqty}
+                                                            checked{/if}
+                                                        />
                                                         {if $configoption.options.0.name}
                                                             {$configoption.options.0.name}
                                                         {else}
@@ -280,15 +378,28 @@
                                                         for="inputConfigOption{$configoption.id}">{$configoption.optionname}</label>
                                                     {if $configoption.qtymaximum}
                                                         {if !$rangesliderincluded}
-                                                            <script type="text/javascript" src="{$BASE_PATH_JS}/ion.rangeSlider.min.js">
+                                                            <script
+                                                                type="text/javascript"
+                                                                src="{$BASE_PATH_JS}/ion.rangeSlider.min.js"
+                                                            >
                                                             </script>
-                                                            <link href="{$BASE_PATH_CSS}/ion.rangeSlider.css" rel="stylesheet">
-                                                            <link href="{$BASE_PATH_CSS}/ion.rangeSlider.skinModern.css" rel="stylesheet">
+                                                            <link
+                                                                href="{$BASE_PATH_CSS}/ion.rangeSlider.css"
+                                                                rel="stylesheet"
+                                                            >
+                                                            <link
+                                                                href="{$BASE_PATH_CSS}/ion.rangeSlider.skinModern.css"
+                                                                rel="stylesheet"
+                                                            >
                                                             {assign var='rangesliderincluded' value=true}
                                                         {/if}
-                                                        <input type="text" name="configoption[{$configoption.id}]"
+                                                        <input
+                                                            type="text"
+                                                            name="configoption[{$configoption.id}]"
                                                             value="{if $configoption.selectedqty}{$configoption.selectedqty}{else}{$configoption.qtyminimum}{/if}"
-                                                            id="inputConfigOption{$configoption.id}" class="form-control" />
+                                                            id="inputConfigOption{$configoption.id}"
+                                                            class="form-control"
+                                                        />
                                                         <script>
                                                             var sliderTimeoutId = null;
                                                             var sliderRangeDifference = {$configoption.qtymaximum} - {$configoption.qtyminimum};
@@ -316,11 +427,16 @@
                                                         </script>
                                                     {else}
                                                         <div>
-                                                            <input type="number" name="configoption[{$configoption.id}]"
+                                                            <input
+                                                                type="number"
+                                                                name="configoption[{$configoption.id}]"
                                                                 value="{if $configoption.selectedqty}{$configoption.selectedqty}{else}{$configoption.qtyminimum}{/if}"
                                                                 id="inputConfigOption{$configoption.id}"
-                                                                min="{$configoption.qtyminimum}" onchange="recalctotals()"
-                                                                onkeyup="recalctotals()" class="form-control form-control-qty" />
+                                                                min="{$configoption.qtyminimum}"
+                                                                onchange="recalctotals()"
+                                                                onkeyup="recalctotals()"
+                                                                class="form-control form-control-qty"
+                                                            />
                                                             <span class="form-control-static form-control-static-inline">
                                                                 x {$configoption.options.0.name}
                                                             </span>
@@ -381,8 +497,12 @@
                                                 class="panel card panel-default panel-addon{if $addon.status} panel-addon-selected{/if}">
                                                 <div class="panel-body card-body">
                                                     <label>
-                                                        <input type="checkbox" name="addons[{$addon.id}]" {if $addon.status}
-                                                            checked{/if} />
+                                                        <input
+                                                            type="checkbox"
+                                                            name="addons[{$addon.id}]"
+                                                            {if $addon.status}
+                                                            checked{/if}
+                                                        />
                                                         {$addon.name}
                                                     </label><br />
                                                     <span class="product-description">{$addon.description}</span>
@@ -407,18 +527,31 @@
                             </div -->
                     </div>
 
-                    <div class="secondary-cart-sidebar" id="scrollingPanelContainer">
+                    <div
+                        class="secondary-cart-sidebar"
+                        id="scrollingPanelContainer"
+                    >
 
                         <div id="orderSummary">
                             <div class="order-summary">
-                                <div class="loader" id="orderSummaryLoader">
+                                <div
+                                    class="loader"
+                                    id="orderSummaryLoader"
+                                >
                                     <i class="fas fa-fw fa-sync fa-spin"></i>
                                 </div>
                                 <h2 class="font-size-30">{$LANG.ordersummary}</h2>
-                                <div class="summary-container" id="producttotal"></div>
+                                <div
+                                    class="summary-container"
+                                    id="producttotal"
+                                ></div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" id="btnCompleteProductConfig" class="btn btn-primary btn-lg">
+                                <button
+                                    type="submit"
+                                    id="btnCompleteProductConfig"
+                                    class="btn btn-primary btn-lg"
+                                >
                                     {$LANG.continue}
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </button>
